@@ -1,0 +1,25 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "description": "E-Commerce app to Portfolio ",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "ts-node app/server.ts",
+    "build": "tsc",
+    "serve": "node dist/server.js",
+    "dev": "ts-node app/server.ts"
+  },
+  "author": "firze20",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.7",
+    "express": "^4.19.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.4"
+  },
+  "dependencies": {
+    "sequelize": "^6.37.2"
+  }
+}
