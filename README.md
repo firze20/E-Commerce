@@ -23,8 +23,9 @@
 
 - __Done__:
     - [x] __Design the database__: Plan out the different types of data the application will track and how those pieces of data relate.
-    - [x] __Set up version control__: Set up Git tracking in your directory and make sure to add and commit changes as you make them.
     - [x] __Set up an Express server__: Create a directory for your project and set up a basic Express server.
+    - [x] __Set up version control__: Set up Git tracking in your directory and make sure to add and commit changes as you make them.
+    
 
 ### Docker
 
