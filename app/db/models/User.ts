@@ -15,8 +15,8 @@ interface UserAttributes {
   updatedAt?: Date;
 }
 
-export interface UserInput extends Optional<UserAttributes, "id" | "name" | "age" | "createdAt" | "updatedAt"> {} //Input doesnt need id or name, or age
-export interface UserOutput extends Omit<UserAttributes, 'password'> {} //Output doesnt come with password, use Omit 
+export interface UserInput extends Optional<UserAttributes, "id" | "name" | "age" | "createdAt" | "updatedAt"> {} // Input doesnt need id or name, or age
+export interface UserOutput extends Omit<UserAttributes, 'password'> {} // Output doesnt come with password, use Omit 
 
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
   public id!: number;
