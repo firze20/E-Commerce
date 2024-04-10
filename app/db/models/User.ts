@@ -12,8 +12,8 @@ interface UserAttributes {
 }
 
 export interface UserInput
-  extends Optional<UserAttributes, "username" | "email" | "password"> {}
-export interface UserOutput extends Required<UserAttributes> {}
+  extends Optional<UserAttributes, "id"> {} 
+export interface UserOutput extends Omit<UserAttributes, 'password'> {} //Output doesnt come with password
 
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
   public id!: number;
