@@ -1,4 +1,4 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 
 import sequelizeConnection from "../config/db.config";
 
@@ -15,4 +15,30 @@ class RefreshTokens extends Model<RefreshTokensAttributes, RefreshTokensInput> i
   public token!: string;
   public userId!: number;
   public expires!: Date;
-}
+};
+
+RefreshTokens.init(
+  {
+    token: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    expires: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize: sequelizeConnection,
+    modelName: "RefreshTokens",
+  }
+);
+
+export default RefreshTokens;
+
+
+
