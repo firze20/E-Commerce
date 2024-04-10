@@ -124,3 +124,113 @@ Table purchase_items {
   item_id integer [ref: - items.id]
 }
 ```
+
+__Generated PostgresSQL Schema:__
+
+```sql
+CREATE TABLE "users" (
+  "id" integer PRIMARY KEY,
+  "username" varchar,
+  "email" varchar,
+  "password" varchar,
+  "name" varchar,
+  "age" integer,
+  "verified" boolean,
+  "created_at" timestamp,
+  "updated_at" timestamp
+);
+
+CREATE TABLE "refreshTokens" (
+  "token" varchar,
+  "expirity" datetime,
+  "user_id" integer
+);
+
+CREATE TABLE "roles" (
+  "id" integer PRIMARY KEY,
+  "name" varchar,
+  "description" varchar
+);
+
+CREATE TABLE "user_roles" (
+  "user_id" integer,
+  "roles_id" integer
+);
+
+CREATE TABLE "carts" (
+  "id" integer PRIMARY KEY,
+  "quantity" integer,
+  "user_id" integer UNIQUE
+);
+
+CREATE TABLE "cart_items" (
+  "cart_id" integer,
+  "item_id" integer
+);
+
+CREATE TABLE "category" (
+  "id" integer PRIMARY KEY,
+  "name" varchar,
+  "description" varchar
+);
+
+CREATE TABLE "items" (
+  "id" integer PRIMARY KEY,
+  "name" varchar,
+  "description" varchar,
+  "price" float,
+  "rating" float,
+  "item_stock_id" integer,
+  "created_at" timestamp,
+  "updated_at" timestamp
+);
+
+CREATE TABLE "category_items" (
+  "category_id" integer,
+  "item_id" integer
+);
+
+CREATE TABLE "purchases" (
+  "id" integer PRIMARY KEY,
+  "date" datetime,
+  "user_id" integer
+);
+
+CREATE TABLE "itemStocks" (
+  "id" integer PRIMARY KEY,
+  "item_id" integer,
+  "stock" integer
+);
+
+CREATE TABLE "purchase_items" (
+  "purchase_id" integer,
+  "item_id" integer
+);
+
+ALTER TABLE "refreshTokens" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "user_roles" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "user_roles" ADD FOREIGN KEY ("roles_id") REFERENCES "roles" ("id");
+
+ALTER TABLE "carts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "cart_items" ADD FOREIGN KEY ("cart_id") REFERENCES "carts" ("id");
+
+ALTER TABLE "cart_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
+
+ALTER TABLE "items" ADD FOREIGN KEY ("item_stock_id") REFERENCES "itemStocks" ("id");
+
+ALTER TABLE "category_items" ADD FOREIGN KEY ("category_id") REFERENCES "category" ("id");
+
+ALTER TABLE "category_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
+
+ALTER TABLE "purchases" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "itemStocks" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
+
+ALTER TABLE "purchase_items" ADD FOREIGN KEY ("purchase_id") REFERENCES "purchases" ("id");
+
+ALTER TABLE "purchase_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
+
+```
