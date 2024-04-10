@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 
-import sequelizeConnection from "../config/config";
+import sequelizeConnection from "../config/db.config";
 
 interface UserAttributes {
   id: number;
@@ -10,10 +10,13 @@ interface UserAttributes {
   name?: string;
   age?: number;
   password: string;
+  // time-stamps!
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
-export interface UserInput extends Optional<UserAttributes, "id" | "name" | "age"> {} //Input doesnt come with name and age
-export interface UserOutput extends Omit<UserAttributes, 'password'> {} //Output doesnt come with password
+export interface UserInput extends Optional<UserAttributes, "id" | "name" | "age" | "createdAt" | "updatedAt"> {} //Input doesnt need id or name, or age
+export interface UserOutput extends Omit<UserAttributes, 'password'> {} //Output doesnt come with password, use Omit 
 
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
   public id!: number;
@@ -66,3 +69,5 @@ User.init(
     paranoid: true,
   }
 );
+
+export default User;
