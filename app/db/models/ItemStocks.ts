@@ -36,7 +36,7 @@ ItemStock.init(
     {
         timestamps: true,
         sequelize: sequelizeConnection,
-        tableName: "StockItems",
+        tableName: "ItemStocks",
         paranoid: true,
     }
 );

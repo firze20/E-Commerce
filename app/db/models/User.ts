@@ -6,7 +6,6 @@ interface UserAttributes {
   id: number;
   username: string;
   email: string;
-  roles: string[];
   name?: string;
   age?: number;
   password: string;
@@ -22,7 +21,6 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
   public id!: number;
   public username!: string;
   public email!: string;
-  public roles: string[];
   public name?: string;
   public age?: number;
   public password!: string;
@@ -43,10 +41,6 @@ User.init(
     email: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false,
-    },
-    roles: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
     name: {
