@@ -34,7 +34,7 @@ RefreshTokens.init(
   },
   {
     sequelize: sequelizeConnection,
-    modelName: "RefreshTokens",
+    modelName: "refreshtokens",
   }
 );
 

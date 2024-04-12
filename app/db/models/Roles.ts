@@ -37,7 +37,7 @@ Role.init(
   },
   {
     sequelize: sequelizeConnection,
-    modelName: "Roles",
+    modelName: "roles",
   }
 );
 

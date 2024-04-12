@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 
 import sequelizeConnection from "../config/db.config";
+import Role from "./Roles";
 
 interface UserAttributes {
   id: number;
@@ -25,6 +26,7 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
   public age?: number;
   public password!: string;
 }
+
 
 User.init(
   {
@@ -63,5 +65,11 @@ User.init(
     paranoid: true,
   }
 );
+
+User.belongsToMany(Role, {
+  through: "user_roles",
+  foreignKey: "role_id",
+  otherKey: "user_id"
+});
 
 export default User;
