@@ -1,7 +1,7 @@
-'use strict';
 import { DataTypes, Model, Optional } from "sequelize";
 
 import sequelizeConnection from "../config/db.config";
+import User from "./User";
 
 interface RolesAttributes {
   id: number;
@@ -38,6 +38,7 @@ Role.init(
   {
     sequelize: sequelizeConnection,
     modelName: "roles",
+    timestamps: true
   }
 );
 

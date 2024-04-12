@@ -45,7 +45,6 @@ Category.init(
     timestamps: true,
     tableName: "categories",
     sequelize: sequelizeConnection,
-    paranoid: true,
   }
 );
 

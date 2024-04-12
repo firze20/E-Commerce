@@ -6,6 +6,7 @@ import RefreshTokens from './RefreshTokens';
 import Category from './Category';
 import Purchase from './Purchase';
 import Item from './Items';
+import UserRole from './UserRoles';
 
-export { User, Roles, ItemStock, Cart, RefreshTokens, Category, Purchase, Item };
+export { User, Roles, ItemStock, Cart, RefreshTokens, Category, Purchase, Item, UserRole };
 

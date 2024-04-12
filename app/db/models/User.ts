@@ -10,12 +10,9 @@ interface UserAttributes {
   name?: string;
   age?: number;
   password: string;
-  // time-stamps!
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
-export interface UserInput extends Optional<UserAttributes, "id" | "name" | "age" | "createdAt" | "updatedAt"> {} // Input doesnt need id or name, or age
+export interface UserInput extends Optional<UserAttributes, "id" | "name" | "age"> {} // Input doesnt need id or name, or age
 export interface UserOutput extends Omit<UserAttributes, 'password'> {} // Output doesnt come with password, use Omit 
 
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
@@ -62,14 +59,20 @@ User.init(
     timestamps: true,
     tableName: "users",
     sequelize: sequelizeConnection,
-    paranoid: true,
   }
 );
 
-User.belongsToMany(Role, {
-  through: "user_roles",
-  foreignKey: "role_id",
-  otherKey: "user_id"
-});
+// User.belongsToMany(Role, {
+//   through: "user_roles",
+//   foreignKey: "role_id",
+//   otherKey: "user_id"
+// });
+
+// Role.belongsToMany(User, {
+//   through: "user_roles",
+//   foreignKey: "user_id",
+//   otherKey: "role_id"
+// });
+
 
 export default User;

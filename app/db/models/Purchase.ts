@@ -43,7 +43,6 @@ Purchase.init(
     timestamps: true,
     sequelize: sequelizeConnection,
     tableName: "purchases",
-    paranoid: true,
   }
 );
 

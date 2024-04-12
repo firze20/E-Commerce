@@ -37,7 +37,6 @@ Cart.init(
         timestamps: true,
         sequelize: sequelizeConnection,
         tableName: "carts",
-        paranoid: true,
     }
 );
 
