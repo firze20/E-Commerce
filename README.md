@@ -234,3 +234,6 @@ ALTER TABLE "purchase_items" ADD FOREIGN KEY ("purchase_id") REFERENCES "purchas
 ALTER TABLE "purchase_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
 
 ```
+
+*Note you should store your ``.env`` file in the root of the project*
+
