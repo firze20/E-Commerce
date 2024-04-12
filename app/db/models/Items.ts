@@ -58,7 +58,7 @@ Item.init(
     }, {
         timestamps: true,
         sequelize: sequelizeConnection,
-        tableName: "Items",
+        tableName: "items",
         paranoid: true,
     }
 );

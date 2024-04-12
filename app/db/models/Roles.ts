@@ -1,3 +1,4 @@
+'use strict';
 import { DataTypes, Model, Optional } from "sequelize";
 
 import sequelizeConnection from "../config/db.config";

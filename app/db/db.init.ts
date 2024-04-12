@@ -105,7 +105,7 @@ const dbInit = () => {
    Cart.sync({force: isDev});
    Category.sync({force: isDev});
    Item.sync({force: isDev});
-   ItemStock.sync({force: isDev});
+   //ItemStock.sync({force: isDev});
    Purchase.sync({force: isDev});
 }
 
