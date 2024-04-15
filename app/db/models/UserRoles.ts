@@ -4,41 +4,49 @@ import Role from "./Roles";
 import User from "./User";
 
 interface UserRoleAttributes {
-    userId: number;
-    roleId: number; 
+  userId: number;
+  roleId: number;
 }
 
-export interface UserRoleInput extends Required<UserRoleAttributes>{}
+export interface UserRoleInput extends Required<UserRoleAttributes> {}
 
-export interface UserRoleOutput extends Required<UserRoleAttributes>{}
+export interface UserRoleOutput extends Required<UserRoleAttributes> {}
 
-class UserRole extends Model<UserRoleAttributes, UserRoleInput> implements UserRoleAttributes {
-    public userId!: number;
-    public roleId!: number;
-
-
+class UserRole
+  extends Model<UserRoleAttributes, UserRoleInput>
+  implements UserRoleAttributes
+{
+  public userId!: number;
+  public roleId!: number;
 }
 
-UserRole.init({
+UserRole.init(
+  {
     userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        // references: {
-        //     model: User,
-        //     key: "id"
-        // }
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: User,
+        key: "id",
+      },
     },
     roleId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        // references: {
-        //     model: Role,
-        //     key: "id"
-        // }
-    }
-}, {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Role,
+        key: "id",
+      },
+    },
+  },
+  {
     tableName: "user_roles",
-    sequelize: sequelizeConnection
-});
+    sequelize: sequelizeConnection,
+  }
+);
+
+User.belongsToMany(Role, { through: UserRole, foreignKey: "userId" });
+
+Role.belongsToMany(User, { through: UserRole, foreignKey: "roleId" });
 
 export default UserRole;
