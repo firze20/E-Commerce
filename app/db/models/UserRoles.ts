@@ -1,4 +1,4 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { BelongsToMany, DataTypes, Model, Optional } from "sequelize";
 import sequelizeConnection from "../config/db.config";
 import Role from "./Roles";
 import User from "./User";
@@ -45,8 +45,8 @@ UserRole.init(
   }
 );
 
-User.belongsToMany(Role, { through: UserRole, foreignKey: "userId" });
+User.belongsToMany(Role, { through: UserRole, foreignKey: "userId", otherKey: "roleId" });
 
-Role.belongsToMany(User, { through: UserRole, foreignKey: "roleId" });
+Role.belongsToMany(User, { through: UserRole, foreignKey: "roleId", otherKey: "userId" });
 
 export default UserRole;
