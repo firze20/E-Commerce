@@ -1,4 +1,4 @@
-import {User, Cart, Category, Item, ItemStock, Purchase, RefreshTokens, Roles, UserRole} from "./models";
+import Item from "./models/Items";
 const isDev = process.env.NODE_ENV === 'development';
 
 
@@ -101,15 +101,15 @@ const isDev = process.env.NODE_ENV === 'development';
 
 
 const dbInit = () => {
-   User.sync({force: isDev});
-   RefreshTokens.sync({force: isDev});
-   Cart.sync({force: isDev});
-   Roles.sync({force: isDev});
-   UserRole.sync({force: isDev});
-   Category.sync({force: isDev});
+   // User.sync({force: isDev});
+   // RefreshTokens.sync({force: isDev});
+   // Cart.sync({force: isDev});
+   // Roles.sync({force: isDev});
+   // UserRole.sync({force: isDev});
+   // Category.sync({force: isDev});
    Item.sync({force: isDev});
-   ItemStock.sync({force: isDev});
-   Purchase.sync({force: isDev});
+   // ItemStock.sync({force: isDev});
+   // Purchase.sync({force: isDev});
 }
 
 export default dbInit;
