@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelizeConnection from "../config/db.config";
 import Role from "./Roles";
+import User from "./User";
 
 interface UserRoleAttributes {
     userId: number;
@@ -22,6 +23,10 @@ UserRole.init({
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        // references: {
+        //     model: User,
+        //     key: "id"
+        // }
     },
     roleId: {
         type: DataTypes.INTEGER,

@@ -2,6 +2,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 
 import sequelizeConnection from "../config/db.config";
 import Role from "./Roles";
+import UserRole from "./UserRoles";
 
 interface UserAttributes {
   id: number;
@@ -61,6 +62,8 @@ User.init(
     sequelize: sequelizeConnection,
   }
 );
+
+
 
 // User.belongsToMany(Role, {
 //   through: "user_roles",
