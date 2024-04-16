@@ -15,17 +15,15 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.12.7",
+    "@types/validator": "^13.11.9",
     "express": "^4.19.2",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.4"
   },
   "dependencies": {
-    "@sequelize/core": "7.0.0-alpha.37",
-    "@sequelize/postgres": "7.0.0-alpha.40",
-    "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.5",
-    "jsonwebtoken": "^9.0.2",
-    "pg": "^8.11.5"
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.3",
+    "sequelize-typescript": "^2.1.6"
   }
 }

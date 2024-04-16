@@ -1,12 +1,12 @@
 import express, { Request, Response } from "express";
 
-import dbInit from "./db/db.init";
+//import dbInit from "./db/db.init";
 
 const app = express();
 
 const port = process.env.PORT || 3000;
 
-dbInit();
+//dbInit();
 
 // Simple Route
 app.get("/", (req: Request, res: Response) => {
