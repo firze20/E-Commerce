@@ -22,6 +22,7 @@
     "typescript": "^5.4.4"
   },
   "dependencies": {
+    "helmet": "^7.1.0",
     "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.3",
     "sequelize-typescript": "^2.1.6"
