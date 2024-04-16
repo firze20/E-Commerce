@@ -1,12 +1,13 @@
-import { Sequelize, DataTypes, Model } from '@sequelize/core';
-import { Attribute, PrimaryKey, AutoIncrement, NotNull } from '@sequelize/core/decorators-legacy';
+import { Sequelize, DataTypes, Model, CreationOptional } from '@sequelize/core';
+import { Attribute, PrimaryKey, AutoIncrement, NotNull, HasOne, Unique } from '@sequelize/core/decorators-legacy';
 import { sequelizeConnection } from '../config/db.config';
+import ItemStock from './ItemStock';
 
 export class Item extends Model {
     @Attribute(DataTypes.INTEGER)
     @PrimaryKey
     @AutoIncrement
-    id!: number;
+    id!: CreationOptional<number>;
 
     @Attribute(DataTypes.STRING)
     @NotNull
@@ -19,6 +20,16 @@ export class Item extends Model {
     @Attribute(DataTypes.FLOAT)
     @NotNull
     price!: number;
+
+    @Attribute(DataTypes.INTEGER)
+    @NotNull
+    @Unique
+    @HasOne(() => ItemStock, {
+        foreignKey: "id",
+        sourceKey: "item_id",
+        foreignKeyConstraints: true,
+    })
+    itemStock!: ItemStock
 }
 
 // Now pass your models to the Sequelize constructor
