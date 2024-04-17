@@ -2,9 +2,11 @@ import express from "express";
 import helmet from "helmet";
 import connectDatabase from "./connect";
 import passport from "passport";
+import morgan from "morgan";
 //Routes
-
 import mainRouter from "../routes";
+
+const isDev = process.env.NODE_ENV === 'development';
 
 function createServer() {
   const app = express();
@@ -17,7 +19,9 @@ function createServer() {
 
   app.use(helmet()); // to hide the type of application 
 
-  app.use(passport.initialize());
+  app.use(morgan(isDev ? 'dev' : 'tiny'))
+
+  app.use(passport.initialize()); // helps secure endpoints
 
   // End Global Middlewares
 
