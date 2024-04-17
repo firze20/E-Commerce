@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import helmet from "helmet";
+import sequelizeConnection from "./database/db.config";
 
 //import dbInit from "./db/db.init";
 

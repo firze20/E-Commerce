@@ -1,74 +1,57 @@
-import { DataTypes, Model, Optional } from "sequelize";
-import sequelizeConnection from "../config/config";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement } from "sequelize-typescript";
 
-type UserAttributes = {
-  id: number;
-  username: string;
-  email: string;
-  password: string;
-  name?: string;
-  age?: number;
-  verified: boolean;
-};
-
-export type UserCreationAttributes = Exclude<Optional<UserAttributes, "id" | "name" | "age">, "verified">; //Exclude verified but pick optional Id, name and age
-
-export type UserOutputAttributes = Omit<
-  UserAttributes,
-  "password" & "verified"
->; //Output
-
-class User
-  extends Model<UserAttributes, UserCreationAttributes>
-  implements UserAttributes
-{
-  public id!: number;
-  public username!: string;
-  public email!: string;
-  public password!: string;
-  public name?: string;
-  public age?: number;
-  public verified!: boolean;
-}
-
-User.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    name: {
-      type: DataTypes.STRING,
-    },
-    age: {
-      type: DataTypes.INTEGER,
-    },
-    verified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-  },
-  {
-    sequelize: sequelizeConnection,
-    paranoid: true,
-    timestamps: true,
+@Table({
     tableName: "users",
-  }
-);
+    underscored: true,
+    timestamps: true
+})
+class User extends Model {
+    @Column({
+        primaryKey: true,
+        type: DataType.INTEGER,
+        autoIncrement: true 
+    })
+    declare id: number;
 
-export default User;
+    @Column({
+        type: DataType.STRING,
+    })
+    declare username: string;
+
+    @Column({
+        type: DataType.STRING,
+    })
+    declare email: string;
+
+    @Column({
+        type: DataType.STRING,
+    })
+    declare password: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: true
+    })
+    declare name: string;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: true
+    })
+    declare age: string;
+
+    @Column({
+        type: DataType.BOOLEAN,
+        defaultValue: false
+    })
+    declare verified: string;
+
+    @CreatedAt
+    declare createdAt: Date;
+
+    @UpdatedAt
+    declare updatedAt: Date;
 
 
+
+}
