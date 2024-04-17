@@ -29,7 +29,11 @@ class Category extends Model {
     @UpdatedAt
     updatedAt!: Date;
 
-    
+    @BelongsToMany(() => Item, () => CategoryItem)
+    item!: Item[];
+ 
 }
+
+
 
 export default Category;

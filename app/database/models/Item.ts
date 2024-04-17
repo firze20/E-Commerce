@@ -49,8 +49,9 @@ class Item extends Model {
     @HasOne(() => Stock)
     stock!: Stock;
 
-    // @BelongsToMany(() => Category, () => CategoryItem)
-    
+    @BelongsToMany(() => Category, () => CategoryItem)
+    categories!: Category[];
+        
     @CreatedAt
     createdAt!: Date;
 
