@@ -5,8 +5,10 @@ import { Sequelize } from 'sequelize-typescript';
 
 dotenv.config();
 
+const isTest = process.env.NODE_ENV === 'test';
+
 // Enviroment Variables
-const dbName = process.env.DB_NAME as string
+const dbName = isTest ? process.env.DB_TEST as string : process.env.DB_NAME as string
 const dbUser = process.env.DB_USER as string
 const dbHost = process.env.DB_HOST
 const dbDriver = process.env.DB_DRIVER

@@ -4,12 +4,22 @@
   "description": "E-Commerce app to Portfolio ",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "jest --coverage",
     "start": "ts-node app/server.ts",
-    "build": "tsc",
-    "serve": "node dist/server.js",
-    "dev": "ts-node app/server.ts"
+    "build": "npx tsc",
+    "serve": "NODE_ENV=production node dist/server.js",
+    "dev": "NODE_ENV=development ts-node app/server.ts"
   },
+  "keywords": [
+    "e-commerce",
+    "express",
+    "postgres",
+    "sequelize",
+    "openAPI",
+    "swagger",
+    "Docker",
+    "typescript"
+  ],
   "author": "firze20",
   "license": "ISC",
   "devDependencies": {
