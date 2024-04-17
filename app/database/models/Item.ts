@@ -4,6 +4,8 @@ import Category from "./Category";
 import CategoryItem from "./CategoryItem";
 import Cart from "./Cart";
 import CartItem from "./CartItem";
+import Purchase from "./Purchase";
+import PurchaseItem from "./PurchaseItem";
 
 @Table({
     tableName: "items",
@@ -56,6 +58,9 @@ class Item extends Model {
 
     @BelongsToMany(() => Cart, () => CartItem)
     cart!: Cart[];
+
+    @BelongsToMany(() => Purchase, () => PurchaseItem)
+    purchase!: Purchase[];
 
     @CreatedAt
     createdAt!: Date;
