@@ -1,6 +1,6 @@
 import express from "express";
 import helmet from "helmet";
-import connectDatabase from "./connect";
+
 import passport from "passport";
 import morgan from "morgan";
 //Routes
@@ -29,8 +29,6 @@ function createServer() {
 
   app.use("/", mainRouter);
   // End of Routes
-
-  connectDatabase();
 
   return app;
 }

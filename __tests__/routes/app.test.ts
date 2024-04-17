@@ -14,6 +14,10 @@ describe("Test Initial Server", () => {
         const response = await request(app).get("/");
         expect(response.body).toEqual({ message: expectedMessage });
     })
+
+    afterEach(async () => {
+        
+    })
 });
 
 
