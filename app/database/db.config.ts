@@ -7,7 +7,6 @@ dotenv.config();
 
 const isTest = process.env.NODE_ENV === 'test';
 
-console.log(isTest)
 
 // Enviroment Variables
 const dbName = isTest ? process.env.DB_TEST as string : process.env.DB_NAME as string
