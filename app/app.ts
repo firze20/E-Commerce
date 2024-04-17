@@ -29,7 +29,7 @@ app.get("/", (req: Request, res: Response) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.info(`Server running on port ${port}`);
 });
 
 export default app; //export the app

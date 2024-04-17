@@ -2,13 +2,13 @@
   "name": "e-commerce",
   "version": "1.0.0",
   "description": "E-Commerce app to Portfolio ",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "jest --coverage",
-    "start": "NODE_ENV=production ts-node app/server.ts",
+    "start": "NODE_ENV=production ts-node app/app.ts",
     "build": "npx tsc",
-    "serve": "NODE_ENV=production node dist/server.js",
-    "dev": "NODE_ENV=development nodemon app/server.ts"
+    "serve": "NODE_ENV=production node dist/app.js",
+    "dev": "NODE_ENV=development nodemon app/app.ts"
   },
   "keywords": [
     "e-commerce",
