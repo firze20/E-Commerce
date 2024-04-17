@@ -52,6 +52,6 @@ class User extends Model {
     @UpdatedAt
     declare updatedAt: Date;
 
-
-
 }
+
+export default User;
