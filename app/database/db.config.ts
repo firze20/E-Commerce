@@ -26,7 +26,7 @@ const sequelizeConnection = new Sequelize({
             rejectUnauthorized: false
         }
     },
-    models: [__dirname + "/models"]
+    models: [__dirname + "/models"] //Imports all models inside model folders 
 });
 
 export default sequelizeConnection;
