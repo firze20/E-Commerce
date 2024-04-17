@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, ForeignKey } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, ForeignKey, NotNull } from "sequelize-typescript";
 import Item from "./Item";
 
 @Table({
@@ -15,7 +15,8 @@ class Stock extends Model {
 
     @ForeignKey(() => Item)
     @Column({
-        type: DataType.INTEGER
+        type: DataType.INTEGER,
+        allowNull: false
     })
     itemId!: number;
 

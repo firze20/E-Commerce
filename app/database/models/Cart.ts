@@ -1,34 +1,30 @@
 import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, BelongsTo, ForeignKey, PrimaryKey, NotNull } from "sequelize-typescript";
+import User from "./User";
 
 @Table({
-    tableName: "roles",
-    underscored: true,
-    timestamps: true
+    tableName: "carts",
 })
-
-class Role extends Model {
+class Cart extends Model {
     @PrimaryKey
     @AutoIncrement
     @Column(DataType.INTEGER)
     id!: number;
 
     @Column({
-        type: DataType.STRING,
-        allowNull: false
+        type: DataType.INTEGER,
+        defaultValue: 0
     })
-    name!: string;
+    quantity!: number;
 
+    @ForeignKey(() => User)
     @Column({
-        type: DataType.STRING,
+        type: DataType.INTEGER,
         allowNull: false
     })
-    description!: string;
+    userId!: number;
 
-    @CreatedAt
-    createdAt!: Date;
-
-    @UpdatedAt
-    updatedAt!: Date;
+    @BelongsTo(() => User)
+    user!: User;
 }
 
-export default Role;
+export default Cart;

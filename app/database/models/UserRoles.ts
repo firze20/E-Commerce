@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, BelongsTo, ForeignKey } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, BelongsTo, ForeignKey, NotNull } from "sequelize-typescript";
 import User from "./User";
 import Role from "./Role";
 
@@ -7,11 +7,17 @@ import Role from "./Role";
 })
 class UserRole extends Model {
     @ForeignKey(() => User)
-    @Column
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
     userId!: number;
 
     @ForeignKey(() => Role)
-    @Column
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
     roleId!: number;
 
     @BelongsTo(() => User)

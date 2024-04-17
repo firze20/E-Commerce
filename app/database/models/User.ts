@@ -1,5 +1,6 @@
 import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement } from "sequelize-typescript";
 import RefreshToken from "./RefreshToken";
+import Cart from "./Cart";
 
 @Table({
     tableName: "users",
@@ -53,8 +54,13 @@ class User extends Model {
     @UpdatedAt
     declare updatedAt: Date;
 
+    // Has One Refresh Token
     @HasOne(() => RefreshToken)
     refreshToken!: RefreshToken;
+
+    // Has One Cart
+    @HasOne(() => Cart)
+    cart!: Cart;
 
 }
 
