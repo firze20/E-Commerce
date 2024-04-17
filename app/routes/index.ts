@@ -1,4 +1,4 @@
-import mainRouter from "./main.router";
+import mainRouter from "./main.routes";
 
 export default mainRouter;
 

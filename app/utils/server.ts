@@ -1,7 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import connectDatabase from "./connect";
-
+import passport from "passport";
 //Routes
 
 import mainRouter from "../routes";
@@ -15,7 +15,9 @@ function createServer() {
 
   app.use(express.urlencoded({ extended: true }));
 
-  app.use(helmet());
+  app.use(helmet()); // to hide the type of application 
+
+  app.use(passport.initialize());
 
   // End Global Middlewares
 
