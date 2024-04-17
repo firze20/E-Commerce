@@ -45,6 +45,9 @@ importers:
       express:
         specifier: ^4.19.2
         version: 4.19.2
+      jest-cli:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@20.12.7)(ts-node@10.9.2(@types/node@20.12.7)(typescript@5.4.5))
       nodemon:
         specifier: ^3.1.0
         version: 3.1.0
