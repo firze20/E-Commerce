@@ -8,4 +8,13 @@ describe("Test Initial Server", () => {
         const response = await request(app).get("/");
         expect(response.status).toBe(200);
     })
-})
+
+    test('Should be "Welcome to E-Commerce API!"', async () => {
+        const expectedMessage = 'Welcome to E-Commerce API!';
+        const response = await request(app).get("/");
+        expect(response.body).toEqual({ message: expectedMessage });
+    })
+});
+
+
+
