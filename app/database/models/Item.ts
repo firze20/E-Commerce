@@ -2,6 +2,8 @@ import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, Has
 import Stock from "./Stock";
 import Category from "./Category";
 import CategoryItem from "./CategoryItem";
+import Cart from "./Cart";
+import CartItem from "./CartItem";
 
 @Table({
     tableName: "items",
@@ -51,7 +53,10 @@ class Item extends Model {
 
     @BelongsToMany(() => Category, () => CategoryItem)
     categories!: Category[];
-        
+
+    @BelongsToMany(() => Cart, () => CartItem)
+    cart!: Cart[];
+
     @CreatedAt
     createdAt!: Date;
 

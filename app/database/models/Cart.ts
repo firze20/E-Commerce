@@ -1,5 +1,7 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, BelongsTo, ForeignKey, PrimaryKey, NotNull } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, BelongsTo, ForeignKey, PrimaryKey, NotNull, BelongsToMany } from "sequelize-typescript";
 import User from "./User";
+import CartItem from "./CartItem";
+import Item from "./Item";
 
 @Table({
     tableName: "carts",
@@ -25,6 +27,9 @@ class Cart extends Model {
 
     @BelongsTo(() => User)
     user!: User;
+
+    @BelongsToMany(() => Item, () => CartItem)
+    items!: Item[];
 }
 
 export default Cart;

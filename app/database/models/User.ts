@@ -1,6 +1,9 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, HasMany } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, HasMany, BelongsToMany } from "sequelize-typescript";
 import RefreshToken from "./RefreshToken";
 import Cart from "./Cart";
+import Role from "./Role";
+import UserRole from "./UserRoles";
+import Purchase from "./Purchase";
 
 @Table({
     tableName: "users",
@@ -63,9 +66,12 @@ class User extends Model {
     cart!: Cart;
 
     //Has Many Purchases
+    @HasMany(() => Purchase)
+    purchase!: Purchase[];
 
-    @HasMany(() => Cart)
-    carts!: Cart[];
+    // Belons To Many Roles
+    @BelongsToMany(() => Role, () => UserRole)
+    roles!: Role[];
 }
 
 export default User;
