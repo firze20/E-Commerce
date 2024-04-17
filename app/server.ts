@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import helmet from "helmet";
-import sequelizeConnection from "./database/db.config";
+import { initDatabase } from "./database/init";
 
 //import dbInit from "./db/db.init";
 
@@ -9,6 +9,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //dbInit(); 
+
+initDatabase();
 
 // Global Middlewares
 

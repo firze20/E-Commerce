@@ -9,13 +9,14 @@ dotenv.config();
 const dbName = process.env.DB_NAME as string
 const dbUser = process.env.DB_USER as string
 const dbHost = process.env.DB_HOST
-const dbDriver = process.env.DB_DRIVER as string
+const dbDriver = process.env.DB_DRIVER
 const dbPassword = process.env.DB_PASSWORD
 
 // Sequelize Postgres Connection
 const sequelizeConnection = new Sequelize({
     host: dbHost,
     dialect: "postgres",
+    database: dbName,
     username: dbUser,
     password: dbPassword,
     ssl: true,

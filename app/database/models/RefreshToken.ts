@@ -24,11 +24,15 @@ class RefreshToken extends Model {
     })
     declare expirity: string;
 
-    @BelongsTo(() => User)
+    
+    @ForeignKey(() => User)
     @Column({
         type: DataType.INTEGER
     })
-    declare userId: User;
+    declare userId: number;
+
+    @BelongsTo(() => User)
+    declare user: User;
 
     @CreatedAt
     declare createdAt: Date;
