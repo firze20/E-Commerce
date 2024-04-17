@@ -42,6 +42,7 @@
     "pg": "^8.11.5",
     "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.3",
-    "sequelize-typescript": "^2.1.6"
+    "sequelize-typescript": "^2.1.6",
+    "winston": "^3.13.0"
   }
 }
