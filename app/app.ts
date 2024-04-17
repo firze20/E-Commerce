@@ -9,7 +9,7 @@ const app = createServer();
 
 const port = process.env.PORT || 3000;
 
-// Start the server
+// Start the server async so it can sync the database 
 app.listen(port, async() => {
   logger.info(`Server running on port ${port}`);
 
