@@ -3,7 +3,6 @@ import User from "./User";
 
 @Table({
     tableName: "refresh_tokens",
-    underscored: true,
     timestamps: true
 })
 class RefreshToken extends Model {
