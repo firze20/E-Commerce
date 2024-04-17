@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, HasMany } from "sequelize-typescript";
 import RefreshToken from "./RefreshToken";
 import Cart from "./Cart";
 
@@ -62,6 +62,10 @@ class User extends Model {
     @HasOne(() => Cart)
     cart!: Cart;
 
+    //Has Many Purchases
+
+    @HasMany(() => Cart)
+    carts!: Cart[];
 }
 
 export default User;
