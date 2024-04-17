@@ -5,7 +5,6 @@
 ### Current stage
 
 - __To Do__:
-    - [ ] __Connect the app and database__: Set up your application to be able to interface with the PostgreSQL database.
     - [ ] __Plan API endpoints__: Plan the API endpoints that will be used in retrieving data from your database.
     - [ ] __Set up user registration__: Add the logic for handling registration of new users.
     - [ ] __Set up local login__: Add the logic for handling login using a username and password.
@@ -19,9 +18,10 @@
 
 
 - __In Progress__:
-    - [ ] __Create PostgreSQL database and tables__: Create a PostgreSQL database and add the tables from your design.
+   - [ ] __Connect the app and database__: Set up your application to be able to interface with the PostgreSQL database.
 
 - __Done__:
+    - [x] __Create PostgreSQL database and tables__: Create a PostgreSQL database and add the tables from your design.
     - [x] __Design the database__: Plan out the different types of data the application will track and how those pieces of data relate.
     - [x] __Set up an Express server__: Create a directory for your project and set up a basic Express server.
     - [x] __Set up version control__: Set up Git tracking in your directory and make sure to add and commit changes as you make them.
