@@ -5,10 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --coverage",
-    "start": "ts-node app/server.ts",
+    "start": "NODE_ENV=production ts-node app/server.ts",
     "build": "npx tsc",
     "serve": "NODE_ENV=production node dist/server.js",
-    "dev": "NODE_ENV=development ts-node app/server.ts"
+    "dev": "NODE_ENV=development nodemon app/server.ts"
   },
   "keywords": [
     "e-commerce",
@@ -28,6 +28,7 @@
     "@types/validator": "^13.11.9",
     "express": "^4.19.2",
     "nodemon": "^3.1.0",
+    "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.4"
   },
