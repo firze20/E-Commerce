@@ -1,5 +1,7 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, ForeignKey } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, ForeignKey, BelongsToMany } from "sequelize-typescript";
 import Stock from "./Stock";
+import Category from "./Category";
+import CategoryItem from "./CategoryItem";
 
 @Table({
     tableName: "items",
@@ -46,6 +48,8 @@ class Item extends Model {
 
     @HasOne(() => Stock)
     stock!: Stock;
+
+    // @BelongsToMany(() => Category, () => CategoryItem)
     
     @CreatedAt
     createdAt!: Date;

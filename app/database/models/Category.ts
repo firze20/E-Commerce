@@ -1,4 +1,6 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, BelongsTo, ForeignKey, PrimaryKey, NotNull } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, BelongsTo, ForeignKey, PrimaryKey, NotNull, BelongsToMany } from "sequelize-typescript";
+import Item from "./Item";
+import CategoryItem from "./CategoryItem";
 
 @Table({
     tableName: "categories",
@@ -20,6 +22,14 @@ class Category extends Model {
         type: DataType.STRING,
     })
     description!: string;
+
+    @CreatedAt
+    createdAt!: Date;
+
+    @UpdatedAt
+    updatedAt!: Date;
+
+    
 }
 
 export default Category;
