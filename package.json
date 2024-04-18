@@ -1,7 +1,7 @@
 {
   "name": "e-commerce",
   "version": "1.0.0",
-  "description": "E-Commerce app to Portfolio ",
+  "description": "E-Commerce app to Portfolio",
   "main": "app.js",
   "scripts": {
     "test": "jest --coverage --detectOpenHandles",

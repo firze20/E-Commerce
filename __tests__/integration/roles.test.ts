@@ -1,4 +1,4 @@
-import logger from "../../app/utils/logger";
+
 import Role from "../../app/database/models/Role";
 import connectDatabase from "../../app/utils/connect";
 
