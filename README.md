@@ -27,7 +27,7 @@
     - [x] __Set up version control__: Set up Git tracking in your directory and make sure to add and commit changes as you make them.
     
 
-### Docker
+### Docker Command
 
 ```shell
 docker-compose up -d
@@ -236,4 +236,19 @@ ALTER TABLE "purchase_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id
 ```
 
 *Note you should store your ``.env`` file in the root of the project*
+
+# Project annotations
+
+In this project I'm setting up an express with Typescript, I opted for a ORM to integrate the app with the database.
+
+__Currently List:__
+
+- Sequelize Typescript v6
+- jsonwebtoken jwt for authentication
+- passport middleware 
+- jest and supertest for unit and integration tests TDD
+
+
+
+
 

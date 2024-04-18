@@ -8,7 +8,7 @@ const dbTeardown = async () => {
 
 describe("Test Roles", () => {
   beforeAll(async () => {
-    connectDatabase(); // Initialize database connection
+    await connectDatabase(); // Initialize database connection
   }, 20000); // Adding 20 seconds because it needs to resync all models
 
   beforeEach(async () => {

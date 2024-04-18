@@ -1,8 +1,8 @@
 import express from "express";
 import helmet from "helmet";
-
 import passport from "passport";
 import morgan from "morgan";
+import bodyParser from "body-parser";
 //Routes
 import mainRouter from "../routes";
 
@@ -22,6 +22,10 @@ function createServer() {
   app.use(morgan(isDev ? 'dev' : 'tiny'))
 
   app.use(passport.initialize()); // helps secure endpoints
+
+  app.use(bodyParser.json());
+
+  app.use(bodyParser.urlencoded({ extended: true }));
 
   // End Global Middlewares
 
