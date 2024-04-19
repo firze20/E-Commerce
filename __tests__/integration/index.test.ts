@@ -7,7 +7,7 @@ const dbTeardown = async () => {
   await closeDatabase();
 };
 
-describe("Test Roles", () => {
+describe("Test Database Models", () => {
   beforeAll(async () => {
     await connectDatabase(); // Initialize database connection
   }, 20000); // Adding 20 seconds because it needs to resync all models
@@ -36,7 +36,7 @@ describe("Test Roles", () => {
     ]);
   });
 
-  it("Should return role details", async () => {
+  it("Test Role Creation and Getter", async () => {
     // Mock response for findOne method
     const mockResponse = {
       id: 1,
