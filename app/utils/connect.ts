@@ -15,4 +15,14 @@ const connectDatabase = async () => {
     }
 };
 
-export default connectDatabase;
+const closeDatabase = async () => {
+    try {
+        await sequelizeConnection.close();
+        logger.info("Database closed");
+    } catch (error) {
+        logger.error("Database close failed:", error);
+        throw error; // Rethrow the error to propagate it
+    }
+};
+
+export {connectDatabase, closeDatabase};

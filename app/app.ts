@@ -1,7 +1,7 @@
 
 import logger from "./utils/logger";
 import createServer from "./utils/server";
-import connectDatabase from "./utils/connect";
+import {connectDatabase} from "./utils/connect";
 
 
 const app = createServer();

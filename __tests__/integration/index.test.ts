@@ -1,9 +1,10 @@
 
 import Role from "../../app/database/models/Role";
-import connectDatabase from "../../app/utils/connect";
+import {connectDatabase, closeDatabase} from "../../app/utils/connect";
 
 const dbTeardown = async () => {
   await Role.destroy({ cascade: true, truncate: true, force: true });
+  await closeDatabase();
 };
 
 describe("Test Roles", () => {
