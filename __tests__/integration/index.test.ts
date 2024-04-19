@@ -1,4 +1,5 @@
 
+import Item from "../../app/database/models/Item";
 import Role from "../../app/database/models/Role";
 import {connectDatabase, closeDatabase} from "../../app/utils/connect";
 
@@ -33,6 +34,14 @@ describe("Test Database Models", () => {
         description:
           "Can buy, manage items and stocks, and manage users in the database",
       }),
+      // List items
+      // Item.create({
+      //   id: 1,
+      //   name: "Box of Pencils",
+      //   description: "A box of 100 pencils",
+      //   price: 2.50,
+      //   image: "https://e7.pngegg.com/pngimages/702/527/png-clipart-colored-pencil-crayon-boxed-color-pencil-png-material-color-splash.png",
+      // })
     ]);
   });
 
