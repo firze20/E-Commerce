@@ -22,11 +22,13 @@ class User extends Model {
 
     @Column({
         type: DataType.STRING,
+        unique: true,
     })
     declare username: string;
 
     @Column({
         type: DataType.STRING,
+        unique: true,
     })
     declare email: string;
 
@@ -79,6 +81,9 @@ class User extends Model {
     static async hashPassword(user: User) {
         user.password = await bcrypt.hash(user.password, 10);
     }
+
+    //Validate Password function
+
 }
 
 
