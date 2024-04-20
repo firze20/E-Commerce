@@ -26,3 +26,5 @@ passport.use(
     return done(err);
   }
 }));
+
+export default passport;
