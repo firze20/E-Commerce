@@ -245,10 +245,10 @@ __Currently List:__
 - Docker container that contains the app itself 
 - PostgreSQL server-less database [Neon Tech](https://neon.tech/)
 - Created 2 seperate databases, one for production, another for testing 
-- Sequelize Typescript v6
-- jsonwebtoken jwt for authentication
-- passport middleware 
-- jest and supertest for unit and integration tests TDD
+- [Sequelize Typescript v6](https://sequelize.org/docs/v6/other-topics/typescript/)
+- Jsonwebtokens [Jwt](https://jwt.io/) for authentication
+- [Passport](https://www.passportjs.org/) Middleware for Authentication 
+- [Jest](https://jestjs.io/) and [Supertest](https://www.npmjs.com/package/supertest) for unit and integration tests TDD
 
 
 
