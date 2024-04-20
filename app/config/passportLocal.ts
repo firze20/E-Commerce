@@ -25,19 +25,19 @@ passport.use(
 
 //Serialize user
 
-// passport.serializeUser((user, done) => {
-//   done(null, user.id);
-// });
+passport.serializeUser((user: any, done) => {
+  done(null, user.id);
+});
 
-// // Deserialize user from session
-// passport.deserializeUser(async function (id, done) {
-//   try {
-//     const user = await User.findByPk(id);
-//     if (!user) {
-//       return done(null, false);
-//     }
-//     return done(null, user);
-//   } catch (err) {
-//     return done(err);
-//   }
-// });
+// Deserialize user from session
+passport.deserializeUser(async function (id: number, done) {
+  try {
+    const user = await User.findByPk(id);
+    if (!user) {
+      return done(null, false);
+    }
+    return done(null, user);
+  } catch (err) {
+    return done(err);
+  }
+});
