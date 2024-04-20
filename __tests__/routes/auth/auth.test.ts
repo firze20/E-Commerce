@@ -15,7 +15,7 @@ beforeAll(async () => {
       email: "test-email@gmail.com",
       password: "password-100",
     });
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
   });
 
   test("Sign In Authentication!", async () => {
@@ -24,7 +24,7 @@ beforeAll(async () => {
       username: "Test-User",
       password: "password-100",
     });
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
   });
   })
 

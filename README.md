@@ -250,6 +250,7 @@ __Currently List:__
 - [Passport](https://www.passportjs.org/) Local Strategy for Authentication, may add OAuth later
 - [Jest](https://jestjs.io/) and [Supertest](https://www.npmjs.com/package/supertest) for unit and integration tests TDD
 
+*Note I'm definind 2 passport strategies, passport local for signin and register and jwt strategy to verify protected routes that require authentication*
 
 
 

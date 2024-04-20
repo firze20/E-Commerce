@@ -81,13 +81,6 @@ class User extends Model {
     static async hashPassword(user: User) {
         user.password = await bcrypt.hash(user.password, 10);
     }
-
-    //Validate Password function
-
 }
-
-
-
-
 
 export default User;
