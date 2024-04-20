@@ -243,6 +243,7 @@ In this project I'm setting up an express with Typescript, I opted for a ORM to 
 
 __Currently List:__
 
+- Created 2 seperate databases, one for production, another for testing 
 - Sequelize Typescript v6
 - jsonwebtoken jwt for authentication
 - passport middleware 
