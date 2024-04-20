@@ -2,8 +2,10 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcrypt";
 import User from "../database/models/User"; // Import User model
+import { Request } from "express";
 
 passport.use(
+  "local-signup",
   new LocalStrategy(async function (username, password, done) {
     try {
       // Find user by username
@@ -21,3 +23,22 @@ passport.use(
     }
   })
 );
+
+//Serialize user
+
+// passport.serializeUser((user, done) => {
+//   done(null, user.id);
+// });
+
+// // Deserialize user from session
+// passport.deserializeUser(async function (id, done) {
+//   try {
+//     const user = await User.findByPk(id);
+//     if (!user) {
+//       return done(null, false);
+//     }
+//     return done(null, user);
+//   } catch (err) {
+//     return done(err);
+//   }
+// });

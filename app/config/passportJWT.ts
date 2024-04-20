@@ -9,7 +9,9 @@ const jwtOptions: StrategyOptions = {
 };
 
 // Define JWT strategy
-passport.use(new JwtStrategy(jwtOptions, async function (jwtPayload, done) {
+passport.use(
+  'jwt',
+  new JwtStrategy(jwtOptions, async function (jwtPayload, done) {
   try {
     // Find user by id in the JWT payload
     const user = await User.findOne({ where: { id: jwtPayload.id } });
