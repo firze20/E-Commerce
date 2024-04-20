@@ -5,7 +5,6 @@
 ### Current stage
 
 - __To Do__:
-    - [ ] __Plan API endpoints__: Plan the API endpoints that will be used in retrieving data from your database.
     - [ ] __Set up user registration__: Add the logic for handling registration of new users.
     - [ ] __Set up local login__: Add the logic for handling login using a username and password.
     - [ ]  __Set up product endpoints__: Add the logic for handling CRUD operations related to products.
@@ -18,9 +17,10 @@
 
 
 - __In Progress__:
-   - [ ] __Connect the app and database__: Set up your application to be able to interface with the PostgreSQL database.
+   - [ ] __Plan API endpoints__: Plan the API endpoints that will be used in retrieving data from your database.
 
 - __Done__:
+    - [x] __Connect the app and database__: Set up your application to be able to interface with the PostgreSQL database.
     - [x] __Create PostgreSQL database and tables__: Create a PostgreSQL database and add the tables from your design.
     - [x] __Design the database__: Plan out the different types of data the application will track and how those pieces of data relate.
     - [x] __Set up an Express server__: Create a directory for your project and set up a basic Express server.
@@ -242,7 +242,8 @@ ALTER TABLE "purchase_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id
 In this project I'm setting up an express with Typescript, I opted for a ORM to integrate the app with the database.
 
 __Currently List:__
-
+- Docker container that contains the app itself 
+- PostgreSQL server-less database [Neon Tech](https://neon.tech/)
 - Created 2 seperate databases, one for production, another for testing 
 - Sequelize Typescript v6
 - jsonwebtoken jwt for authentication
