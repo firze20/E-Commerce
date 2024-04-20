@@ -31,7 +31,7 @@ function createServer() {
 
   //Routes
 
-  app.use("/", mainRouter);
+  app.use("/api/e-commerce", mainRouter);
   // End of Routes
 
   return app;
