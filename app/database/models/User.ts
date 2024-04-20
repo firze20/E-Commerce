@@ -5,6 +5,8 @@ import Role from "./Role";
 import UserRole from "./UserRoles";
 import Purchase from "./Purchase";
 
+import bcrypt from "bcrypt";
+
 @Table({
     tableName: "users",
     underscored: true,
@@ -72,6 +74,15 @@ class User extends Model {
     // Belons To Many Roles
     @BelongsToMany(() => Role, () => UserRole)
     roles!: Role[];
+
+    @BeforeCreate
+    static async hashPassword(user: User) {
+        user.password = await bcrypt.hash(user.password, 10);
+    }
 }
+
+
+
+
 
 export default User;

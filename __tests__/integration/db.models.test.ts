@@ -84,16 +84,20 @@ describe("Test Database Models", () => {
     expect(result?.id).toBe(mockResponse.id);
   });
 
-  it("Test if user creation generates bcrypt for passwords", async () => {
+  it("Test if user creation generates bcrypt or generate salt for passwords", async () => {
+
+    const password = "password300"
+
     const user = await User.create({
       id: 1,
       username: "Test User",
-      password: "password300",
+      password: password,
       email: "test@gmail.com",
       roles: [1,2,3],
     });
 
-    expect(user?.password).not.toBe("password300");
+
+    expect(user?.password).not.toEqual(password);
   })
 
   afterAll(async () => {
