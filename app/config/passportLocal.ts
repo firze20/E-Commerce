@@ -2,7 +2,6 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcrypt";
 import User from "../database/models/User"; // Import User model
-import { Request } from "express";
 
 passport.use(
   "local-signup",
