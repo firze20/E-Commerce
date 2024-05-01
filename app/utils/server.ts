@@ -23,6 +23,8 @@ function createServer() {
 
   app.use(passport.initialize()); // helps secure endpoints
 
+
+
   app.use(bodyParser.json());
 
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,8 +32,8 @@ function createServer() {
   // End Global Middlewares
 
   //Routes
-
   app.use("/api/e-commerce", mainRouter);
+
   // End of Routes
 
   return app;
