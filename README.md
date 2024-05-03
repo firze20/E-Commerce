@@ -252,6 +252,9 @@ __Currently List:__
 
 *Note I'm defining 2 passport strategies, passport local for signin and register and jwt strategy to verify protected routes that require authentication*
 
+# Usefull Links
+
+- [Passport JWT and Session Authentication Tutorial](https://www.fullstackfoundations.com/blog/passport-jwt)
 
 
 
