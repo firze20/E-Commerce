@@ -81,6 +81,12 @@ class User extends Model {
     static async hashPassword(user: User) {
         user.password = await bcrypt.hash(user.password, 10);
     }
+
+    async hasRole(roleName: string) {
+        const roles = await this.$get('roles') as Role[];
+        return roles.some(role => role.name === roleName);
+    }
+    
 }
 
 export default User;
