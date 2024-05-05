@@ -82,7 +82,8 @@ class User extends Model {
         user.password = await bcrypt.hash(user.password, 10);
     }
 
-    async hasRole(roleName: string) {
+    //Check if user has specific role 
+    async hasRole(roleName: string): Promise<boolean> {
         const roles = await this.$get('roles') as Role[];
         return roles.some(role => role.name === roleName);
     }

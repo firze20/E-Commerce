@@ -8,7 +8,7 @@ const isAdmin = (req: Request, res: Response, next: NextFunction) => {
         { 
             session: false
         },
-        async (err: Error | null, user: User | false, info: { message: string }) => {
+        async (err: Error | null, user: User | false) => {
             if(err) {
                 return next(err);
             }
