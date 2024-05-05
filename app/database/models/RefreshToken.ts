@@ -1,5 +1,6 @@
 import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, BelongsTo, ForeignKey } from "sequelize-typescript";
 import User from "./User";
+import { v4 as uuidv4 } from "uuid";
 
 @Table({
     tableName: "refresh_tokens",
@@ -21,7 +22,7 @@ class RefreshToken extends Model {
     @Column({
         type: DataType.DATE,
     })
-    declare expirity: string;
+    declare expirityDate: string;
 
     
     @ForeignKey(() => User)
@@ -38,6 +39,24 @@ class RefreshToken extends Model {
 
     @UpdatedAt
     declare updatedAt: Date;
+
+    async createToken(user: User) {
+        let expiredAt = new Date();
+
+        // Later will have to define a Refresh Expire time in config 
+        expiredAt.setSeconds(expiredAt.getSeconds() + 60 * 60 * 24 * 30);
+
+        let _token = uuidv4(); 
+
+       let refreshToken = await RefreshToken.create({
+            token: _token,
+            expirityDate: expiredAt.getTime(),
+            userId: user.id
+        });
+
+        return refreshToken;
+
+    }
 }
 
 export default RefreshToken;

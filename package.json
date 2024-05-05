@@ -45,6 +45,7 @@
     "@types/morgan": "^1.9.9",
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
+    "@types/uuid": "^9.0.8",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "dotenv": "^16.4.5",
@@ -58,6 +59,7 @@
     "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.3",
     "sequelize-typescript": "^2.1.6",
+    "uuid": "^9.0.1",
     "winston": "^3.13.0"
   }
 }
