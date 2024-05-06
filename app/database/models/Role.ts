@@ -35,4 +35,6 @@ class Role extends Model {
     user!: User[];
 }
 
+
+
 export default Role;

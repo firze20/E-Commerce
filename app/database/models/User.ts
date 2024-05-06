@@ -82,12 +82,30 @@ class User extends Model {
         user.password = await bcrypt.hash(user.password, 10);
     }
 
-    //Check if user has specific role 
+    // Check if user has specific role 
     async hasRole(roleName: string): Promise<boolean> {
         const roles = await this.$get('roles') as Role[];
         return roles.some(role => role.name === roleName);
     }
     
+    // Add Role 
+    async addRoles(roleNames: string | string[]): Promise<void> {
+        try {
+          const rolesToAssign = Array.isArray(roleNames) ? roleNames : [roleNames];
+          const roles = await Role.findAll({ where: { name: rolesToAssign } });
+      
+          if (roles.length !== rolesToAssign.length) {
+            // Some roles were not found in the database
+            throw new Error('One or more roles do not exist');
+          }
+      
+          // Assign roles to the user
+          await this.$set('roles', roles);
+        } catch (error) {
+          console.error('Error adding role(s) to user:', error);
+          throw new Error('Failed to add role(s) to user');
+        }
+      }      
 }
 
 export default User;
