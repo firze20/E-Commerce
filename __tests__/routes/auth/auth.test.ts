@@ -4,9 +4,6 @@ import createServer from "../../../app/utils/server";
 const app = createServer();
 
 describe("Test Authentication EndPoints", () => {
-beforeAll(async () => {
-    // Should sync database
-});
 
 
   test("Sign Up Authentication!", async () => {
