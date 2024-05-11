@@ -4,7 +4,7 @@
   "description": "E-Commerce app to Portfolio",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=TEST jest --coverage --detectOpenHandles --runInBand",
+    "test": "NODE_ENV=test jest --coverage --detectOpenHandles --runInBand",
     "start": "NODE_ENV=production ts-node app/app.ts",
     "build": "npx tsc",
     "serve": "NODE_ENV=production node dist/app.js",
