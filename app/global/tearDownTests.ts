@@ -1,4 +1,4 @@
-import { closeDatabase } from "../app/utils/connect";
+import { closeDatabase } from "../utils/connect";
 
 async function globalTearDown() {
     await closeDatabase();

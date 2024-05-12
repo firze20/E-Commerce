@@ -1,4 +1,4 @@
-import {connectDatabase} from "../app/utils/connect";
+import {connectDatabase} from "../utils/connect";
 
 async function globalSetup() {
     await connectDatabase();
