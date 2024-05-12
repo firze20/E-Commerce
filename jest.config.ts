@@ -8,7 +8,6 @@ const config: Config.InitialOptions = {
   },
   globalSetup: './global/setupTests.ts',
   globalTeardown: './global/tearDownTests.ts',
-  testTimeout: 30000,
   //setupFilesAfterEnv: ['./jest.setup.ts']
 };
 export default config;
