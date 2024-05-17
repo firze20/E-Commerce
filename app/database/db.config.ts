@@ -24,7 +24,7 @@ const sequelizeConnection = new Sequelize({
     username: dbUser,
     password: dbPassword,
     ssl: true,
-    logging: isTest ? true : false,
+    logging: isTest,
     dialectOptions: {
         ssl: {
             require: true,
