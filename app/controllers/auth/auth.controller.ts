@@ -46,20 +46,30 @@ const signUp = async (req: Request, res: Response) => {
 const signIn = async (req: Request, res: Response) => {
   try {
     const { username, password, email } = req.body;
-    const user = await User.findOne({
+    const foundUser = await User.findOne({
         where: {
             [username && "username" || email && "email"]: username || email,
         }
     })
 
-    if(user){
-        const isMatch = await bcrypt.compare(password, user.password);
-        if(isMatch) {
-            res.status(200).send({
-                
-            })
-        }
+    if(!foundUser){
+        res.status(404).send({
+            message: "User not found"
+        })
+    };
+
+    // Compare passwords using bcrypt
+    const isPasswordCorrect = await bcrypt.compare(password, foundUser!.password);
+
+    if(!isPasswordCorrect) {
+        res.status(401).send({
+            message: "Invalid credentials"
+        });
     }
+
+    res.status(200).send({
+        message: "User authenticated",
+    })
 
   } catch (err: any) {}
 };

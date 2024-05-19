@@ -31,7 +31,7 @@ describe("Test Authentication EndPoints", () => {
         username: "Test-User",
         password: "password-100",
       });
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
   });
 
   afterAll(async () => {
