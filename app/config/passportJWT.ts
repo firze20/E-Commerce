@@ -27,4 +27,4 @@ passport.use(
   }
 }));
 
-export default passport;
+export const authenticateJwt = passport.authenticate("jwt", { session: false });

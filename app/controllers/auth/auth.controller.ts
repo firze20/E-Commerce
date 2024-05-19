@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../../database/models/User";
 import Role from "../../database/models/Role";
 import logger from "../../utils/logger";
+import bcrypt from "bcrypt";
 
 const signUp = async (req: Request, res: Response) => {
   try {
@@ -42,4 +43,25 @@ const signUp = async (req: Request, res: Response) => {
   }
 };
 
-export { signUp as signUpController };
+const signIn = async (req: Request, res: Response) => {
+  try {
+    const { username, password, email } = req.body;
+    const user = await User.findOne({
+        where: {
+            [username && "username" || email && "email"]: username || email,
+        }
+    })
+
+    if(user){
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(isMatch) {
+            res.status(200).send({
+                
+            })
+        }
+    }
+
+  } catch (err: any) {}
+};
+
+export { signUp as signUpController, signIn as signInController };

@@ -20,6 +20,7 @@ function createServer() {
 
   app.use(morgan(isDev ? 'dev' : 'tiny'))
 
+  //passport middleware 
   app.use(passport.initialize()); // helps secure endpoints
 
   // End Global Middlewares
