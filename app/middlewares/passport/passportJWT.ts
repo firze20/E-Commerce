@@ -1,6 +1,6 @@
 import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import { Request } from 'express';
-import User from '../database/models/User';
+import User from '../../database/models/User';
 import dotenv from 'dotenv';
 import passport from 'passport';
 
@@ -35,4 +35,4 @@ passport.use(
   })
 );
 
-export const authenticatJwt = passport.authenticate('jwt', { session: false });
+export const authenticateJwt = passport.authenticate('jwt', { session: false });

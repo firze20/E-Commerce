@@ -3,6 +3,7 @@ import User from "../../database/models/User";
 import Role from "../../database/models/Role";
 import logger from "../../utils/logger";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const signUp = async (req: Request, res: Response) => {
   try {
@@ -66,6 +67,16 @@ const signIn = async (req: Request, res: Response) => {
             message: "Invalid credentials"
         });
     }
+
+    const token = jwt.sign({ id: foundUser!.id}, process.env.JWT_SECRET as string, { expiresIn: "1h" });
+
+    // Set JWT in an HTTP-only cookie
+    res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 3600000,
+    })
 
     res.status(200).send({
         message: "User authenticated",
