@@ -1,30 +1,38 @@
-import passport from "passport";
-import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from "passport-jwt";
-import User from "../database/models/User";
+import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
+import { Request } from 'express';
+import User from '../database/models/User';
+import dotenv from 'dotenv';
+import passport from 'passport';
 
-// Define options for JWT strategy
+dotenv.config();
+
+const cookieExtractor = (req: Request) => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies['jwt'];
+  }
+  return token;
+};
+
 const jwtOptions: StrategyOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: cookieExtractor,
   secretOrKey: process.env.JWT_SECRET as string,
 };
 
-// Define JWT strategy
 passport.use(
-  'jwt',
-  new JwtStrategy(jwtOptions, async function (jwtPayload, done) {
-  try {
-    // Find user by id in the JWT payload
-    const user = await User.findOne({ where: { id: jwtPayload.id } });
+  new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
+    try {
+      const user = await User.findOne({ where: { id: jwtPayload.id } });
 
-    if (!user) {
-      return done(null, false, { message: "User not found" });
+      if (!user) {
+        return done(null, false, { message: 'User not found' });
+      }
+
+      return done(null, user);
+    } catch (err) {
+      return done(err);
     }
+  })
+);
 
-    // If user found, return user object
-    return done(null, user);
-  } catch (err) {
-    return done(err);
-  }
-}));
-
-export const authenticateJwt = passport.authenticate("jwt", { session: false });
+export const authenticatJwt = passport.authenticate('jwt', { session: false });

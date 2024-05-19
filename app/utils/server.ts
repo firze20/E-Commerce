@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import passport from "passport";
 import morgan from "morgan";
@@ -13,6 +14,10 @@ function createServer() {
   // Global Middlewares
 
   app.use(express.json());
+
+  // Cookie Parser
+
+  app.use(cookieParser());
 
   app.use(express.urlencoded({ extended: true }));
 
