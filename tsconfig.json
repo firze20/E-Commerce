@@ -1,5 +1,5 @@
 {
-  "exclude": ["./coverage", "./dist", "__tests__", "jest.config.ts", "jest.setup.ts"],
+  "exclude": ["./coverage", "./dist", "__tests__", "jest.config.ts", "global/jest.setup.ts", "global"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 

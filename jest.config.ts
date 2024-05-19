@@ -6,8 +6,9 @@ const config: Config.InitialOptions = {
   transform: {
     '^.+\\.ts?$': 'ts-jest',
   },
-  globalSetup: './app/global/setupTests.ts',
-  globalTeardown: './app/global/tearDownTests.ts',
-  setupFilesAfterEnv: ['./jest.setup.ts']
+  // globalSetup: './global/setupTests.ts',
+  // testEnvironment: 'node',
+  // globalTeardown: './global/tearDownTests.ts',
+  //setupFilesAfterEnv: ['./global/jest.setup.ts']
 };
 export default config;

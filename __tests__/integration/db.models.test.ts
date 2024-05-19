@@ -2,18 +2,18 @@
 import Item from "../../app/database/models/Item";
 import Role from "../../app/database/models/Role";
 import User from "../../app/database/models/User";
-// import {connectDatabase, closeDatabase} from "../../app/utils/connect";
+import {connectDatabase, closeDatabase} from "../../app/utils/connect";
 
-// const dbTeardown = async () => {
-//   await Role.destroy({ cascade: true, truncate: true, force: true });
-//   await Item.destroy({ cascade: true, truncate: true, force: true });
-//   await User.destroy({ cascade: true, truncate: true, force: true });
-//   await closeDatabase();
-// };
+const dbTeardown = async () => {
+  await Role.destroy({ cascade: true, truncate: true, force: true });
+  await Item.destroy({ cascade: true, truncate: true, force: true });
+  await User.destroy({ cascade: true, truncate: true, force: true });
+  await closeDatabase();
+};
 
 describe("Test Database Models", () => {
   beforeAll(async () => {
-    //await connectDatabase(); // Initialize database connection
+    await connectDatabase(); // Initialize database connection
 
     // Create sample role records
     await Promise.all([
@@ -100,7 +100,7 @@ describe("Test Database Models", () => {
     expect(user?.password).not.toEqual(password);
   })
 
-  // afterAll(async () => {
-  //   await dbTeardown(); // Clean up database after all tests
-  // });
+  afterAll(async () => {
+    await dbTeardown(); // Clean up database after all tests
+  });
 });

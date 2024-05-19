@@ -4,6 +4,7 @@ import createServer from "../../app/utils/server";
 const app = createServer();
 
 describe("Test Initial Server", () => {
+
     test('Should be status 200!', async () => {
         const response = await request(app).get("/api/e-commerce");
         expect(response.status).toBe(200);

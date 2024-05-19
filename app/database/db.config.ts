@@ -24,14 +24,14 @@ const sequelizeConnection = new Sequelize({
     username: dbUser,
     password: dbPassword,
     ssl: true,
-    logging: isTest,
+    logging: false,
     dialectOptions: {
         ssl: {
             require: true,
             rejectUnauthorized: false
         }
     },
-    models: [__dirname + "/models"] //Imports all models inside model folders 
+    models: [__dirname + "/models"], //Imports all models inside model folders ,
 });
 
 export default sequelizeConnection;
