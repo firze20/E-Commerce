@@ -10,8 +10,6 @@ authRouter.post("/signup", [checkDuplicateUsername, checkDuplicateEmail], signUp
 
 authRouter.post("/signin", signInController);
 
-
-
 export default authRouter;
 
 
