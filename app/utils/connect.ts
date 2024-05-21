@@ -27,4 +27,5 @@ const closeDatabase = async () => {
     }
 };
 
+
 export {connectDatabase, closeDatabase};

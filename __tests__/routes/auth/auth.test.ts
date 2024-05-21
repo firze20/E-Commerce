@@ -31,7 +31,15 @@ describe("Test Authentication EndPoints", () => {
         username: "Test-User",
         password: "password-100",
       });
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(200); // Expect to be status code 200
+    const cookieHeader = response.headers["set-cookie"];
+    expect(cookieHeader).toBeDefined() // Expect Cookie to be set
+
+    const cookies = Array.isArray(cookieHeader)? cookieHeader : [cookieHeader];
+
+    const jwtCookie = cookies.find(cookie => cookie.startsWith("jwt="));
+
+    expect(jwtCookie).toBeDefined(); // Expect JWT Cookie to be set
   });
 
   afterAll(async () => {
