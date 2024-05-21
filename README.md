@@ -1,5 +1,13 @@
 # E-Commerce Portfolio Project
 
+## Table of Contents
+
+- [This is a back-end nodejs project for an e-commerce website.](#this-is-a-back-end-nodejs-project-for-an-e-commerce-website)
+- [Current stage](#current-stage)
+- [Database](#database-schema)
+- [Project annotations](#project-annotations)
+- [Useful Links](#usefull-links)
+
 ## This is a back-end nodejs project for an e-commerce website.
 
 ### Current stage
