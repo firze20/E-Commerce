@@ -1,5 +1,6 @@
 import sequelizeConnection from "../database/db.config";
 import logger from "../utils/logger";
+import {initRoles, initShop} from "../start/dbInitDevTest"
 
 const isDev = process.env.NODE_ENV === "development";
 const isTest = process.env.NODE_ENV === "test";
@@ -11,9 +12,9 @@ const connectDatabase = async () => {
         await sequelizeConnection.sync({ alter: isDev || isTest });
         logger.info("Database synced");
         logger.info("Environment: " + process.env.NODE_ENV);
-        if (isDev || isTest) {
-            logger.info("Database connection established for development environment");
-        }
+        logger.info("Checking if roles exist in the database if not they will be created... 😎");
+        initRoles().then(() => 
+            logger.info("There is roles in the database"));
     } catch (error) {
         logger.error("Database synchronization failed:", error);
         throw error; // Rethrow the error to propagate it
