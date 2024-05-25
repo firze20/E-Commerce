@@ -11,6 +11,9 @@ const connectDatabase = async () => {
         await sequelizeConnection.sync({ alter: isDev || isTest });
         logger.info("Database synced");
         logger.info("Environment: " + process.env.NODE_ENV);
+        if (isDev || isTest) {
+            logger.info("Database connection established for development environment");
+        }
     } catch (error) {
         logger.error("Database synchronization failed:", error);
         throw error; // Rethrow the error to propagate it
