@@ -13,6 +13,12 @@ class Stock extends Model {
     })
     id!: number;
 
+    @Column({
+        type: DataType.INTEGER,
+        defaultValue: 0
+    })
+    quantity!: number
+
     @ForeignKey(() => Item)
     @Column({
         type: DataType.INTEGER,

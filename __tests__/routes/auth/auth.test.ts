@@ -20,6 +20,7 @@ describe("Test Authentication EndPoints", () => {
         username: "Test-User",
         email: "test-email@gmail.com",
         password: "password-100",
+        roles: ["User"]
       });
     expect(response.status).toBe(201);
   });

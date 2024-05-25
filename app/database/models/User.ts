@@ -5,6 +5,8 @@ import Role from "./Role";
 import UserRole from "./UserRoles";
 import Purchase from "./Purchase";
 
+import logger from "../../utils/logger";
+
 import bcrypt from "bcrypt";
 
 @Table({
@@ -102,7 +104,7 @@ class User extends Model {
           // Assign roles to the user
           await this.$set('roles', roles);
         } catch (error) {
-          console.error('Error adding role(s) to user:', error);
+          logger.error('Error adding role(s) to user:', error);
           throw new Error('Failed to add role(s) to user');
         }
       }      
