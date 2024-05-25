@@ -12,7 +12,7 @@ const connectDatabase = async () => {
         await sequelizeConnection.sync({ force: isDev || isTest });
         logger.info("Database synced");
         logger.info("Environment: " + process.env.NODE_ENV);
-        logger.info("Checking if roles exist in the database if not they will be created... 😎");
+        logger.info("Checking if data exists in database tables 🧑🏻‍💻...");
         await Promise.all([initRoles()]);
     } catch (error) {
         logger.error("Database synchronization failed:", error);
