@@ -13,6 +13,15 @@ const roles = [
     }
 ];
 
+const superUser = {
+    username: process.env.SUPER_USER_USERNAME,
+    password: process.env.SUPER_USER_PASSWORD,
+    email: process.env.SUPER_USER_EMAIL,
+    name: process.env.SUPER_USER_FIRST_NAME,
+    lastName: process.env.SUPER_USER_LAST_NAME,
+    age: process.env.SUPER_USER_AGE,
+}
+
 const categories = [
     {
         name: "Electronics",
@@ -55,6 +64,7 @@ const items = [
 
 export {
     roles as rolesData,
-    categories as categoriesData
+    categories as categoriesData,
+    superUser,
 }
 

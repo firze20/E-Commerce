@@ -28,3 +28,4 @@ class UserRole extends Model {
 }
 
 export default UserRole;
+

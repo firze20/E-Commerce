@@ -1,6 +1,5 @@
 import Category from "../../database/models/Category";
 import Item from "../../database/models/Item";
-import CategoryItem from "../../database/models/CategoryItem";
 import logger from "../../utils/logger";
 
 // Data to be imported
