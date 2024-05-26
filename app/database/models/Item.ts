@@ -86,18 +86,25 @@ class Item extends Model {
 
   // After create auto add 1 in stock
 
+  // @AfterCreate
+  // static async afterCreateHook(instance: Item) {
+  //   const transaction = await sequelizeConnection.transaction();
+  //   try {
+  //     const stock = await Stock.create({ quantity: 1 }, { transaction });
+  //     await instance.$set('stock', stock, { transaction });
+  //     await transaction.commit();
+  //   } catch (error) {
+  //     await transaction.rollback();
+  //     logger.error('Error adding stock: ', error);
+  //     throw new Error('Error adding stock');
+  //   }
+  // }
+
   @AfterCreate
-  static async afterCreateHook(instance: Item) {
-    const transaction = await sequelizeConnection.transaction();
-    try {
-      const stock = await Stock.create({ quantity: 1 }, { transaction });
-      await instance.$set('stock', stock, { transaction });
-      await transaction.commit();
-    } catch (error) {
-      await transaction.rollback();
-      logger.error('Error adding stock: ', error);
-      throw new Error('Error adding stock');
-    }
+  static async afterCreateSetQuantityToOne(item: Item) {
+      const stock = await Stock.create({ quantity: 1 });
+      await item.$set("stock", stock);
+    
   }
 
   // Count how many in Stock
