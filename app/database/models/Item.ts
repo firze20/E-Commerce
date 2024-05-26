@@ -112,8 +112,8 @@ class Item extends Model {
   static async afterBulkCreateSetQuantityToOne(items: Item[]) {
     items.forEach(async item => {
       const stock = await Stock.create({ quantity: 1, itemId: item.id });
-      item.$set("stock", stock);
-      item.stockId = stock.id;
+      await item.$set("stock", stock);
+      await stock.$set("item", item);
     });
   }
 
