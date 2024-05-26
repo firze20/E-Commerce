@@ -11,6 +11,7 @@ import {
   ForeignKey,
   BelongsToMany,
   AfterCreate,
+  AfterBulkCreate,
 } from "sequelize-typescript";
 import Stock from "./Stock";
 import Category from "./Category";
@@ -105,6 +106,15 @@ class Item extends Model {
       const stock = await Stock.create({ quantity: 1 });
       await item.$set("stock", stock);
     
+  }
+
+  @AfterBulkCreate
+  static async afterBulkCreateSetQuantityToOne(items: Item[]) {
+    items.forEach(async item => {
+      const stock = await Stock.create({ quantity: 1, itemId: item.id });
+      item.$set("stock", stock);
+      item.stockId = stock.id;
+    });
   }
 
   // Count how many in Stock
