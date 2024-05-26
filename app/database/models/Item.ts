@@ -10,6 +10,7 @@ import {
   AutoIncrement,
   ForeignKey,
   BelongsToMany,
+  AfterCreate,
 } from "sequelize-typescript";
 import Stock from "./Stock";
 import Category from "./Category";
@@ -20,6 +21,8 @@ import Purchase from "./Purchase";
 import PurchaseItem from "./PurchaseItem";
 
 import logger from "../../utils/logger";
+import sequelizeConnection from "../db.config";
+
 
 @Table({
   tableName: "items",
@@ -81,6 +84,22 @@ class Item extends Model {
   @UpdatedAt
   updatedAt!: Date;
 
+  // After create auto add 1 in stock
+
+  @AfterCreate
+  static async afterCreateHook(instance: Item) {
+    const transaction = await sequelizeConnection.transaction();
+    try {
+      const stock = await Stock.create({ quantity: 1 }, { transaction });
+      await instance.$set('stock', stock, { transaction });
+      await transaction.commit();
+    } catch (error) {
+      await transaction.rollback();
+      logger.error('Error adding stock: ', error);
+      throw new Error('Error adding stock');
+    }
+  }
+
   // Count how many in Stock
 
   async howManyInStock(): Promise<number> {
@@ -138,7 +157,55 @@ class Item extends Model {
 
   // Add Category
 
-  async addCategory(categories: string | string[]): Promise<void> {}
+  async addCategory(categories: string | string[]): Promise<void> {
+    // Ensure categories is an array
+    if (!Array.isArray(categories)) {
+      categories = [categories];
+    }
+
+    try {
+      // Search for categories in the database
+      const categorySearch = await Category.findAll({
+        where: { name: categories },
+      });
+
+      // Check if all categories exist
+      if (categorySearch.length !== categories.length) {
+        throw new Error("One or more categories do not exist");
+      }
+
+      // Add the found categories to the item
+      await this.$add("categories", categorySearch);
+    } catch (error) {
+      logger.error("Error adding category: ", error);
+      throw new Error("Error adding category");
+    }
+  }
+
+  async removeCategory(categories: string | string[]): Promise<void> {
+    // Ensure categories is an array
+    if (!Array.isArray(categories)) {
+      categories = [categories];
+    }
+
+    try {
+      // Search for categories in the database
+      const categorySearch = await Category.findAll({
+        where: { name: categories },
+      });
+
+      // Check if all categories exist
+      if (categorySearch.length !== categories.length) {
+        throw new Error("One or more categories do not exist");
+      }
+
+      // Remove the found categories to the item
+      await this.$remove("categories", categorySearch);
+    } catch (error) {
+      logger.error("Error removing category: ", error);
+      throw new Error("Error removing category");
+    }
+  }
 
   // Remove from Category
 }

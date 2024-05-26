@@ -7,14 +7,21 @@ import Item from "./Item";
     tableName: "carts",
 })
 class Cart extends Model {
-    @PrimaryKey
-    @AutoIncrement
-    @Column(DataType.INTEGER)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+    })
     id!: number;
 
     @Column({
         type: DataType.INTEGER,
-        defaultValue: 0
+        allowNull: false,
+        defaultValue: 0,
+        validate: {
+            min: 0, // Example: Quantity should not be negative
+        },
     })
     quantity!: number;
 
