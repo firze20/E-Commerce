@@ -103,9 +103,9 @@ class Item extends Model {
 
   @AfterCreate
   static async afterCreateSetQuantityToOne(item: Item) {
-      const stock = await Stock.create({ quantity: 1 });
+      const stock = await Stock.create({ quantity: 1, itemId: item.id });
       await item.$set("stock", stock);
-    
+      await stock.$set("item", item);    
   }
 
   @AfterBulkCreate
