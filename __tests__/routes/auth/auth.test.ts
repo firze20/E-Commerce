@@ -25,6 +25,18 @@ describe("Test Authentication EndPoints", () => {
     expect(response.status).toBe(201);
   });
 
+  test("Sign Up Authentication unexisting role!", async () => {
+    const response = await request(app)
+      .post("/api/e-commerce/auth/signup")
+      .send({
+        username: "Test-User3",
+        email: "test-email4@gmail.com",
+        password: "password-100",
+        roles: ["Client"]
+      });
+    expect(response.status).toBe(400);
+  })
+
   test("Sign In Authentication!", async () => {
     const response = await request(app)
       .post("/api/e-commerce/auth/signin")
