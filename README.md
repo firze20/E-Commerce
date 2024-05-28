@@ -13,9 +13,6 @@
 ### Current stage
 
 - __To Do__:
-    - [ ] __Set up user registration__: Add the logic for handling registration of new users.
-    - [ ] __Set up local login__: Add the logic for handling login using a username and password.
-    - [ ]  __Set up product endpoints__: Add the logic for handling CRUD operations related to products.
     - [ ]  __Set up user endpoints__: Add the logic for handling CRUD operations related to users and their accounts.
     - [ ]  __Set up cart endpoint__: Add the logic for handling CRUD operations related to a user’s cart.
     - [ ]  __Set up checkout endpoint__: Add the logic for handling checkout. There is no need to actually try and charge somebody yet; charging will come in a later evolution of this project. For now, we will assume that all charges succeed for ease of development (still add in error handling to account for times it doesn’t).
@@ -25,9 +22,12 @@
 
 
 - __In Progress__:
-   - [ ] __Plan API endpoints__: Plan the API endpoints that will be used in retrieving data from your database.
+   - [  ]  __Set up product endpoints__: Add the logic for handling CRUD operations related to products.
 
 - __Done__:
+    - [x] __Set up local login__: Add the logic for handling login using a username and password.
+    - [x] __Plan API endpoints__: Plan the API endpoints that will be used in retrieving data from your database.
+    - [x] __Set up user registration__: Add the logic for handling registration of new users.
     - [x] __Connect the app and database__: Set up your application to be able to interface with the PostgreSQL database.
     - [x] __Create PostgreSQL database and tables__: Create a PostgreSQL database and add the tables from your design.
     - [x] __Design the database__: Plan out the different types of data the application will track and how those pieces of data relate.
@@ -255,7 +255,7 @@ __Currently List:__
 - Created 2 seperate databases, one for production, another for testing 
 - [Sequelize Typescript v6](https://sequelize.org/docs/v6/other-topics/typescript/)
 - Jsonwebtokens [Jwt](https://jwt.io/) for authentication
-- [Passport](https://www.passportjs.org/) Local Strategy for Authentication, may add OAuth later
+- [Passport](https://www.passportjs.org/) Jwt Strategy for Authentication, may add OAuth later
 - [Jest](https://jestjs.io/) and [Supertest](https://www.npmjs.com/package/supertest) for unit and integration tests TDD
 
 *Note I'm defining 2 passport strategies, passport local for signin and register and jwt strategy to verify protected routes that require authentication*
