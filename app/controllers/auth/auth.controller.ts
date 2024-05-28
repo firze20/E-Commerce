@@ -75,7 +75,13 @@ const signIn = async (req: Request, res: Response) => {
         message: "User authenticated",
     })
 
-  } catch (err: any) {}
+  } catch (err: any) {
+    if (!res.headersSent) {
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  }
 };
 
 export { signUp as signUpController, signIn as signInController };
