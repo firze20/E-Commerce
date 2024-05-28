@@ -245,6 +245,30 @@ ALTER TABLE "purchase_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id
 
 *Note you should store your ``.env`` file in the root of the project*
 
+__Enviroment Setup Template__
+
+```sh
+NODE_ENV=
+PORT=   
+DB_HOST=
+DB_NAME=
+DB_TEST=
+DB_PASSWORD=
+DB_USER=
+DB_DRIVER=
+JWT_SECRET=
+JWT_EXPIRATION=
+JWT_REFRESH_EXPIRATION=
+JWT_VALIDATION_EXPIRATION=
+
+SUPER_USER_USERNAME=
+SUPER_USER_PASSWORD=
+SUPER_USER_EMAIL=
+SUPER_USER_FIRST_NAME=
+SUPER_USER_LAST_NAME=
+SUPER_USER_AGE=
+```
+
 # Project annotations
 
 In this project I'm setting up an express with Typescript, I opted for a ORM to integrate the app with the database.
