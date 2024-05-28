@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 
 const signUp = async (req: Request, res: Response) => {
   try {
-    const { username, password, email, name, age, roles } = req.body;
+    const { username, password, email, name, age } = req.body;
     const user = await User.create({
       username,
       password,
@@ -15,7 +15,7 @@ const signUp = async (req: Request, res: Response) => {
       name,
       age,
     });
-    
+
     if(req.roles) {
       const rolesToAssign = req.roles.map(role => role.name);
       user.addRoles(rolesToAssign);
