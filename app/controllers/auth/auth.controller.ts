@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import User from "../../database/models/User";
-import Role from "../../database/models/Role";
 import logger from "../../utils/logger";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
