@@ -16,16 +16,21 @@ const signUp = async (req: Request, res: Response) => {
       age,
     });
 
-    if (roles) {
-      const findRoles = await Role.findAll({
-        where: {
-          name: roles,
-        },
-      });
+    // if (roles) {
+    //   const findRoles = await Role.findAll({
+    //     where: {
+    //       name: roles,
+    //     },
+    //   });
 
-      if (findRoles) {
-        user.addRoles(roles);
-      }
+    //   if (findRoles) {
+    //     user.addRoles(roles);
+    //   }
+    // }
+
+    if(req.roles) {
+      const rolesToAssign = req.roles.map(role => role.name);
+      user.addRoles(rolesToAssign);
     }
 
     logger.info(`User ${user.username} created!`);
