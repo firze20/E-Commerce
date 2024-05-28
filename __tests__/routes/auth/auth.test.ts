@@ -20,7 +20,7 @@ describe("Test Authentication EndPoints", () => {
         username: "Test-User",
         email: "test-email@gmail.com",
         password: "password-100",
-        roles: ["User"]
+        roles: ["User"],
       });
     expect(response.status).toBe(201);
   });
@@ -32,10 +32,10 @@ describe("Test Authentication EndPoints", () => {
         username: "Test-User3",
         email: "test-email4@gmail.com",
         password: "password-100",
-        roles: ["Client"]
+        roles: ["Client"],
       });
     expect(response.status).toBe(400);
-  })
+  });
 
   test("Sign In Authentication!", async () => {
     const response = await request(app)
@@ -46,11 +46,11 @@ describe("Test Authentication EndPoints", () => {
       });
     expect(response.status).toBe(200); // Expect to be status code 200
     const cookieHeader = response.headers["set-cookie"];
-    expect(cookieHeader).toBeDefined() // Expect Cookie to be set
+    expect(cookieHeader).toBeDefined(); // Expect Cookie to be set
 
-    const cookies = Array.isArray(cookieHeader)? cookieHeader : [cookieHeader];
+    const cookies = Array.isArray(cookieHeader) ? cookieHeader : [cookieHeader];
 
-    const jwtCookie = cookies.find(cookie => cookie.startsWith("jwt="));
+    const jwtCookie = cookies.find((cookie) => cookie.startsWith("jwt="));
 
     expect(jwtCookie).toBeDefined(); // Expect JWT Cookie to be set
   });
