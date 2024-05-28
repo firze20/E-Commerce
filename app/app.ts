@@ -13,7 +13,5 @@ app.listen(port, async() => {
   logger.info(`Server running on port ${port}`);
   //Connect and sync with models inside models folder, migration to postgres
   await connectDatabase();
-
-  
 });
 
