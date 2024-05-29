@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, HasMany, BelongsToMany } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, HasMany, BelongsToMany, AfterCreate } from "sequelize-typescript";
 import RefreshToken from "./RefreshToken";
 import Cart from "./Cart";
 import Role from "./Role";
@@ -79,9 +79,19 @@ class User extends Model {
     @BelongsToMany(() => Role, () => UserRole)
     roles!: Role[];
 
+    // Hash Password before storing in the database
+
     @BeforeCreate
     static async hashPassword(user: User) {
         user.password = await bcrypt.hash(user.password, 10);
+    }
+
+    // Create user Cart after user created 
+
+    @AfterCreate
+    static async createUserCart(user: User) {
+        const cart = await Cart.create({ userId: user.id });
+        await user.$set('cart', cart);
     }
 
     // Check if user has specific role 
