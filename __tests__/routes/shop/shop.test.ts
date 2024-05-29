@@ -18,8 +18,11 @@ describe("Test Shop EndPoints", () => {
       .get("/api/e-commerce/store")
       .expect(200)
       .expect((res) => {
-        expect(res.body).toBeDefined();
-        expect(res.body).toBeInstanceOf(Array);
+        expect(res.body.items).toBeDefined();
       })
   })
+
+  afterAll(async () => {
+    await dbTeardown();
+  });
 })
