@@ -24,7 +24,6 @@ import PurchaseItem from "./PurchaseItem";
 import logger from "../../utils/logger";
 import sequelizeConnection from "../db.config";
 
-
 @Table({
   tableName: "items",
   timestamps: true,
@@ -85,35 +84,44 @@ class Item extends Model {
   @UpdatedAt
   updatedAt!: Date;
 
-  // After create auto add 1 in stock
-
-  // @AfterCreate
-  // static async afterCreateHook(instance: Item) {
-  //   const transaction = await sequelizeConnection.transaction();
-  //   try {
-  //     const stock = await Stock.create({ quantity: 1 }, { transaction });
-  //     await instance.$set('stock', stock, { transaction });
-  //     await transaction.commit();
-  //   } catch (error) {
-  //     await transaction.rollback();
-  //     logger.error('Error adding stock: ', error);
-  //     throw new Error('Error adding stock');
-  //   }
-  // }
-
   @AfterCreate
   static async afterCreateSetQuantityToOne(item: Item) {
-      const stock = await Stock.create({ quantity: 1, itemId: item.id });
-      await item.$set("stock", stock);
-      await stock.$set("item", item);    
+    const stock = await Stock.create({ quantity: 1, itemId: item.id });
+    await item.$set("stock", stock);
+    await stock.$set("item", item);
   }
 
   @AfterBulkCreate
   static async afterBulkCreateSetQuantityToOne(items: Item[]) {
-    items.forEach(async item => {
+    items.forEach(async (item) => {
       const stock = await Stock.create({ quantity: 1, itemId: item.id });
       await item.$set("stock", stock);
       await stock.$set("item", item);
+    });
+  }
+
+  // Set newly created item to Undefined Category
+
+  @AfterCreate
+  static async afterCreateItemSetCategoryToItem(item: Item) {
+    const undefinedCategory = await Category.findAll({
+      where: { name: "Undefined" },
+    });
+    if (undefinedCategory) {
+      await item.$add("categories", undefinedCategory);
+    }
+  }
+
+  // Set All Items to Undefined category
+  @AfterBulkCreate
+  static async afterBulkCreateSetCategoryToItem(items: Item[]) {
+    items.forEach(async (item) => {
+      const undefinedCategory = await Category.findAll({
+        where: { name: "Undefined" },
+      });
+      if (undefinedCategory) {
+        await item.$add("categories", undefinedCategory);
+      }
     });
   }
 
