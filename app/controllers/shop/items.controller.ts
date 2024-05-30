@@ -1,8 +1,13 @@
 import { Request, Response } from "express";
 
+import format from "../../helpers/format";
+
 import Item from "../../database/models/Item";
 import Stock from "../../database/models/Stock";
 import Category from "../../database/models/Category";
+
+// Helper Format Item Response
+const {formatItem} = format;
 
 const getItemsFromStore = async (req: Request, res: Response) => {
   const { page = 1, limit = 10, category } = req.query; // Get the query params
@@ -91,24 +96,14 @@ const getItem = async (req: Request, res: Response) => {
       return res.status(404).send({ message: "Item not found" });
     }
 
-    const itemResponse = formatItemResponse(item);
+    const itemResponse = formatItem(item);
     return res.status(200).send({ item: itemResponse });
   } catch (error) {
     return res.status(500).send({ message: "Error getting item" });
   }
 };
 
-const formatItemResponse = (item: Item) => {
-  return {
-    id: item.id,
-    name: item.name,
-    description: item.description,
-    price: item.price,
-    image: item.image,
-    stock: item.stock.quantity,
-    categories: item.categories.map((category: any) => category.name),
-  };
-};
+
 
 
 const createItem = async (req: Request, res: Response) => {
