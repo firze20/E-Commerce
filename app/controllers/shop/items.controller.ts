@@ -45,6 +45,8 @@ const getItemsFromStore = async (req: Request, res: Response) => {
       include,
       limit: parsedLimit,
       offset,
+      attributes: ["id", "name", "description", "price", "image"],
+      order: [["id", "DESC"]],
     });
 
     const totalPages = Math.ceil(totalItems / parsedLimit);

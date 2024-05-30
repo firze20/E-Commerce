@@ -4,8 +4,6 @@ import { getItemsFromStoreController } from "../../controllers/shop/items.contro
 
 const shopRouter = Router();
 
-// Get all Items from Store
-
 shopRouter.get("/", getItemsFromStoreController);
 
 export default shopRouter;
