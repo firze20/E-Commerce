@@ -10,13 +10,13 @@ const mainRouter = Router();
 
 
 /**
- * @oepnapi
+ * @openapi
  * /api/e-commerce:
  *  get:
- *      tag: 
+ *      tags: 
  *         - Welcome Message
- *         description: "This is just a welcome message, indicating that the server is up and running."
- *         responses:
+ *      description: "This is just a welcome message, indicating that the server is up and running."
+ *      responses:
  *              200:
  *                  description: Server is up and running
  */
