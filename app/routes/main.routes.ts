@@ -19,7 +19,24 @@ const mainRouter = Router();
  *      responses:
  *              200:
  *                  description: Server is up and running
- */
+ *                  content: 
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  message:
+ *                                      type: string
+ *                                      example: Welcome to E-Commerce API!
+*              500:
+ *                  description: Something is wrong Bad Request
+ *                  content: 
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  message:
+ *                                      type: string
+ */                 
 mainRouter.get("/", (req: Request, res: Response) => {
     res.status(200).send({"message": "Welcome to E-Commerce API!"});
 });
