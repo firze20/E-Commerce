@@ -37,6 +37,14 @@
 
 ### Docker Command
 
+__First time ? Run Docker compose Build__
+
+```shell
+docker-compose up --build 
+```
+
+__Next time just run this:__
+
 ```shell
 docker-compose up -d
 ```
