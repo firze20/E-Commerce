@@ -22,7 +22,7 @@
 
 
 - __In Progress__:
-   - [  ]  __Set up product endpoints__: Add the logic for handling CRUD operations related to products.
+   - [ ]  __Set up product endpoints__: Add the logic for handling CRUD operations related to products.
 
 - __Done__:
     - [x] __Set up local login__: Add the logic for handling login using a username and password.
