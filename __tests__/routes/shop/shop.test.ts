@@ -20,7 +20,16 @@ describe("Test Shop EndPoints", () => {
       .expect((res) => {
         expect(res.body.items).toBeDefined();
       })
-  })
+  });
+
+  test("Get a single shop item!", async () => {
+    const response = await request(app)
+      .get("/api/e-commerce/store/item/1")
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.item).toBeDefined();
+      })
+  });
 
   afterAll(async () => {
     await dbTeardown();
