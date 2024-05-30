@@ -8,6 +8,8 @@ import { unknownEndpoint } from "./unknown/unknown.routes";
 
 const mainRouter = Router();
 
+
+
 mainRouter.get("/", (req: Request, res: Response) => {
     res.status(200).send({"message": "Welcome to E-Commerce API!"});
 });

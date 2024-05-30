@@ -5,6 +5,7 @@ import { connectDatabase } from "./utils/connect";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
+
 const app = createServer();
 
 const port = process.env.PORT || 3000;
@@ -13,7 +14,7 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Your API Title',
+      title: 'E-Commerce REST API',
       version: '1.0.0',
     },
   },
