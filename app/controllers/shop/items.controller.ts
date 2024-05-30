@@ -64,6 +64,53 @@ const getItemsFromStore = async (req: Request, res: Response) => {
   }
 };
 
+const getItem = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const include = [
+    {
+      model: Stock,
+      as: "stock",
+      attributes: ["quantity"],
+    },
+    {
+      model: Category,
+      as: "categories",
+      attributes: ["name"],
+      through: { attributes: [] }, // To remove the join table attributes
+    },
+  ];
+
+  try {
+    const item = await Item.findOne({
+      where: { id },
+      include,
+    });
+
+    if (!item) {
+      return res.status(404).send({ message: "Item not found" });
+    }
+
+    const itemResponse = formatItemResponse(item);
+    return res.status(200).send({ item: itemResponse });
+  } catch (error) {
+    return res.status(500).send({ message: "Error getting item" });
+  }
+};
+
+const formatItemResponse = (item: Item) => {
+  return {
+    id: item.id,
+    name: item.name,
+    description: item.description,
+    price: item.price,
+    image: item.image,
+    stock: item.stock.quantity,
+    categories: item.categories.map((category: any) => category.name),
+  };
+};
+
+
 const createItem = async (req: Request, res: Response) => {
   const { name, description, price, image, categories } = req.body;
 
@@ -90,7 +137,10 @@ const createItem = async (req: Request, res: Response) => {
   }
 };
 
+
+
 export {
   getItemsFromStore as getItemsFromStoreController,
+  getItem as getItemController,
   createItem as createItemController,
 };

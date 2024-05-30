@@ -1,9 +1,11 @@
 import { Router } from "express";
 
-import { getItemsFromStoreController } from "../../controllers/shop/items.controller";
+import { getItemsFromStoreController, getItemController } from "../../controllers/shop/items.controller";
 
 const shopRouter = Router();
 
 shopRouter.get("/", getItemsFromStoreController);
+
+shopRouter.get("/item/:id", getItemController);
 
 export default shopRouter;
