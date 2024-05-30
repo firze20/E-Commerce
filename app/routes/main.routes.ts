@@ -9,7 +9,17 @@ import { unknownEndpoint } from "./unknown/unknown.routes";
 const mainRouter = Router();
 
 
-
+/**
+ * @oepnapi
+ * /api/e-commerce:
+ *  get:
+ *      tag: 
+ *         - Welcome Message
+ *         description: "This is just a welcome message, indicating that the server is up and running."
+ *         responses:
+ *              200:
+ *                  description: Server is up and running
+ */
 mainRouter.get("/", (req: Request, res: Response) => {
     res.status(200).send({"message": "Welcome to E-Commerce API!"});
 });
