@@ -3,7 +3,9 @@ import User from '../../database/models/User';
 
 
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-   
+
 }
 
-export default isAdmin;
+export {
+    isAdmin
+}
