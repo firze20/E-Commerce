@@ -18,7 +18,7 @@ const options: swaggerJsdoc.Options = {
 
 const swaggerSpecs = swaggerJsdoc(options);
 
-function swaggerDocs(app: Express) {
+function swaggerDocs(app: Express, port: number) {
   // Swagger Page
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
@@ -29,7 +29,9 @@ function swaggerDocs(app: Express) {
     res.send(swaggerSpecs);
   });
 
-  logger.info("Swagger documentation is available at http://localhost:3000/api-docs");
+  logger.info(
+    `Swagger documentation is available at http://localhost:${port}/api-docs/`
+  );
 }
 
 export default swaggerDocs;
