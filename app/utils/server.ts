@@ -6,11 +6,11 @@ import morgan from "morgan";
 //Routes
 import mainRouter from "../routes";
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === "development";
 
 function createServer() {
   const app = express();
-  
+
   // Global Middlewares
 
   app.use(express.json());
@@ -21,11 +21,11 @@ function createServer() {
 
   app.use(express.urlencoded({ extended: true }));
 
-  app.use(helmet()); // to hide the type of application 
+  app.use(helmet()); // to hide the type of application
 
-  app.use(morgan(isDev ? 'dev' : 'tiny'))
+  app.use(morgan(isDev ? "dev" : "tiny"));
 
-  //passport middleware 
+  //passport middleware
   app.use(passport.initialize()); // helps secure endpoints
 
   // End Global Middlewares

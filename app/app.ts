@@ -2,28 +2,10 @@ import logger from "./utils/logger";
 import createServer from "./utils/server";
 import { connectDatabase } from "./utils/connect";
 
-import swaggerUi from 'swagger-ui-express';
-import swaggerJsdoc from 'swagger-jsdoc';
-
-
 const app = createServer();
 
 const port = process.env.PORT || 3000;
 
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'E-Commerce REST API',
-      version: '1.0.0',
-    },
-  },
-  apis: ['./routes/*.ts'], // Path to the API docs
-};
-
-const specs = swaggerJsdoc(options);
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Start the server async so it can sync the database 
 app.listen(port, async () => {
