@@ -28,7 +28,7 @@ const mainRouter = Router();
  *                                      type: string
  *                                      example: Welcome to E-Commerce API!
 *              500:
- *                  description: Something is wrong Bad Request
+ *                  description: Server error!
  *                  content: 
  *                      application/json:
  *                          schema:
