@@ -7,6 +7,11 @@ export const checkRolesExistance = async (req: Request, res: Response, next: Nex
     if(!roles) {
        return next(); // If no roles were provided in req.body just return next
     }
+
+    // Allow only the "User" role
+
+    // const allowedRoles = ["User"];
+
     try {
         const findRoles = await Role.findAll({
             where: {

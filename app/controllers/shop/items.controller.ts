@@ -62,4 +62,33 @@ const getItemsFromStore = async (req: Request, res: Response) => {
   }
 };
 
-export { getItemsFromStore as getItemsFromStoreController };
+const createItem = async (req: Request, res: Response) => {
+  const { name, description, price, image, categories } = req.body;
+
+  try {
+    const item = await Item.create({
+      name,
+      description,
+      price,
+      image,
+    });
+
+    if (categories) {
+      await item.addCategory(categories);
+    }
+
+    res.status(201).send({
+      message: "Item created!",
+      item,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error creating item",
+    });
+  }
+};
+
+export {
+  getItemsFromStore as getItemsFromStoreController,
+  createItem as createItemController,
+};
