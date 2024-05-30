@@ -4,8 +4,16 @@ import Role from "../database/models/Role";
 
 declare global {
     namespace Express {
-        interface Request {
-            roles: Role[]; // May make it optional later not sure if it will cause problems 
+        interface User {
+            id: number;
+            username: string;
+            email: string;
+            name?: string;
+            age?: number;
         }
+        interface Request {
+            roles?: Role[]; // May make it optional later not sure if it will cause problems 
+            user?: User;
+        };
     }
 }
