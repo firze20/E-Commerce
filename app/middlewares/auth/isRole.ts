@@ -18,6 +18,8 @@ const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
         } catch (error) {
             res.status(500).send({ message: "Server error" });
         }
+    } else {
+        return res.status(401).send({ message: "You are not logged in" });
     }
 }
 
