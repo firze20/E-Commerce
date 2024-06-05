@@ -13,7 +13,6 @@
 ### Current stage
 
 - __To Do__:
-    - [ ]  __Set up user endpoints__: Add the logic for handling CRUD operations related to users and their accounts.
     - [ ]  __Set up cart endpoint__: Add the logic for handling CRUD operations related to a user’s cart.
     - [ ]  __Set up checkout endpoint__: Add the logic for handling checkout. There is no need to actually try and charge somebody yet; charging will come in a later evolution of this project. For now, we will assume that all charges succeed for ease of development (still add in error handling to account for times it doesn’t).
     - [ ]  __Set up order endpoint__: Add the logic for handling CRUD operations related to orders.
@@ -22,9 +21,10 @@
 
 
 - __In Progress__:
-   - [ ]  __Set up product endpoints__: Add the logic for handling CRUD operations related to products.
+    - [ ]  __Set up user endpoints__: Add the logic for handling CRUD operations related to users and their accounts.
 
 - __Done__:
+    - [x]  __Set up product endpoints__: Add the logic for handling CRUD operations related to products.
     - [x] __Set up local login__: Add the logic for handling login using a username and password.
     - [x] __Plan API endpoints__: Plan the API endpoints that will be used in retrieving data from your database.
     - [x] __Set up user registration__: Add the logic for handling registration of new users.
