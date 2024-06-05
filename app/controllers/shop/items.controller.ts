@@ -7,7 +7,7 @@ import Stock from "../../database/models/Stock";
 import Category from "../../database/models/Category";
 
 // Helper Format Item Response
-const {formatItem} = format;
+const { formatItem } = format;
 
 const getItemsFromStore = async (req: Request, res: Response) => {
   const { page = 1, limit = 10, category } = req.query; // Get the query params
@@ -103,9 +103,6 @@ const getItem = async (req: Request, res: Response) => {
   }
 };
 
-
-
-
 const createItem = async (req: Request, res: Response) => {
   const { name, description, price, image, categories } = req.body;
 
@@ -132,10 +129,60 @@ const createItem = async (req: Request, res: Response) => {
   }
 };
 
+const deleteItem = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const item = await Item.findByPk(id);
+    if (!item) {
+      return res.status(404).send({ message: "Item not found" });
+    }
+    await item.destroy();
+    res.status(200).send({
+      message: "Item deleted!",
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error deleting item",
+    });
+  }
+};
 
+const updateItem = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { name, description, price, image, categories } = req.body;
+
+  try {
+    const item = await Item.findByPk(id);
+    if (!item) {
+      return res.status(404).send({ message: "Item not found" });
+    }
+
+    await item.update({
+      name,
+      description,
+      price,
+      image,
+    });
+
+    if (categories) {
+      await item.addCategory(categories);
+    }
+
+    res.status(200).send({
+      message: "Item updated!",
+      item,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error updating item",
+    });
+  }
+};
 
 export {
   getItemsFromStore as getItemsFromStoreController,
   getItem as getItemController,
   createItem as createItemController,
+  deleteItem as deleteItemController,
+  updateItem as updateItemController,
 };
