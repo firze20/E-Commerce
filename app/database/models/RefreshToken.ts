@@ -22,7 +22,7 @@ class RefreshToken extends Model {
     @Column({
         type: DataType.DATE,
     })
-    declare expirityDate: string;
+    declare expirityDate: Date;
 
     
     @ForeignKey(() => User)
@@ -55,7 +55,11 @@ class RefreshToken extends Model {
         });
 
         return refreshToken;
+    }
 
+    // Verify Expiration
+    verifyExpiration(token: RefreshToken) {
+        return token.expirityDate.getTime() < new Date().getTime();
     }
 }
 
