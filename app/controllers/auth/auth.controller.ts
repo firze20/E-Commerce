@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import User from "../../database/models/User";
 import logger from "../../utils/logger";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { generateToken } from "../../utils/jwt";
 
 const signUp = async (req: Request, res: Response) => {
   try {
@@ -63,7 +63,7 @@ const signIn = async (req: Request, res: Response) => {
 
     const roles = foundUser!.roles.map(role => role.name);
 
-    const token = jwt.sign({ id: foundUser!.id, name: foundUser!.name, roles: roles}, process.env.JWT_SECRET as string, { expiresIn: "1h" });
+    const token = generateToken(foundUser!, roles);
 
     // Set JWT in an HTTP-only cookie
     res.cookie('jwt', token, {
