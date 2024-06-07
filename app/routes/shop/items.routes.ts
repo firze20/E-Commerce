@@ -176,7 +176,7 @@ shopRouter.get("/item/:id", getItemController);
  *       - Items
  *     description: "Create a new item in the store."
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -249,7 +249,7 @@ shopRouter.get("/item/:id", getItemController);
  *       401:
  *         description: "Unauthorized"
  *         content:
- *           application/json:
+ *           text:
  *             schema:
  *               type: object
  *               properties:

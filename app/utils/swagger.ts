@@ -12,6 +12,17 @@ const options: swaggerJsdoc.Options = {
         "A portfolio project for E-Commerce REST API using Node.js, Express, TypeScript, TypeORM, PostgreSQL, Docker, and more.",
       version: "1.0.0",
     },
+    components: {
+      securitySchemes: {
+        cookieAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+          in: "cookie",
+          name: "jwt",
+        },
+      }
+    }
   },
   apis: ["./app/routes/**/*.ts"], // Path to the API docs// Path to the API docs
 };
