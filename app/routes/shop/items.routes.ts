@@ -9,7 +9,7 @@ import {
 } from "../../controllers/shop/items.controller";
 
 import { authenticateJwt } from "../../middlewares/passport/passportJWT";
-import { isAdmin } from "../../middlewares/auth";
+import { isManager } from "../../middlewares/auth";
 
 const shopRouter = Router();
 
@@ -267,7 +267,7 @@ shopRouter.get("/item/:id", getItemController);
  *                   type: string
  *                   example: "Error creating item"
  */
-shopRouter.post("/item", [authenticateJwt, isAdmin], createItemController);
+shopRouter.post("/item", [authenticateJwt, isManager], createItemController);
 /**
  * @openapi
  * /api/e-commerce/store/item/{id}:
@@ -336,7 +336,7 @@ shopRouter.post("/item", [authenticateJwt, isAdmin], createItemController);
  */
 shopRouter.delete(
   "/item/:id",
-  [authenticateJwt, isAdmin],
+  [authenticateJwt, isManager],
   deleteItemController
 );
 /**
@@ -435,6 +435,6 @@ shopRouter.delete(
  *                   type: string
  *                   example: "Error updating item"
  */
-shopRouter.put("/item/:id", [authenticateJwt, isAdmin], updateItemController);
+shopRouter.put("/item/:id", [authenticateJwt, isManager], updateItemController);
 
 export default shopRouter;
