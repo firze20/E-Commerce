@@ -249,13 +249,10 @@ shopRouter.get("/item/:id", getItemController);
  *       401:
  *         description: "Unauthorized"
  *         content:
- *           text:
+ *           text/plain:
  *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Unauthorized"
+ *               type: string
+ *               example: "Unauthorized"
  *       500:
  *         description: "Error creating item"
  *         content:

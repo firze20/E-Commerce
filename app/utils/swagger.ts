@@ -15,11 +15,10 @@ const options: swaggerJsdoc.Options = {
     components: {
       securitySchemes: {
         cookieAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
+          type: "apiKey",
           in: "cookie",
           name: "jwt",
+          description: "JWT token for authentication stored in a cookie",
         },
       }
     }
