@@ -21,7 +21,7 @@
 
 
 - __In Progress__:
-    - [ ]  __Set up user endpoints__: Add the logic for handling CRUD operations related to users and their accounts.
+    - [ ]  __Set up user endpoints__: Add the logic for handling CRUD operations related to users and their accounts. (Implementing Refresh Tokens at the moment)
 
 - __Done__:
     - [x]  __Set up product endpoints__: Add the logic for handling CRUD operations related to products.

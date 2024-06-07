@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User from "../../database/models/User";
+import RefreshToken from "../../database/models/RefreshToken";
 import logger from "../../utils/logger";
 import bcrypt from "bcrypt";
 import { generateToken } from "../../utils/jwt";
@@ -67,9 +68,9 @@ const signIn = async (req: Request, res: Response) => {
 
     // Set JWT in an HTTP-only cookie
     res.cookie('jwt', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
+        secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
+        sameSite: "strict", // helps mitigate CSRF attacks 
         maxAge: 3600000,
     })
 
