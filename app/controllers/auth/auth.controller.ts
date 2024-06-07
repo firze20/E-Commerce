@@ -60,7 +60,7 @@ const signIn = async (req: Request, res: Response) => {
         });
     }
 
-    const token = jwt.sign({ id: foundUser!.id}, process.env.JWT_SECRET as string, { expiresIn: "1h" });
+    const token = jwt.sign({ id: foundUser!.id, name: foundUser!.name}, process.env.JWT_SECRET as string, { expiresIn: "1h" });
 
     // Set JWT in an HTTP-only cookie
     res.cookie('jwt', token, {
