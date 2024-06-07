@@ -42,7 +42,8 @@ const signIn = async (req: Request, res: Response) => {
     const foundUser = await User.findOne({
         where: {
             [username && "username" || email && "email"]: username || email,
-        }
+        },
+        include: ["roles"],
     })
 
     if(!foundUser){
@@ -60,7 +61,9 @@ const signIn = async (req: Request, res: Response) => {
         });
     }
 
-    const token = jwt.sign({ id: foundUser!.id, name: foundUser!.name}, process.env.JWT_SECRET as string, { expiresIn: "1h" });
+    const roles = foundUser!.roles.map(role => role.name);
+
+    const token = jwt.sign({ id: foundUser!.id, name: foundUser!.name, roles: roles}, process.env.JWT_SECRET as string, { expiresIn: "1h" });
 
     // Set JWT in an HTTP-only cookie
     res.cookie('jwt', token, {
