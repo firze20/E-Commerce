@@ -22,13 +22,26 @@ const jwtOptions: StrategyOptions = {
 passport.use(
   new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
     try {
-      const user = await User.findOne({ where: { id: jwtPayload.id } });
+      const user = await User.findOne(
+        { 
+          where: { id: jwtPayload.id },
+          include: ["roles"],
+        }, 
+        
+      );
 
       if (!user) {
         return done(null, false, { message: 'User not found' });
       }
 
-      return done(null, user);
+      const roles = user.roles.map(role => role.name);
+
+      const userInfo = {
+        ...user,
+        roles,
+      }
+
+      return done(null, userInfo);
     } catch (err) {
       return done(err);
     }

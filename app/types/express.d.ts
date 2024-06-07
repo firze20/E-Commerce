@@ -10,6 +10,7 @@ declare global {
             email: string;
             name?: string;
             age?: number;
+            roles?: string[];
         }
         interface Request {
             roles?: Role[]; // May make it optional later not sure if it will cause problems 
