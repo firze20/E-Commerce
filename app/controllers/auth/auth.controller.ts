@@ -71,8 +71,17 @@ const signIn = async (req: Request, res: Response) => {
         httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
         secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
         sameSite: "strict", // helps mitigate CSRF attacks 
-        maxAge: 3600000,
-    })
+        maxAge: 3600000, 
+    });
+
+    const refreshToken = await RefreshToken.createToken(foundUser!);
+
+    res.cookie('refreshToken', refreshToken.token, {
+        httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
+        secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
+        sameSite: "strict", // helps mitigate CSRF attacks
+        maxAge: Number(process.env.JWT_REFRESH_EXPIRATION) * 1000,
+    });
 
     res.status(200).send({
         message: "User authenticated",
@@ -86,5 +95,9 @@ const signIn = async (req: Request, res: Response) => {
     }
   }
 };
+
+const refreshToken = async (req: Request, res: Response) => {
+
+}
 
 export { signUp as signUpController, signIn as signInController };

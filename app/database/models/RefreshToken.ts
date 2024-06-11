@@ -1,6 +1,9 @@
 import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, BelongsTo, ForeignKey } from "sequelize-typescript";
 import User from "./User";
-import { v4 as uuidv4 } from "uuid";
+import {generateRefreshToken} from "../../utils/jwt";
+
+const refreshTokenExpirity = Number(process.env.REFRESH_TOKEN_EXPIRITY) ||  345600; // 345600 seconds = 4 days
+
 
 @Table({
     tableName: "refresh_tokens",
@@ -40,13 +43,13 @@ class RefreshToken extends Model {
     @UpdatedAt
     declare updatedAt: Date;
 
-    async createToken(user: User) {
+    static async createToken(user: User) {
         let expiredAt = new Date();
 
         // Later will have to define a Refresh Expire time in config 
-        expiredAt.setSeconds(expiredAt.getSeconds() + 60 * 60 * 24 * 30);
+        expiredAt.setSeconds(expiredAt.getSeconds() + refreshTokenExpirity);
 
-        let _token = uuidv4(); 
+        let _token = generateRefreshToken(user);
 
        let refreshToken = await RefreshToken.create({
             token: _token,

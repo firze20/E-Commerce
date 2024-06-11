@@ -1,6 +1,7 @@
 import request from "supertest";
 import createServer from "../../../app/utils/server";
 import { closeDatabase, connectDatabase } from "../../../app/utils/connect";
+import exp from "constants";
 
 const app = createServer();
 
@@ -52,7 +53,11 @@ describe("Test Authentication EndPoints", () => {
 
     const jwtCookie = cookies.find((cookie) => cookie.startsWith("jwt="));
 
+    const refreshCookie = cookies.find((cookie) => cookie.startsWith("refresh="));
+
     expect(jwtCookie).toBeDefined(); // Expect JWT Cookie to be set
+
+    expect(refreshCookie).toBeDefined(); // Expect Refresh Cookie to be set
   });
 
   afterAll(async () => {

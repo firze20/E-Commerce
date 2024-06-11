@@ -6,5 +6,11 @@ const generateToken = (user: User, roles: string[]) => {
     return token;
 };
 
-export { generateToken };
+const generateRefreshToken = (user: User) => {
+    const refreshToken = jwt.sign({ id: user.id }, process.env.REFRESH_SECRET as string, { expiresIn: "7d" });
+    return refreshToken;
+};
+
+
+export { generateToken, generateRefreshToken };
 
