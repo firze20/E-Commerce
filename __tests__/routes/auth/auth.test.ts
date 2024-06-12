@@ -53,7 +53,7 @@ describe("Test Authentication EndPoints", () => {
 
     const jwtCookie = cookies.find((cookie) => cookie.startsWith("jwt="));
 
-    const refreshCookie = cookies.find((cookie) => cookie.startsWith("refresh="));
+    const refreshCookie = cookies.find((cookie) => cookie.startsWith("refreshToken="));
 
     expect(jwtCookie).toBeDefined(); // Expect JWT Cookie to be set
 

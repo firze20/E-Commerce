@@ -97,7 +97,28 @@ const signIn = async (req: Request, res: Response) => {
 };
 
 const refreshToken = async (req: Request, res: Response) => {
+  try {
+    const { refreshTokenCookie } = req.cookies;
+    if(!refreshTokenCookie) {
+      res.status(403).send({
+        message: "Refresh token is missing, try signup",
+      });
+    }
 
+   
+
+
+
+    
+  } catch (err: any) {
+    if(!res.headersSent) {
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+
+    logger.error(err);
+  }
 }
 
 export { signUp as signUpController, signIn as signInController };

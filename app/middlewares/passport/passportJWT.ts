@@ -3,7 +3,6 @@ import { Request } from 'express';
 import User from '../../database/models/User';
 import dotenv from 'dotenv';
 import passport from 'passport';
-import jwt from "jsonwebtoken";
 
 dotenv.config();
 
