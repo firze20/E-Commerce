@@ -1,7 +1,6 @@
 import request from "supertest";
 import createServer from "../../../app/utils/server";
 import { closeDatabase, connectDatabase } from "../../../app/utils/connect";
-import exp from "constants";
 
 const app = createServer();
 

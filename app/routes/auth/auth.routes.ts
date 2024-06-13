@@ -4,11 +4,13 @@ import {
   checkDuplicateEmail,
   checkDuplicateUsername,
   checkRolesExistance,
+  verifyRefreshToken
 } from "../../middlewares/auth";
 
 import {
   signUpController,
   signInController,
+  refreshTokenController
 } from "../../controllers/auth/auth.controller";
 
 const authRouter = Router();
@@ -88,9 +90,9 @@ const authRouter = Router();
  *                  example: "Server error"
  */
 authRouter.post(
-  "/signup",
-  [checkDuplicateUsername, checkDuplicateEmail, checkRolesExistance],
-  signUpController
+  "/signup", // Route
+  [checkDuplicateUsername, checkDuplicateEmail, checkRolesExistance], // Middlewares
+  signUpController // Controller
 );
 /**
  * @openapi
@@ -157,5 +159,8 @@ authRouter.post(
  *                  example: "Server error"
  */
 authRouter.post("/signin", signInController);
+
+authRouter.post("/refresh-token", [verifyRefreshToken], refreshTokenController);
+
 
 export default authRouter;

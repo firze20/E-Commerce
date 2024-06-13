@@ -5,9 +5,12 @@ import logger from "../../utils/logger";
 import bcrypt from "bcrypt";
 import { generateToken } from "../../utils/jwt";
 
+// Register user
 const signUp = async (req: Request, res: Response) => {
   try {
+    // Get req body
     const { username, password, email, name, age } = req.body;
+    // Create the user
     const user = await User.create({
       username,
       password,
@@ -16,8 +19,9 @@ const signUp = async (req: Request, res: Response) => {
       age,
     });
 
-    if(req.roles) {
-      const rolesToAssign = req.roles.map(role => role.name);
+    // If roles were provided
+    if (req.roles) {
+      const rolesToAssign = req.roles.map((role) => role.name);
       user.addRoles(rolesToAssign);
     }
 
@@ -37,56 +41,64 @@ const signUp = async (req: Request, res: Response) => {
   }
 };
 
+// Login user
 const signIn = async (req: Request, res: Response) => {
   try {
+    // Get req body
     const { username, password, email } = req.body;
+    // Find user
     const foundUser = await User.findOne({
-        where: {
-            [username && "username" || email && "email"]: username || email,
-        },
-        include: ["roles"],
-    })
-
-    if(!foundUser){
-        res.status(404).send({
-            message: "User not found"
-        })
-    };
-
-    // Compare passwords using bcrypt
-    const isPasswordCorrect = await bcrypt.compare(password, foundUser!.password);
-
-    if(!isPasswordCorrect) {
-        res.status(401).send({
-            message: "Invalid credentials"
-        });
+      where: {
+        [(username && "username") || (email && "email")]: username || email,
+      },
+      include: ["roles"],
+    });
+    // If no user found, return
+    if (!foundUser) {
+      return res.status(404).send({
+        message: "User not found",
+      });
     }
 
-    const roles = foundUser!.roles.map(role => role.name);
+    // Compare passwords using bcrypt
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      foundUser!.password
+    );
 
+    // If passwords don't match
+    if (!isPasswordCorrect) {
+      return res.status(401).send({
+        message: "Invalid credentials",
+      });
+    }
+    // Map roles into an array of Strings
+    const roles = foundUser!.roles.map((role) => role.name);
+    // Generate access token
     const token = generateToken(foundUser!, roles);
 
     // Set JWT in an HTTP-only cookie
-    res.cookie('jwt', token, {
-        httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
-        secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
-        sameSite: "strict", // helps mitigate CSRF attacks 
-        maxAge: 3600000, 
+    res.cookie("jwt", token, {
+      httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
+      secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
+      sameSite: "strict", // helps mitigate CSRF attacks
+      maxAge: 3600000,
     });
 
+    // Create RefreshToken in the database
     const refreshToken = await RefreshToken.createToken(foundUser!);
 
-    res.cookie('refreshToken', refreshToken.token, {
-        httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
-        secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
-        sameSite: "strict", // helps mitigate CSRF attacks
-        maxAge: Number(process.env.JWT_REFRESH_EXPIRATION) * 1000,
+    // Set RefreshToken in a HTTP-only Cookie
+    res.cookie("refreshToken", refreshToken.token, {
+      httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
+      secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
+      sameSite: "strict", // helps mitigate CSRF attacks
+      maxAge: Number(process.env.JWT_REFRESH_EXPIRATION) * 1000,
     });
 
     res.status(200).send({
-        message: "User authenticated",
-    })
-
+      message: "User authenticated",
+    });
   } catch (err: any) {
     if (!res.headersSent) {
       res.status(500).send({
@@ -96,29 +108,55 @@ const signIn = async (req: Request, res: Response) => {
   }
 };
 
+// Refresh token to get new access token when expired
 const refreshToken = async (req: Request, res: Response) => {
   try {
-    const { refreshTokenCookie } = req.cookies;
-    if(!refreshTokenCookie) {
-      res.status(403).send({
-        message: "Refresh token is missing, try signup",
+    const { id } = req.user!;
+
+    const user = await User.findOne({
+      where: {
+        id,
+      },
+      include: ["roles"],
+    });
+
+    // If no user found
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
       });
     }
 
-   
+    // Map roles into an array of Strings 
+    const roles = user!.roles.map((role) => role.name);
 
+    // Generate new access token
+    const token = generateToken(user!, roles);
 
+    // Set JWT in an HTTP-only cookie
+    res.cookie("jwt", token, {
+      httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
+      secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
+      sameSite: "strict", // helps mitigate CSRF attacks
+      maxAge: 3600000,
+    });
 
-    
+    // Send message
+    res.status(200).send({
+      message: "Token refreshed",
+    });
   } catch (err: any) {
-    if(!res.headersSent) {
+    if (!res.headersSent) {
       res.status(500).send({
         message: err.message,
       });
     }
-
     logger.error(err);
   }
-}
+};
 
-export { signUp as signUpController, signIn as signInController };
+export {
+  signUp as signUpController,
+  signIn as signInController,
+  refreshToken as refreshTokenController,
+};
