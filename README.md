@@ -298,4 +298,6 @@ __Currently List:__
 - [Passport JWT and Session Authentication Tutorial](https://www.fullstackfoundations.com/blog/passport-jwt)
 - [Express Caching](https://medium.com/@muhammadtaifkhan/cache-your-express-nodejs-api-1e9f80b87c88)
 
+# Things to rework
 
+- [ ] Rework process.env right now alot of repetive, may create config folder that exports all env variables to get consumed by the whole project, jwt and db to be percise
