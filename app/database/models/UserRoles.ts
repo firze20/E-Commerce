@@ -1,7 +1,11 @@
 import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, HasOne, AutoIncrement, BelongsTo, ForeignKey, NotNull } from "sequelize-typescript";
 import User from "./User";
 import Role from "./Role";
-
+/**
+ * Represents a user role mapping in the database.
+ * @class UserRole
+ * @extends Model
+ */
 @Table({
     tableName: "user_roles",
 })

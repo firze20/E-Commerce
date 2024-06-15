@@ -6,6 +6,13 @@ import RefreshToken from "../../database/models/RefreshToken";
 
 import { isJwtPayload, decodeJwtRefreshToken } from "../../utils/jwt";
 
+/**
+ * Middleware to verify the refresh token.
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @param {NextFunction} next - The next middleware function.
+ * @returns {Promise<Response | void>} - Returns a response if the token is invalid, otherwise calls the next middleware.
+ */
 export const verifyRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
   const refreshToken = req.cookies?.refreshToken;
 

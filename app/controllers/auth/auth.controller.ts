@@ -5,7 +5,11 @@ import logger from "../../utils/logger";
 import bcrypt from "bcrypt";
 import { generateToken } from "../../utils/jwt";
 
-// Register user
+/**
+ * Register a new user.
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
 const signUp = async (req: Request, res: Response) => {
   try {
     // Get req body
@@ -41,7 +45,11 @@ const signUp = async (req: Request, res: Response) => {
   }
 };
 
-// Login user
+/**
+ * Log in a user.
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
 const signIn = async (req: Request, res: Response) => {
   try {
     // Get req body
@@ -108,7 +116,11 @@ const signIn = async (req: Request, res: Response) => {
   }
 };
 
-// Refresh token to get new access token when expired
+/**
+ * Refresh the JWT access token using the refresh token.
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
 const refreshToken = async (req: Request, res: Response) => {
   try {
     const { id } = req.user!;
