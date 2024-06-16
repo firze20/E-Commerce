@@ -11,7 +11,7 @@ const {
   isProduction
 } = Context;
 
-const {jwtRefreshExpiration} = AuthConfig;
+const {jwtRefreshExpiration, jwtExpiration} = AuthConfig;
 
 /**
  * Register a new user.
@@ -98,7 +98,7 @@ const signIn = async (req: Request, res: Response) => {
       httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
       secure: isProduction, // ensure the cookie is only sent through https
       sameSite: "strict", // helps mitigate CSRF attacks
-      maxAge: 3600000,
+      maxAge: jwtExpiration,
     });
 
     // Create RefreshToken in the database
@@ -158,7 +158,7 @@ const refreshToken = async (req: Request, res: Response) => {
       httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
       secure: isProduction, // ensure the cookie is only sent through https
       sameSite: "strict", // helps mitigate CSRF attacks
-      maxAge: 3600000,
+      maxAge: jwtExpiration,
     });
 
     // Send message

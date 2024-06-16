@@ -7,7 +7,13 @@ import morgan from "morgan";
 import mainRouter from "../routes";
 
 const isDev = process.env.NODE_ENV === "development";
-
+/**
+ * Creates and configures an Express server.
+ * 
+ * This function sets up an Express server with global middlewares for JSON parsing, cookie parsing,
+ * URL-encoded data parsing, security headers, request logging, and passport initialization. It also
+ * sets up the main API routes for the e-commerce application.
+ */
 function createServer() {
   const app = express();
 
