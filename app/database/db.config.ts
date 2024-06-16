@@ -1,20 +1,23 @@
-// Dotenv config
-
-import dotenv from 'dotenv';
+import Config from "../config/db/db.config";
 import { Sequelize } from 'sequelize-typescript';
 
-dotenv.config();
+const {
+    dataBase,
+    dataBaseUser,
+    dataBaseHost,
+    dataBaseTest,
+    dataBasePassword
+} = Config;
 
 const isTest = process.env.NODE_ENV === 'test';
 const isDev = process.env.NODE_ENV === 'development';
 
 
 // Enviroment Variables
-const dbName = isTest || isDev ? process.env.DB_TEST as string : process.env.DB_NAME as string
-const dbUser = process.env.DB_USER as string
-const dbHost = process.env.DB_HOST
-const dbDriver = process.env.DB_DRIVER
-const dbPassword = process.env.DB_PASSWORD
+const dbName = isTest || isDev ? dataBaseTest : dataBase
+const dbUser = dataBaseUser
+const dbHost = dataBaseHost
+const dbPassword = dataBasePassword
 
 // Sequelize Postgres Connection
 const sequelizeConnection = new Sequelize({

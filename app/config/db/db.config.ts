@@ -5,7 +5,8 @@ dotenv.config();
 /**
  * Configuration type definition.
  * @type {Object} DataBaseConfig
- * @property {string} dataBaseName - The name of the database.
+ * @property {string} dataBase - The name of the database.
+ * @property {string} dataBaseTest - The name of the database for testing.
  * @property {string} dataBaseUser - The user of the database.
  * @property {string} dataBaseHost - The host of the database.
  * @property {string} dataBaseDriver - The driver of the database.
@@ -13,8 +14,8 @@ dotenv.config();
  */
 
 type DataBaseConfig = {
-    dataBaseName: string;
-    dataBaseNameTest: string;
+    dataBase: string;
+    dataBaseTest: string;
     dataBaseUser: string;
     dataBaseHost: string;
     dataBaseDriver: string;
@@ -27,31 +28,31 @@ type DataBaseConfig = {
  * @type {DataBaseConfig}
  */
 const config: DataBaseConfig = {
-    dataBaseName: process.env.DATABASE_NAME as string,
-    dataBaseNameTest: process.env.DB_TEST as string,
-    dataBaseUser: process.env.DATABASE_USER as string,
-    dataBaseHost: process.env.DATABASE_HOST as string,
-    dataBaseDriver: process.env.DATABASE_DRIVER as string,
-    dataBasePassword: process.env.DATABASE_PASSWORD as string,
+    dataBase: process.env.DB_NAME as string,
+    dataBaseTest: process.env.DB_TEST as string,
+    dataBaseUser: process.env.DB_USER as string,
+    dataBaseHost: process.env.DB_HOST as string,
+    dataBaseDriver: process.env.DB_DRIVER as string,
+    dataBasePassword: process.env.DB_PASSWORD as string,
 };
 
-if(!config.dataBaseName){
-    throw new Error('Missing environment variable: DATABASE_NAME');
+if(!config.dataBase){
+    throw new Error('Missing environment variable: DB_NAME');
 };
 
 if(!config.dataBaseUser){
-    throw new Error('Missing environment variable: DATABASE_USER');
+    throw new Error('Missing environment variable: DB_USER');
 }
 
 if(!config.dataBaseHost){
-    throw new Error('Missing environment variable: DATABASE_HOST');
+    throw new Error('Missing environment variable: DB_HOST');
 }
 
 if(!config.dataBasePassword) {
-    throw new Error('Missing environment variable: DATABASE_PASSWORD');
+    throw new Error('Missing environment variable: DB_PASSWORD');
 }
 
-if(!config.dataBaseNameTest) {
+if(!config.dataBaseTest) {
     throw new Error('Missing environment variable: DB_TEST');
 }
 
