@@ -1,5 +1,5 @@
-import { Express } from 'express';
+import { Express } from "express";
 
 declare global {
-  var app: Express;
+  var __APP__: Express; 
 }

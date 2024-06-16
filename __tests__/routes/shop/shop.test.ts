@@ -1,10 +1,11 @@
 import request from "supertest";
 
+const app = global.__APP__;
 
 describe("Test Shop EndPoints", () => {
  
   test("Test shop items list!", async () => {
-    const response = await request(globalThis.app)
+    const response = await request(app)
       .get("/api/e-commerce/store")
       .expect(200)
       .expect((res) => {
@@ -13,7 +14,7 @@ describe("Test Shop EndPoints", () => {
   });
 
   test("Get a single shop item!", async () => {
-    const response = await request(globalThis.app)
+    const response = await request(app)
       .get("/api/e-commerce/store/item/1")
       .expect(200)
       .expect((res) => {

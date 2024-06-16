@@ -1,9 +1,11 @@
 import request from "supertest";
 
+const app = global.__APP__;
+
 describe("Test Authentication EndPoints", () => {
 
   test("Sign Up Authentication!", async () => {
-    const response = await request(globalThis.app)
+    const response = await request(app)
       .post("/api/e-commerce/auth/signup")
       .send({
         username: "Test-User",
@@ -15,7 +17,7 @@ describe("Test Authentication EndPoints", () => {
   });
 
   test("Sign Up Authentication unexisting role!", async () => {
-    const response = await request(globalThis.app)
+    const response = await request(app)
       .post("/api/e-commerce/auth/signup")
       .send({
         username: "Test-User3",
@@ -27,7 +29,7 @@ describe("Test Authentication EndPoints", () => {
   });
 
   test("Sign In Authentication!", async () => {
-    const response = await request(globalThis.app)
+    const response = await request(app)
       .post("/api/e-commerce/auth/signin")
       .send({
         username: "Test-User",
