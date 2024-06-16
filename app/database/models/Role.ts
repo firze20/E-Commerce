@@ -5,13 +5,13 @@ import User from "./User";
 /**
  * Represents a role that can be assigned to users.
  * @class Role
- * @extends {Model<Role>}
+ * @extends {Model}
  */
 @Table({
     tableName: "roles",
     timestamps: true
 })
-class Role extends Model<Role> {
+class Role extends Model {
     /**
      * The unique identifier for the role.
      * @type {number}

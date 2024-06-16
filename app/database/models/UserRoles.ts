@@ -5,12 +5,12 @@ import Role from "./Role";
 /**
  * Represents a user role mapping in the database.
  * @class UserRole
- * @extends {Model<UserRole>}
+ * @extends {Model}
  */
 @Table({
     tableName: "user_roles",
 })
-class UserRole extends Model<UserRole> {
+class UserRole extends Model {
     /**
      * The foreign key to the User table.
      * @type {number}

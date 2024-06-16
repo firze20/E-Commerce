@@ -3,7 +3,7 @@ import Item from "./Item";
 /**
  * Represents the stock of items in the inventory.
  * @class Stock
- * @extends {Model<Stock>}
+ * @extends {Model}
  */
 @Table({
     tableName: "stocks",

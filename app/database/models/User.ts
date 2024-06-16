@@ -10,14 +10,14 @@ import bcrypt from "bcrypt";
 /**
  * Represents a user in the application.
  * @class User
- * @extends {Model<User>}
+ * @extends {Model}
  */
 @Table({
     tableName: "users",
     underscored: true,
     timestamps: true
 })
-class User extends Model<User> {
+class User extends Model {
     /**
      * The unique identifier for the user.
      * @type {number}
