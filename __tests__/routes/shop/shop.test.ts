@@ -1,8 +1,13 @@
 import request from "supertest";
+import { generateToken } from "../../../app/utils/jwt";
 
 const app = global.__APP__;
 
 describe("Test Shop EndPoints", () => {
+
+  beforeAll(() => {
+    let token;
+  })
  
   test("Test shop items list!", async () => {
     const response = await request(app)

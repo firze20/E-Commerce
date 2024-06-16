@@ -4,7 +4,7 @@ const app = global.__APP__;
 
 describe("Test Authentication EndPoints", () => {
   test("Sign Up Authentication! and test if it prevents replicate username and email on signup", async () => {
-    const response_user_one = await request(app)
+    const firstUser = await request(app)
       .post("/api/e-commerce/auth/signup")
       .send({
         username: "Test-User",
@@ -12,17 +12,27 @@ describe("Test Authentication EndPoints", () => {
         password: "password-100",
         roles: ["User"],
       });
-    expect(response_user_one.status).toBe(201);
-
-    const response_user_two = await request(app)
+    expect(firstUser.status).toBe(201);
+    // Same username but different email
+    const secondUser = await request(app)
       .post("/api/e-commerce/auth/signup")
       .send({
         username: "Test-User",
-        email: "test-email@gmail.com",
+        email: "test-hello_2@gmail.com",
         password: "anyPasswordLOL",
         roles: ["User"],
       });
-    expect(response_user_two.status).toBe(400);
+    expect(secondUser.status).toBe(400);
+    // Same email but different username
+    const thirdUser = await request(app)
+      .post("/api/e-commerce/auth/signup")
+      .send({
+        username: "Test-User2",
+        email: "test-email@gmail.com",
+        password: "jestPasswordrolf",
+        roles: ["User"],
+      });
+    expect(thirdUser.status).toBe(400);
   });
 
   test("Sign Up Authentication unexisting role!", async () => {
