@@ -3,7 +3,7 @@ import { Request } from 'express';
 import User from '../../database/models/User';
 import passport from 'passport';
 // Auth Config 
-import Config from '../../config/auth.config';
+import Config from '../../config/auth/auth.config';
 // Get the jwtSecret from the config file
 const {jwtSecret} = Config;
 

@@ -4,11 +4,11 @@ dotenv.config();
 
 /**
  * Configuration type definition.
- * @type {Object} Config
+ * @type {Object} AuthConfig
  * @property {string} jwtSecret - The secret key for JWT.
  * @property {string} refreshTokenSecret - The secret key for refresh tokens.
  */
-type Config = {
+type AuthConfig = {
   jwtSecret: string;
   refreshTokenSecret: string;
 }
@@ -17,9 +17,9 @@ type Config = {
  * The application configuration object.
  * This object contains critical environment variables for the application.
  * 
- * @type {Config}
+ * @type {AuthConfig}
  */
-const config: Config = {
+const config: AuthConfig = {
   jwtSecret: process.env.JWT_SECRET as string,
   refreshTokenSecret: process.env.REFRESH_SECRET as string,
 };

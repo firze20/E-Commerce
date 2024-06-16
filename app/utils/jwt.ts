@@ -2,7 +2,7 @@
 import User from "../database/models/User";
 import jwt from "jsonwebtoken";
 // Config Auth
-import Config from "../config/auth.config"; 
+import Config from "../config/auth/auth.config"; 
 
 const { jwtSecret, refreshTokenSecret } = Config;
 
