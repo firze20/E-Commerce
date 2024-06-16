@@ -5,60 +5,95 @@ import {
   DataType,
   CreatedAt,
   UpdatedAt,
-  BeforeCreate,
-  HasOne,
-  AutoIncrement,
-  BelongsTo,
   ForeignKey,
+  BelongsTo,
 } from "sequelize-typescript";
 import User from "./User";
 import { generateRefreshToken } from "../../utils/jwt";
 
-const refreshTokenExpirity =
-  Number(process.env.REFRESH_TOKEN_EXPIRITY) || 345600; // 345600 seconds = 4 days
+// Default refresh token expiry in seconds (4 days)
+const refreshTokenExpiry = Number(process.env.REFRESH_TOKEN_EXPIRY) || 345600;
 
+/**
+ * Represents the refresh tokens issued to users for authentication.
+ * @class RefreshToken
+ * @extends {Model}
+ */
 @Table({
   tableName: "refresh_tokens",
   timestamps: true,
 })
 class RefreshToken extends Model {
+  /**
+   * The unique identifier for the refresh token.
+   * @type {number}
+   */
   @Column({
     primaryKey: true,
     type: DataType.INTEGER,
     autoIncrement: true,
   })
-  declare id: number;
+  id!: number;
 
+  /**
+   * The token string generated for authentication.
+   * @type {string}
+   */
   @Column({
     type: DataType.STRING,
   })
-  declare token: string;
+  token!: string;
 
+  /**
+   * The expiry date of the refresh token.
+   * @type {Date}
+   */
   @Column({
     type: DataType.DATE,
   })
-  declare expirityDate: Date;
+  expirityDate!: Date;
 
+  /**
+   * The ID of the user associated with this refresh token.
+   * @type {number}
+   */
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
   })
-  declare userId: number;
+  userId!: number;
 
+  /**
+   * The user model instance associated with this refresh token.
+   * @type {User}
+   */
   @BelongsTo(() => User)
-  declare user: User;
+  user!: User;
 
+  /**
+   * The timestamp when this refresh token was created.
+   * @type {Date}
+   */
   @CreatedAt
-  declare createdAt: Date;
+  createdAt!: Date;
 
+  /**
+   * The timestamp when this refresh token was last updated.
+   * @type {Date}
+   */
   @UpdatedAt
-  declare updatedAt: Date;
+  updatedAt!: Date;
 
-  static async createToken(user: User) {
+  /**
+   * Creates a new refresh token for the given user.
+   * @static
+   * @async
+   * @param {User} user - The user for whom the refresh token is being created.
+   * @returns {Promise<RefreshToken>} The created refresh token.
+   */
+  static async createToken(user: User): Promise<RefreshToken> {
     let expiredAt = new Date();
-
-    // Later will have to define a Refresh Expire time in config
-    expiredAt.setSeconds(expiredAt.getSeconds() + refreshTokenExpirity);
+    expiredAt.setSeconds(expiredAt.getSeconds() + refreshTokenExpiry);
 
     let _token = generateRefreshToken(user);
 
@@ -71,7 +106,12 @@ class RefreshToken extends Model {
     return refreshToken;
   }
 
-  // Verify Expiration
+  /**
+   * Verifies if the given refresh token has expired.
+   * @static
+   * @param {RefreshToken} token - The refresh token to verify.
+   * @returns {boolean} True if the token has expired, false otherwise.
+   */
   static verifyExpiration(token: RefreshToken): boolean {
     return token.expirityDate.getTime() < new Date().getTime();
   }

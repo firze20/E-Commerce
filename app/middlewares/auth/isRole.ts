@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from "express";
  * @param {NextFunction} next - The next middleware function.
  * @returns {void} - Calls the next middleware if the user is an admin, otherwise sends a 403 response.
  */
-const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+const isAdmin = (req: Request, res: Response, next: NextFunction): void => {
   if (req.user && req.user.roles && req.user.roles.includes("Admin")) {
     next();
   } else {
@@ -22,7 +22,7 @@ const isAdmin = (req: Request, res: Response, next: NextFunction) => {
  * @param {NextFunction} next - The next middleware function.
  * @returns {void} - Calls the next middleware if the user is an admin or manager, otherwise sends a 403 response.
  */
-const isManager = (req: Request, res: Response, next: NextFunction) => {
+const isManager = (req: Request, res: Response, next: NextFunction): void => {
   if (
     req.user &&
     req.user.roles &&

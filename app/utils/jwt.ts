@@ -17,7 +17,7 @@ const refreshTokenSecret = process.env.REFRESH_SECRET as string;
  * @param {string[]} roles - Array of roles associated with the user.
  * @returns {string} The generated JWT access token.
  */
-const generateToken = (user: User, roles: string[]) => {
+const generateToken = (user: User, roles: string[]): string => {
     const token = jwt.sign({ id: user.id, roles}, jwtSecret, { expiresIn: "1h" });
     return token;
 };
@@ -27,7 +27,7 @@ const generateToken = (user: User, roles: string[]) => {
  * @param {User} user - The user object.
  * @returns {string} The generated JWT refresh token.
  */
-const generateRefreshToken = (user: User) => {
+const generateRefreshToken = (user: User): string => {
     const refreshToken = jwt.sign({ id: user.id }, refreshTokenSecret, { expiresIn: "7d" });
     return refreshToken;
 };
@@ -40,7 +40,7 @@ const generateRefreshToken = (user: User) => {
  * @throws {jwt.TokenExpiredError} If the token has expired.
  * @throws {jwt.NotBeforeError} If the token is not active yet.
  */
-const decodeJwtRefreshToken = (refreshToken: string) => {
+const decodeJwtRefreshToken = (refreshToken: string): string | jwt.JwtPayload => {
     console.log(refreshToken);
     console.log(refreshTokenSecret);
     return jwt.verify(refreshToken, refreshTokenSecret);

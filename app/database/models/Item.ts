@@ -22,13 +22,20 @@ import Purchase from "./Purchase";
 import PurchaseItem from "./PurchaseItem";
 
 import logger from "../../utils/logger";
-import sequelizeConnection from "../db.config";
-
+/**
+ * Represents an Item in the database.
+ * @class
+ * @extends {Model}
+ */
 @Table({
   tableName: "items",
   timestamps: true,
 })
 class Item extends Model {
+  /**
+   * The unique identifier for the item.
+   * @type {number}
+   */
   @AutoIncrement
   @Column({
     type: DataType.INTEGER,
@@ -36,104 +43,155 @@ class Item extends Model {
   })
   id!: number;
 
+  /**
+   * The name of the item.
+   * @type {string}
+   */
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   name!: string;
 
+  /**
+   * The description of the item.
+   * @type {string}
+   */
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   description!: string;
 
+  /**
+   * The price of the item.
+   * @type {number}
+   */
   @Column({
     type: DataType.FLOAT,
     allowNull: false,
   })
   price!: number;
 
+  /**
+   * The URL of the item's image.
+   * @type {string}
+   */
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   image!: string;
 
+  /**
+   * The foreign key for the Stock associated with this item.
+   * @type {number}
+   */
   @ForeignKey(() => Stock)
   @Column({
     type: DataType.INTEGER,
   })
   stockId!: number;
 
+  /**
+   * The Stock instance associated with this item.
+   * @type {Stock}
+   */
   @HasOne(() => Stock)
   stock!: Stock;
 
+  /**
+   * The categories associated with this item.
+   * @type {Category[]}
+   */
   @BelongsToMany(() => Category, () => CategoryItem)
   categories!: Category[];
 
+  /**
+   * The carts associated with this item.
+   * @type {Cart[]}
+   */
   @BelongsToMany(() => Cart, () => CartItem)
   cart!: Cart[];
 
+  /**
+   * The purchases associated with this item.
+   * @type {Purchase[]}
+   */
   @BelongsToMany(() => Purchase, () => PurchaseItem)
   purchase!: Purchase[];
 
+  /**
+   * The date and time the item was created.
+   * @type {Date}
+   */
   @CreatedAt
   createdAt!: Date;
 
+  /**
+   * The date and time the item was last updated.
+   * @type {Date}
+   */
   @UpdatedAt
   updatedAt!: Date;
 
+  /**
+   * Hook executed after creating a single item. Sets the initial stock quantity to 1 for the item.
+   * @static
+   * @async
+   * @param {Item} item - The newly created item instance.
+   */
   @AfterCreate
   static async afterCreateSetQuantityToOne(item: Item) {
-    const stock = await Stock.create({ quantity: 1, itemId: item.id });
-    await item.$set("stock", stock);
-    await stock.$set("item", item);
-  }
-
-  @AfterBulkCreate
-  static async afterBulkCreateSetQuantityToOne(items: Item[]) {
-    items.forEach(async (item) => {
+    try {
       const stock = await Stock.create({ quantity: 1, itemId: item.id });
       await item.$set("stock", stock);
       await stock.$set("item", item);
-    });
-  }
-
-  // Set newly created item to Undefined Category
-
-  @AfterCreate
-  static async afterCreateItemSetCategoryToItem(item: Item) {
-    const undefinedCategory = await Category.findAll({
-      where: { name: "Undefined" },
-    });
-    if (undefinedCategory) {
-      await item.$add("categories", undefinedCategory);
+    } catch (error) {
+      logger.error("Error setting stock quantity after item creation: ", error);
     }
   }
 
-  // Set All Items to Undefined category
+  /**
+   * Hook executed after bulk creating items. Sets the initial stock quantity to 1 for each item.
+   * @static
+   * @async
+   * @param {Item[]} items - The array of newly created item instances.
+   */
   @AfterBulkCreate
-  static async afterBulkCreateSetCategoryToItem(items: Item[]) {
-    items.forEach(async (item) => {
-      const undefinedCategory = await Category.findAll({
-        where: { name: "Undefined" },
-      });
-      if (undefinedCategory) {
-        await item.$add("categories", undefinedCategory);
+  static async afterBulkCreateSetQuantityToOne(items: Item[]) {
+    try {
+      for (const item of items) {
+        const stock = await Stock.create({ quantity: 1, itemId: item.id });
+        await item.$set("stock", stock);
+        await stock.$set("item", item);
       }
-    });
+    } catch (error) {
+      logger.error("Error setting stock quantity after bulk item creation: ", error);
+    }
   }
 
-  // Count how many in Stock
-
+  /**
+   * Retrieves the current quantity of this item in stock.
+   * @async
+   * @returns {Promise<number>} The current quantity of this item in stock.
+   */
   async howManyInStock(): Promise<number> {
-    const stock = await this.$get("stock");
-    return stock ? stock.quantity : 0;
+    try {
+      const stock = await this.$get("stock");
+      return stock ? stock.quantity : 0;
+    } catch (error) {
+      logger.error("Error retrieving stock quantity: ", error);
+      return 0;
+    }
   }
 
-  // Add Stock
-
+  /**
+   * Adds stock to this item.
+   * @async
+   * @param {number} quantity - The quantity of stock to add.
+   * @throws {Error} If the quantity is less than or equal to 0.
+   */
   async addStock(quantity: number): Promise<void> {
     if (quantity <= 0) {
       throw new Error("Quantity must be greater than zero");
@@ -145,7 +203,6 @@ class Item extends Model {
         stock.quantity += quantity;
         await stock.save();
       } else {
-        // If there is no stock entry, create one
         const createStock = await Stock.create({ quantity });
         await this.$set("stock", createStock);
       }
@@ -155,8 +212,12 @@ class Item extends Model {
     }
   }
 
-  // Remove Stock
-
+  /**
+   * Removes stock from this item.
+   * @async
+   * @param {number} quantity - The quantity of stock to remove.
+   * @throws {Error} If the quantity is less than or equal to 0, if no stock is found, or if there isn't enough stock to remove.
+   */
   async removeStock(quantity: number): Promise<void> {
     if (quantity <= 0) {
       throw new Error("Quantity must be greater than zero");
@@ -180,26 +241,26 @@ class Item extends Model {
     }
   }
 
-  // Add Category
-
+  /**
+   * Adds categories to this item.
+   * @async
+   * @param {string|string[]} categories - The name(s) of the categories to add.
+   * @throws {Error} If one or more categories do not exist.
+   */
   async addCategory(categories: string | string[]): Promise<void> {
-    // Ensure categories is an array
     if (!Array.isArray(categories)) {
       categories = [categories];
     }
 
     try {
-      // Search for categories in the database
       const categorySearch = await Category.findAll({
         where: { name: categories },
       });
 
-      // Check if all categories exist
       if (categorySearch.length !== categories.length) {
         throw new Error("One or more categories do not exist");
       }
 
-      // Add the found categories to the item
       await this.$add("categories", categorySearch);
     } catch (error) {
       logger.error("Error adding category: ", error);
@@ -207,32 +268,32 @@ class Item extends Model {
     }
   }
 
+  /**
+   * Removes categories from this item.
+   * @async
+   * @param {string|string[]} categories - The name(s) of the categories to remove.
+   * @throws {Error} If one or more categories do not exist.
+   */
   async removeCategory(categories: string | string[]): Promise<void> {
-    // Ensure categories is an array
     if (!Array.isArray(categories)) {
       categories = [categories];
     }
 
     try {
-      // Search for categories in the database
       const categorySearch = await Category.findAll({
         where: { name: categories },
       });
 
-      // Check if all categories exist
       if (categorySearch.length !== categories.length) {
         throw new Error("One or more categories do not exist");
       }
 
-      // Remove the found categories to the item
       await this.$remove("categories", categorySearch);
     } catch (error) {
       logger.error("Error removing category: ", error);
       throw new Error("Error removing category");
     }
   }
-
-  // Remove from Category
 }
 
 export default Item;
