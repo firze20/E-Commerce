@@ -16,5 +16,5 @@ declare global {
             roles?: Role[]; // May make it optional later not sure if it will cause problems 
             user?: User;
         };
-    }
+    };
 }

@@ -1,20 +1,9 @@
 import request from "supertest";
-import createServer from "../../../app/utils/server";
-import { closeDatabase, connectDatabase } from "../../../app/utils/connect";
-
-const app = createServer();
-
-const dbTeardown = async () => {
-  await closeDatabase();
-};
 
 describe("Test Authentication EndPoints", () => {
-  beforeAll(async () => {
-    await connectDatabase();
-  }, 25000);
 
   test("Sign Up Authentication!", async () => {
-    const response = await request(app)
+    const response = await request(globalThis.app)
       .post("/api/e-commerce/auth/signup")
       .send({
         username: "Test-User",
@@ -26,7 +15,7 @@ describe("Test Authentication EndPoints", () => {
   });
 
   test("Sign Up Authentication unexisting role!", async () => {
-    const response = await request(app)
+    const response = await request(globalThis.app)
       .post("/api/e-commerce/auth/signup")
       .send({
         username: "Test-User3",
@@ -38,7 +27,7 @@ describe("Test Authentication EndPoints", () => {
   });
 
   test("Sign In Authentication!", async () => {
-    const response = await request(app)
+    const response = await request(globalThis.app)
       .post("/api/e-commerce/auth/signin")
       .send({
         username: "Test-User",
@@ -57,9 +46,5 @@ describe("Test Authentication EndPoints", () => {
     expect(jwtCookie).toBeDefined(); // Expect JWT Cookie to be set
 
     expect(refreshCookie).toBeDefined(); // Expect Refresh Cookie to be set
-  });
-
-  afterAll(async () => {
-    await dbTeardown();
   });
 });

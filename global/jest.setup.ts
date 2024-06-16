@@ -1,5 +1,10 @@
-import { connectDatabase } from "../app/utils/connect";
+import { Express } from "express";
+import createServer from "../app/utils/server";
+
+let server: Express;
 
 beforeAll(async () => {
-  await connectDatabase();
+  server = await createServer();
+  globalThis.app = server;
 }, 25000);
+
