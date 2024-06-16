@@ -4,6 +4,14 @@ import RefreshToken from "../../database/models/RefreshToken";
 import logger from "../../utils/logger";
 import bcrypt from "bcrypt";
 import { generateToken } from "../../utils/jwt";
+import Context from "../../config/context/context.config";
+import AuthConfig from "../../config/auth/auth.config";
+
+const {
+  isProduction
+} = Context;
+
+const {jwtRefreshExpiration} = AuthConfig;
 
 /**
  * Register a new user.
@@ -88,7 +96,7 @@ const signIn = async (req: Request, res: Response) => {
     // Set JWT in an HTTP-only cookie
     res.cookie("jwt", token, {
       httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
-      secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
+      secure: isProduction, // ensure the cookie is only sent through https
       sameSite: "strict", // helps mitigate CSRF attacks
       maxAge: 3600000,
     });
@@ -99,9 +107,9 @@ const signIn = async (req: Request, res: Response) => {
     // Set RefreshToken in a HTTP-only Cookie
     res.cookie("refreshToken", refreshToken.token, {
       httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
-      secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
+      secure: isProduction, // ensure the cookie is only sent through https
       sameSite: "strict", // helps mitigate CSRF attacks
-      maxAge: Number(process.env.JWT_REFRESH_EXPIRATION) * 1000,
+      maxAge: jwtRefreshExpiration,
     });
 
     res.status(200).send({
@@ -148,7 +156,7 @@ const refreshToken = async (req: Request, res: Response) => {
     // Set JWT in an HTTP-only cookie
     res.cookie("jwt", token, {
       httpOnly: true, // avoids XSS attacks  (not accesible through javascript)
-      secure: process.env.NODE_ENV === "production", // ensure the cookie is only sent through https
+      secure: isProduction, // ensure the cookie is only sent through https
       sameSite: "strict", // helps mitigate CSRF attacks
       maxAge: 3600000,
     });
