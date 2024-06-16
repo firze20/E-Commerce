@@ -1,4 +1,5 @@
 import express from "express";
+import { connectDatabase } from "../utils/connect"
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import passport from "passport";
@@ -14,7 +15,10 @@ const isDev = process.env.NODE_ENV === "development";
  * URL-encoded data parsing, security headers, request logging, and passport initialization. It also
  * sets up the main API routes for the e-commerce application.
  */
-function createServer() {
+async function createServer() {
+
+  await connectDatabase();
+
   const app = express();
 
   // Global Middlewares
