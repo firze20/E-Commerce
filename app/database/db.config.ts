@@ -1,4 +1,5 @@
 import Config from "../config/db/db.config";
+import Context from "../config/context/context.config";
 import { Sequelize } from 'sequelize-typescript';
 
 const {
@@ -9,9 +10,10 @@ const {
     dataBasePassword
 } = Config;
 
-const isTest = process.env.NODE_ENV === 'test';
-const isDev = process.env.NODE_ENV === 'development';
-
+const {
+    isTest,
+    isDev
+} = Context;
 
 // Enviroment Variables
 const dbName = isTest || isDev ? dataBaseTest : dataBase
