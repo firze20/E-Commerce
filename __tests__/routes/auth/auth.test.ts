@@ -3,7 +3,6 @@ import request from "supertest";
 const app = global.__APP__;
 
 describe("Test Authentication EndPoints", () => {
-
   test("Sign Up Authentication!", async () => {
     const response = await request(app)
       .post("/api/e-commerce/auth/signup")
@@ -43,10 +42,19 @@ describe("Test Authentication EndPoints", () => {
 
     const jwtCookie = cookies.find((cookie) => cookie.startsWith("jwt="));
 
-    const refreshCookie = cookies.find((cookie) => cookie.startsWith("refreshToken="));
+    const refreshCookie = cookies.find((cookie) =>
+      cookie.startsWith("refreshToken=")
+    );
 
     expect(jwtCookie).toBeDefined(); // Expect JWT Cookie to be set
 
     expect(refreshCookie).toBeDefined(); // Expect Refresh Cookie to be set
+  });
+  // Test refresh tokens
+  test("Refresh token Endpoint! should return 401 if no refreshtoken in cookie", async () => {
+    const response = await request(app).post(
+      "/api/e-commerce/auth/refresh-token"
+    );
+    expect(response.status).toBe(401); // Expect to be status code 200
   });
 });
