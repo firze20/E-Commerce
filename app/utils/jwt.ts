@@ -1,15 +1,10 @@
 // Mostly used for RefreshToken, passport js already handles jwt access Token
 import User from "../database/models/User";
 import jwt from "jsonwebtoken";
+// Config Auth
+import Config from "../config/auth.config"; 
 
-
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-const jwtSecret = process.env.JWT_SECRET as string;
-const refreshTokenSecret = process.env.REFRESH_SECRET as string;
-
+const { jwtSecret, refreshTokenSecret } = Config;
 
 /**
  * Generates a JWT access token for a user.
