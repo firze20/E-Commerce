@@ -48,8 +48,6 @@ const generateRefreshTokenForTesting = (id: number, expiresIn?: string): string 
  * @throws {jwt.NotBeforeError} If the token is not active yet.
  */
 const decodeJwtRefreshToken = (refreshToken: string): string | jwt.JwtPayload => {
-    console.log(refreshToken);
-    console.log(refreshTokenSecret);
     return jwt.verify(refreshToken, refreshTokenSecret);
 };
 

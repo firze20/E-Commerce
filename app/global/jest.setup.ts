@@ -10,4 +10,3 @@ beforeAll(async () => {
   await sequelizeConnection.authenticate();
 });
 
-globalThis.sequelizeConnection = sequelizeConnection;
