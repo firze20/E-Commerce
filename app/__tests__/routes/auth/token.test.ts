@@ -7,6 +7,7 @@ let refreshToken: string;
 describe("Test Tokens", () => {
   beforeAll(async () => {
     try {
+      
       const user = await request(app).post("/api/e-commerce/auth/signin").send({
         username: process.env.SUPER_USER_USERNAME,
         password: process.env.SUPER_USER_PASSWORD,
