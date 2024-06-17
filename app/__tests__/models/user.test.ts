@@ -1,4 +1,3 @@
-import exp from "constants";
 import User from "../../database/models/User";
 
 describe("Test User model", () => {
