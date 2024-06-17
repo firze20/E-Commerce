@@ -1,6 +1,6 @@
 {
-  "exclude": ["./coverage", "./dist", "__tests__", "global/jest.config.ts", "jest.setup.ts", "global"],
-  "include": ["./types/global.d.ts"],
+  "exclude": ["./coverage", "./dist", "app/__tests__", "app/global/jest.config.ts", "jest.setup.ts", "app/global"],
+  "include": ["app/types/global.d.ts"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 

@@ -1,5 +1,5 @@
 import { Express } from 'express';
-import createServer from '../app/utils/server';
+import createServer from '../utils/server';
 
 module.exports = async () => {
   const server: Express = await createServer();

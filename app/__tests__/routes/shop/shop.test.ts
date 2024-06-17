@@ -1,5 +1,5 @@
 import request from "supertest";
-import { generateToken } from "../../../app/utils/jwt";
+import { generateToken } from "../../../utils/jwt";
 
 const app = global.__APP__;
 

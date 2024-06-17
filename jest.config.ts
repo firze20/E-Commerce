@@ -8,8 +8,8 @@ const config: Config.InitialOptions = {
   },
   // globalSetup: './global/setupTests.ts',
   testEnvironment: 'node',
-  globalSetup: './global/globalSetup.ts',
-  globalTeardown: './global/globalTeardown.ts',
+  globalSetup: './app/global/globalSetup.ts',
+  globalTeardown: './app/global/globalTeardown.ts',
   //setupFilesAfterEnv: ['./global/jest.setup.ts'],
 };
 export default config;
