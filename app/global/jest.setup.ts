@@ -9,4 +9,3 @@ beforeAll(async () => {
   // Connect to the database
   await sequelizeConnection.authenticate();
 });
-
