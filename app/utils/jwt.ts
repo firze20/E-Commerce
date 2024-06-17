@@ -28,6 +28,18 @@ const generateRefreshToken = (user: User): string => {
 };
 
 /**
+ * Generates a JWT refresh token for a user.
+ * @param {id} number - The user object.
+ * @param {expiresIn} string (optional)
+ * @returns {string} The generated JWT refresh token.
+ */
+const generateRefreshTokenForTesting = (id: number, expiresIn?: string): string => {
+    const refreshToken = jwt.sign({ id }, refreshTokenSecret, { expiresIn });
+    return refreshToken;
+};
+
+
+/**
  * Decodes and verifies a JWT refresh token.
  * @param {string} refreshToken - The JWT refresh token to decode and verify.
  * @returns {string | jwt.JwtPayload} The decoded JWT payload.
