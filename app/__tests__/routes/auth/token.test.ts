@@ -1,7 +1,4 @@
 import request from "supertest";
-import { generateRefreshToken } from "../../../utils/jwt";
-import RefreshToken from "../../../database/models/RefreshToken";
-import User from "../../../database/models/User";
 
 const app = global.__APP__;
 

@@ -1,12 +1,29 @@
 import request from "supertest";
-import { generateToken } from "../../../utils/jwt";
 
 const app = global.__APP__;
 
+let token: string;
+
 describe("Test Shop EndPoints", () => {
 
-  beforeAll(() => {
-    let token;
+  beforeAll(async () => {
+    const user = await request(app).post("/api/e-commerce/auth/signin").send({
+      username: process.env.SUPER_USER_USERNAME,
+      password: process.env.SUPER_USER_PASSWORD,
+    });
+
+    const cookieHeader = user.headers["set-cookie"];
+    const cookies = Array.isArray(cookieHeader) ? cookieHeader : [cookieHeader];
+
+    const jwtCookie = cookies.find((cookie) =>
+      cookie.startsWith("jwt=")
+    );
+
+    if (!jwtCookie) {
+      throw new Error("token cookie not found");
+    }
+
+    token = jwtCookie.split("=")[1]
   })
  
   test("Test shop items list!", async () => {
@@ -26,4 +43,20 @@ describe("Test Shop EndPoints", () => {
         expect(res.body.item).toBeDefined();
       })
   });
+
+  test("Create a new shop item!", async () => {
+    const response = await request(app)
+      .post("/api/e-commerce/store/item")
+      .set("Cookie", `jwt=${token}`)
+      .send({
+        name: "Test-Item",
+        description: "Test-Item-Description",
+        price: 100.00,
+        image: "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+  });
+
+  expect(response.status).toBe(201);
+  expect(response.body.item).toBeDefined();
+
+})
 })
