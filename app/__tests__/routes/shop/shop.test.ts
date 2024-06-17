@@ -24,7 +24,7 @@ describe("Test Shop EndPoints", () => {
     token = jwtCookie.split("=")[1];
   });
 
-  test("Test shop items list!", async () => {
+  test("Test get shop items list!", async () => {
     const response = await request(app)
       .get("/api/e-commerce/store")
       .expect(200)
