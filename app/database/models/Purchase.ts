@@ -52,6 +52,13 @@ class Purchase extends Model {
 
     @BelongsTo(() => Cart)
     cart!: Cart;
+
+    @Column({
+        type: DataType.DECIMAL(10, 2), // Adjust precision and scale as needed
+        allowNull: false,
+        defaultValue: 0.0,
+    })
+    totalPrice!: number; // Total price of the purchase
 }
 
 export default Purchase;

@@ -68,8 +68,9 @@ class Item extends Model {
    * @type {number}
    */
   @Column({
-    type: DataType.FLOAT,
+    type: DataType.DECIMAL(10, 2),
     allowNull: false,
+    defaultValue: 0.0,
   })
   price!: number;
 
