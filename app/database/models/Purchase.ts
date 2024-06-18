@@ -1,7 +1,7 @@
-import { Table, Column, Model, DataType, CreatedAt, ForeignKey, AutoIncrement, BelongsToMany, PrimaryKey } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, ForeignKey, AutoIncrement, BelongsToMany, PrimaryKey, BelongsTo } from "sequelize-typescript";
 import User from "./User";
 import Item from "./Item";
-import PurchaseItem from "./PurchaseItem";
+import Cart from "./Cart";
 /**
  * Represents an Purchase in the database.
  * @class
@@ -40,12 +40,18 @@ class Purchase extends Model {
     })
     userId!: number;
 
-    /**
-     * The items purchased in this purchase.
-     * @type {Item[]}
-     */
-    @BelongsToMany(() => Item, () => PurchaseItem)
-    items!: Item[];
+    @BelongsTo(() => User)
+    user!: User;
+
+    @ForeignKey(() => Cart)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    cartId!: number;
+
+    @BelongsTo(() => Cart)
+    cart!: Cart;
 }
 
 export default Purchase;

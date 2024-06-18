@@ -8,9 +8,11 @@ import {
   PrimaryKey,
   BelongsToMany,
   AutoIncrement,
+  HasOne,
 } from "sequelize-typescript";
 import User from "./User";
 import CartItem from "./CartItem";
+import Purchase from "./Purchase";
 import Item from "./Item";
 import sequelize from "../db.config";
 
@@ -61,6 +63,9 @@ class Cart extends Model {
    */
   @BelongsToMany(() => Item, () => CartItem)
   items!: Item[];
+
+  @HasOne(() => Purchase)
+  purchase!: Purchase;
 
   // Add Items to Cart
 
@@ -145,6 +150,28 @@ class Cart extends Model {
       // Rollback transaction
       await transaction.rollback();
       logger.error(`Error removing item from cart: ${error.message}`);
+    }
+  }
+  /**
+   * Returns the quantity of items inside the cart
+   * @returns {Promise<number>}
+   */
+  async getQuantityOfCart(): Promise<number> {
+    try {
+      const cartItems = await CartItem.findAll({
+        where: { cartId: this.id },
+      });
+
+      let quantity = 0;
+
+      for (const cartItem of cartItems) {
+        quantity += cartItem.quantity;
+      }
+
+      return quantity;
+    } catch (error: any) {
+      logger.error(`Error fetching cart items: ${error.message}`);
+      throw new Error("Failed to fetch cart items");
     }
   }
 }

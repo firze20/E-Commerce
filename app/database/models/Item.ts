@@ -18,8 +18,6 @@ import Category from "./Category";
 import CategoryItem from "./CategoryItem";
 import Cart from "./Cart";
 import CartItem from "./CartItem";
-import Purchase from "./Purchase";
-import PurchaseItem from "./PurchaseItem";
 import sequelize from "../db.config"; // Adjust the path as needed
 
 import logger from "../../utils/logger";
@@ -116,12 +114,6 @@ class Item extends Model {
   @BelongsToMany(() => Cart, () => CartItem)
   cart!: Cart[];
 
-  /**
-   * The purchases associated with this item.
-   * @type {Purchase[]}
-   */
-  @BelongsToMany(() => Purchase, () => PurchaseItem)
-  purchase!: Purchase[];
 
   /**
    * The date and time the item was created.
