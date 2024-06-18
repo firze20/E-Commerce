@@ -1,4 +1,8 @@
 import request from "supertest";
+import RefreshToken from "../../../database/models/RefreshToken";
+import User from "../../../database/models/User";
+import { generateRefreshToken } from "../../../utils/jwt";
+import jwt from "jsonwebtoken";
 
 const app = global.__APP__;
 
@@ -46,7 +50,53 @@ describe("Test Tokens", () => {
     expect(jwtCookie).not.toBeUndefined();
   });
 
-  test("Test expired refresh token", async () => {
+  test("Test refesh token endpoint without a token", async () => {
+    const response = await request(app).post("/api/e-commerce/auth/refresh-token");
 
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe("No refresh token provided.");
   });
+
+  test("Invalid refresh token", async () => {
+
+    const refreshToken = "213010a0dal21lladald"
+
+    const response = await request(app).post("/api/e-commerce/auth/refresh-token").set("Cookie", `refreshToken=${refreshToken}`);
+
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe("Invalid refresh token.");
+  });
+
+  test("Refresh token that doesnt exist in the database", async () => {
+    const user = await User.findOne();
+
+    const refreshToken = generateRefreshToken(user!, "1d");
+
+    const response = await request(app).post("/api/e-commerce/auth/refresh-token").set("Cookie", `refreshToken=${refreshToken}`);
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe("Refresh token not found.");
+  })
+
+  test("Test expired refresh token", async () => {
+      // Get 1 user
+      const user = await User.findOne();
+      
+      const refreshToken = generateRefreshToken(user!, "1s");
+
+      await RefreshToken.create({
+        token: refreshToken,
+        userId: user!.id,
+        expirityDate: Number(Date.now() - 1000)
+      });
+
+      const response = await request(app).post("/api/e-commerce/auth/refresh-token").set("Cookie", `refreshToken=${refreshToken}`);
+
+      expect(response.status).toBe(401);
+
+      expect(response.body.message).toBe("Refresh token has expired.");
+
+      })
+
+      
+
 });

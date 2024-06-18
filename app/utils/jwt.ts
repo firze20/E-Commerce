@@ -20,23 +20,15 @@ const generateToken = (user: User, roles: string[]): string => {
 /**
  * Generates a JWT refresh token for a user.
  * @param {User} user - The user object.
+ * @param {string} expires (optional)
  * @returns {string} The generated JWT refresh token.
  */
-const generateRefreshToken = (user: User): string => {
-    const refreshToken = jwt.sign({ id: user.id }, refreshTokenSecret, { expiresIn: "7d" });
+const generateRefreshToken = (user: User, expires?: string): string => {
+    const options = expires ? { expiresIn: expires } : { expiresIn: "7d" };
+    const refreshToken = jwt.sign({ id: user.id }, refreshTokenSecret, options);
     return refreshToken;
 };
 
-/**
- * Generates a JWT refresh token for a user.
- * @param {id} number - The user object.
- * @param {expiresIn} string (optional)
- * @returns {string} The generated JWT refresh token.
- */
-const generateRefreshTokenForTesting = (id: number, expiresIn?: string): string => {
-    const refreshToken = jwt.sign({ id }, refreshTokenSecret, { expiresIn });
-    return refreshToken;
-};
 
 
 /**

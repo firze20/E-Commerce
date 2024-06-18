@@ -40,7 +40,7 @@ export const verifyRefreshToken = async (req: Request, res: Response, next: Next
 
     // If refresh token is not found, return 401
     if (!refreshTokenRecord) {
-      return res.status(401).send({ message: 'Invalid refresh token.' });
+      return res.status(401).send({ message: 'Refresh token not found.' });
     }
     // If its expired, return 401
     if(RefreshToken.verifyExpiration(refreshTokenRecord)) {

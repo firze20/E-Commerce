@@ -7,6 +7,8 @@ import {
   UpdatedAt,
   ForeignKey,
   BelongsTo,
+  AfterCreate,
+  BeforeCreate,
 } from "sequelize-typescript";
 import User from "./User";
 import { generateRefreshToken } from "../../utils/jwt";
@@ -114,6 +116,24 @@ class RefreshToken extends Model {
    */
   static verifyExpiration(token: RefreshToken): boolean {
     return token.expirityDate.getTime() < new Date().getTime();
+  }
+
+  @BeforeCreate
+  static async deletePastTokens(refreshToken: RefreshToken): Promise<void> {
+    try {
+      console.log("BeforeCreate hook called for user:", refreshToken.userId);
+
+      const tokens = await RefreshToken.findAll({
+        where: {
+          userId: refreshToken.userId,
+        },
+      });
+      for (const token of tokens) {
+          await token.destroy();
+      }
+    } catch (error) {
+      console.error("Error deleting past tokens:", error);
+    }
   }
 }
 
