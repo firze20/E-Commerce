@@ -2,7 +2,6 @@ import request from "supertest";
 import RefreshToken from "../../../database/models/RefreshToken";
 import User from "../../../database/models/User";
 import { generateRefreshToken } from "../../../utils/jwt";
-import jwt from "jsonwebtoken";
 
 const app = global.__APP__;
 

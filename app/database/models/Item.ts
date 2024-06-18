@@ -114,7 +114,6 @@ class Item extends Model {
   @BelongsToMany(() => Cart, () => CartItem)
   cart!: Cart[];
 
-
   /**
    * The date and time the item was created.
    * @type {Date}
@@ -184,6 +183,86 @@ class Item extends Model {
       );
     }
   }
+  /**
+   * Hook executed after creating 1 item, set that item to category Undefined.
+   * @static
+   * @async
+   * @param {Item} item - An items
+   */
+
+
+  @AfterCreate
+  static async assignCategory(item: Item) {
+    const transaction = await sequelize.transaction();
+    try {
+      // Fetch the default category "Undefined"
+      const category = await Category.findOne({
+        where: { name: "Undefined" },
+        transaction,
+      });
+
+      // If category is not found, handle the scenario appropriately
+      if (!category) {
+        throw new Error("Default category 'Undefined' not found");
+      }
+
+      // Set the category for the item
+      await item.$set("categories", category, { transaction });
+
+      // Add the item to the category's items association
+      await category.$add("items", item, { transaction });
+
+      // Commit the transaction
+      await transaction.commit();
+    } catch (error) {
+      // Rollback transaction on error
+      await transaction.rollback();
+      logger.error(`Error assigning category after item creation: ${error}`);
+    }
+  }
+  /**
+   * Hook executed after bulk creating items, assign items to Undefined category.
+   * @static
+   * @async
+   * @param {Item[]} items - An array of items
+   */
+
+
+  @AfterBulkCreate
+  static async assignCategoryBulk(items: Item[]) {
+    const transaction = await sequelize.transaction();
+    try {
+      // Fetch the default category outside the loop
+      const category = await Category.findOne({
+        where: { name: "Undefined" },
+        transaction,
+      });
+
+      // If category is not found, handle the scenario appropriately (throw error or fallback)
+      if (!category) {
+        throw new Error("Default category 'Undefined' not found");
+      }
+
+      // Process each item to assign the default category
+      const promises = items.map(async (item) => {
+        await item.$set("categories", category, { transaction });
+        await category.$add("items", item, { transaction });
+      });
+
+      // Wait for all operations to complete
+      await Promise.all(promises);
+
+      // Commit the transaction
+      await transaction.commit();
+    } catch (error) {
+      // Rollback transaction on error
+      await transaction.rollback();
+      logger.error(
+        `Error assigning category after bulk item creation: ${error}`
+      );
+    }
+  }
+
 
   /**
    * Retrieves the current quantity of this item in stock.
