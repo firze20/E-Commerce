@@ -1,7 +1,20 @@
-import { Table, Column, Model, DataType, BelongsTo, ForeignKey, PrimaryKey, BelongsToMany, AutoIncrement } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  BelongsTo,
+  ForeignKey,
+  PrimaryKey,
+  BelongsToMany,
+  AutoIncrement,
+} from "sequelize-typescript";
 import User from "./User";
 import CartItem from "./CartItem";
 import Item from "./Item";
+import sequelize from "../db.config";
+
+import logger from "../../utils/logger";
 
 /**
  * Represents a Cart in the database.
@@ -9,59 +22,131 @@ import Item from "./Item";
  * @extends {Model}
  */
 @Table({
-    tableName: "carts",
+  tableName: "carts",
 })
 class Cart extends Model {
-    /**
-     * The unique identifier for the Cart.
-     * @type {number}
-     */
-    @PrimaryKey
-    @AutoIncrement
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false,
-    })
-    id!: number;
+  /**
+   * The unique identifier for the Cart.
+   * @type {number}
+   */
+  @PrimaryKey
+  @AutoIncrement
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  id!: number;
 
-    /**
-     * The quantity of items in the Cart.
-     * @type {number}
-     */
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-        validate: {
-            min: 0, // Example: Quantity should not be negative
-        },
-    })
-    quantity!: number;
+  /**
+   * The ID of the User who owns the Cart.
+   * @type {number}
+   */
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  userId!: number;
 
-    /**
-     * The ID of the User who owns the Cart.
-     * @type {number}
-     */
-    @ForeignKey(() => User)
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false
-    })
-    userId!: number;
+  /**
+   * The User who owns the Cart.
+   * @type {User}
+   */
+  @BelongsTo(() => User)
+  user!: User;
 
-    /**
-     * The User who owns the Cart.
-     * @type {User}
-     */
-    @BelongsTo(() => User)
-    user!: User;
+  /**
+   * The items in the Cart.
+   * @type {Item[]}
+   */
+  @BelongsToMany(() => Item, () => CartItem)
+  items!: Item[];
 
-    /**
-     * The items in the Cart.
-     * @type {Item[]}
-     */
-    @BelongsToMany(() => Item, () => CartItem)
-    items!: Item[];
+  // Add Items to Cart
+
+  /**
+   * Adds an item to the cart.
+   * @param {number} itemId - The ID of the item to add.
+   * @param {number} [quantity=1] - The quantity of the item to add.
+   * @returns {Promise<void>}
+   */
+  async addItemToCart(itemId: number, quantity: number = 1): Promise<void> {
+    // Begin a transaction
+    const transaction = await sequelize.transaction();
+    try {
+      // Find or create CartItem
+
+      // Find or create CartItem
+      const [cartItem, created] = await CartItem.findOrCreate({
+        where: { cartId: this.id, itemId },
+        defaults: { quantity },
+        transaction,
+      });
+
+      if (!created) {
+        // Update CartItem quantity if it already exists
+        cartItem.quantity += quantity;
+        await cartItem.save({ transaction });
+      }
+
+      // Commmit transaction
+      await transaction.commit();
+    } catch (error: any) {
+      // Rollback transaction
+      await transaction.rollback();
+      logger.error(`Error adding item to cart: ${error.message}`);
+    }
+  }
+
+  /**
+   * Removes an item from the cart.
+   * @param {number} itemId - The ID of the item to add.
+   * @param {number} [quantity=1] - The quantity of the item to remove.
+   * @returns {Promise<void>}
+   */
+  /**
+   * Removes an item from the cart.
+   * @param {number} itemId - The ID of the item to remove.
+   * @param {number} [quantity=1] - The quantity of the item to remove.
+   * @returns {Promise<void>}
+   */
+  async removeItemFromCart(
+    itemId: number,
+    quantity: number = 1
+  ): Promise<void> {
+    // Begin a transaction
+    const transaction = await sequelize.transaction();
+    try {
+      // Find CartItem
+      const cartItem = await CartItem.findOne({
+        where: { cartId: this.id, itemId },
+        transaction,
+      });
+
+      if (!cartItem) {
+        throw new Error("CartItem not found");
+      }
+
+      // Calculate new quantity
+      const newQuantity = cartItem.quantity - quantity;
+
+      if (newQuantity <= 0) {
+        // Delete CartItem if quantity is 0 or less
+        await cartItem.destroy({ transaction });
+      } else {
+        // Update CartItem quantity
+        cartItem.quantity = newQuantity;
+        await cartItem.save({ transaction });
+      }
+
+      // Commit transaction
+      await transaction.commit();
+    } catch (error: any) {
+      // Rollback transaction
+      await transaction.rollback();
+      logger.error(`Error removing item from cart: ${error.message}`);
+    }
+  }
 }
 
 export default Cart;

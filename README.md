@@ -56,9 +56,6 @@ Using [dbdiagram](https://dbdiagram.io/)
 ![alt text](ECommerce_Diagram.png)
 
 ```dbml
-// Use DBML to define your database structure
-// Docs: https://dbml.dbdiagram.io/docs
-
 Table users {
   id integer [primary key]
   username varchar
@@ -90,13 +87,13 @@ Table user_roles {
 
 Table carts {
   id integer [pk]
-  quantity integer
   user_id integer unique [ref: - users.id]
 }
 
 Table cart_items {
   cart_id integer  [ref: - carts.id]
   item_id integer [ref: - items.id]
+  quantity integer
 }
 
 
