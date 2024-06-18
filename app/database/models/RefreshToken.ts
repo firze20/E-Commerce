@@ -121,8 +121,6 @@ class RefreshToken extends Model {
   @BeforeCreate
   static async deletePastTokens(refreshToken: RefreshToken): Promise<void> {
     try {
-      console.log("BeforeCreate hook called for user:", refreshToken.userId);
-
       const tokens = await RefreshToken.findAll({
         where: {
           userId: refreshToken.userId,

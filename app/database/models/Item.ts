@@ -20,6 +20,7 @@ import Cart from "./Cart";
 import CartItem from "./CartItem";
 import Purchase from "./Purchase";
 import PurchaseItem from "./PurchaseItem";
+import sequelize from '../db.config'; // Adjust the path as needed
 
 import logger from "../../utils/logger";
 /**
@@ -143,11 +144,15 @@ class Item extends Model {
    */
   @AfterCreate
   static async afterCreateSetQuantityToOne(item: Item) {
+    const transaction = await sequelize.transaction();
     try {
-      const stock = await Stock.create({ quantity: 1, itemId: item.id });
-      await item.$set("stock", stock);
-      await stock.$set("item", item);
+      const stock = await Stock.create({ quantity: 1, itemId: item.id }, { transaction});
+      await item.$set("stock", stock, { transaction});
+      await stock.$set("item", item, { transaction });
+
+      await transaction.commit();
     } catch (error) {
+      await transaction.rollback();
       logger.error("Error setting stock quantity after item creation: ", error);
     }
   }
@@ -160,14 +165,20 @@ class Item extends Model {
    */
   @AfterBulkCreate
   static async afterBulkCreateSetQuantityToOne(items: Item[]) {
+    const transaction = await sequelize.transaction();
     try {
-      for (const item of items) {
-        const stock = await Stock.create({ quantity: 1, itemId: item.id });
-        await item.$set("stock", stock);
-        await stock.$set("item", item);
-      }
+      const stockPromises = items.map(async (item) => {
+        const stock = await Stock.create({ quantity: 1, itemId: item.id }, { transaction });
+        await item.$set("stock", stock, { transaction });
+        await stock.$set("item", item, { transaction });
+      });
+
+      await Promise.all(stockPromises);
+      
+      await transaction.commit();
     } catch (error) {
-      logger.error("Error setting stock quantity after bulk item creation: ", error);
+      await transaction.rollback();
+      logger.error(`Error setting stock quantity after bulk item creation: ${error}`);
     }
   }
 
