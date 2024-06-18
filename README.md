@@ -123,6 +123,7 @@ Table purchases {
   id integer [pk]
   date datetime 
   user_id integer [ref: > users.id]
+  cart_id integer [ref: < carts.id]
 }
 
 Table itemStocks {
@@ -130,11 +131,6 @@ Table itemStocks {
   item_id integer [ref: - items.id]
   stock integer
 
-}
-
-Table purchase_items {
-  purchase_id integer [ref: - purchases.id]
-  item_id integer [ref: - items.id]
 }
 ```
 
