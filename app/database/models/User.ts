@@ -6,6 +6,7 @@ import UserRole from "./UserRoles";
 import Purchase from "./Purchase";
 import logger from "../../utils/logger";
 import bcrypt from "bcrypt";
+import sequelize from "../db.config";
 
 /**
  * Represents a user in the application.
@@ -147,8 +148,15 @@ class User extends Model {
      */
     @AfterCreate
     static async createUserCart(user: User): Promise<void> {
-        const cart = await Cart.create({ userId: user.id });
-        await user.$set('cart', cart);
+        const transaction = await sequelize.transaction();
+        try {
+            const cart = await Cart.create({ userId: user.id }, { transaction});
+            await user.$set('cart', cart, { transaction });
+            await transaction.commit();
+        } catch (error) {
+            await transaction.rollback();
+            logger.error(`Error creating cart for user: ${error}`);
+        }
     }
 
     /**
