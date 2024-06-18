@@ -153,7 +153,7 @@ class Item extends Model {
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
-      logger.error("Error setting stock quantity after item creation: ", error);
+      logger.error(`Error setting stock quantity after item creation: ${error}`);
     }
   }
 
@@ -203,7 +203,7 @@ class Item extends Model {
    * @param {number} quantity - The quantity of stock to add.
    * @throws {Error} If the quantity is less than or equal to 0.
    */
-  async addStock(quantity: number): Promise<void> {
+  async addStock(quantity: number = 1): Promise<void> {
     if (quantity <= 0) {
       throw new Error("Quantity must be greater than zero");
     }
@@ -229,7 +229,7 @@ class Item extends Model {
    * @param {number} quantity - The quantity of stock to remove.
    * @throws {Error} If the quantity is less than or equal to 0, if no stock is found, or if there isn't enough stock to remove.
    */
-  async removeStock(quantity: number): Promise<void> {
+  async removeStock(quantity: number = 1): Promise<void> {
     if (quantity <= 0) {
       throw new Error("Quantity must be greater than zero");
     }
