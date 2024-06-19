@@ -6,79 +6,143 @@ import CategoryItem from "../../database/models/CategoryItem";
 let item: Item;
 
 describe("Test Item model", () => {
-    beforeAll(async () => {
-        item = await Item.create({
-            name: "Pikachu Plushie Doll",
-            description: "A pokemon plushie doll",
-            price: 4.99,
-            image: "https://www.pokemoncenter.com/images/DAMRoot/High/10000/P7730_701-29240_02.jpg"
-        });
+  beforeAll(async () => {
+    item = await Item.create({
+      name: "Pikachu Plushie Doll",
+      description: "A pokemon plushie doll",
+      price: 4.99,
+      image:
+        "https://www.pokemoncenter.com/images/DAMRoot/High/10000/P7730_701-29240_02.jpg",
+    });
+  });
+
+  test("When an item is created, a stock id of that item should exist", async () => {
+    // Find the stock of the item
+    const stock = await Stock.findOne({
+      where: {
+        itemId: item.id,
+      },
     });
 
-    test("When an item is created, a stock id of that item should exist", async () => {
-        // Find the stock of the item
+    expect(stock).not.toBeNull();
+  });
+
+  test("When an item is created, the stock quantity should be 1", async () => {
+    // Find the stock of the item
+    const stock = await Stock.findOne({
+      where: {
+        itemId: item.id,
+      },
+    });
+
+    expect(stock?.quantity).toBe(1);
+  });
+
+  test("When an item is created, the category of that item should automatically be set to Undefined", async () => {
+    const undefined = "Undefined";
+
+    const category = await Category.findOne({
+      where: {
+        name: undefined,
+      },
+    });
+
+    expect(category).not.toBeNull();
+
+    const categoryItem = await CategoryItem.findOne({
+      where: {
+        itemId: item.id,
+        categoryId: category?.id,
+      },
+    });
+
+    expect(categoryItem).toBeDefined();
+  });
+
+  test("Item model should have a method to add a category to the item", async () => {
+    // Assuming addCategory is defined and is a function
+
+    const category = await Category.create({
+      name: "Plushies",
+    });
+
+    // Call the method and check the result
+    await item.addCategory(category.name);
+
+    // Verify that the category was added
+    const categoryItem = await CategoryItem.findOne({
+      where: {
+        itemId: item.id,
+        categoryId: category.id,
+      },
+    });
+
+    expect(categoryItem).toBeDefined();
+  });
+
+  test("Item model should have a method to remove a category from the item", async () => {
+    // Assuming removeCategory is dedined and is a function
+
+    const category = await Category.findOne({
+        where: 
+            {
+                name: "Undefined"
+            }
+    });
+
+    // Call the method and check the result
+    await item.removeCategory(category!.name);
+
+    // Verify that the category was removed
+
+    const categoryItem = await CategoryItem.findOne({
+        where: {
+            itemId: item.id,
+            categoryId: category!.id,
+        },
+    });
+
+    expect(categoryItem).toBeNull();
+
+  });
+
+  test("Get how many in stock", async () => {
+    // Assuming howManyInStock is defined and is a function
+
+    const howManyInStock = await item.howManyInStock();
+
+    expect(howManyInStock).toBe(1);
+  });
+
+    test("Add to stock", async () => {
+        // Assuming addToStock is defined and is a function
+    
+        await item.addStock(5);
+    
+        const howManyInStock = await item.howManyInStock();
+
         const stock = await Stock.findOne({
-            where: {
-                itemId: item.id
-            }
-        });
-
-        expect(stock).not.toBeNull();
-    });
-
-    test("When an item is created, the stock quantity should be 1", async () => {
-        // Find the stock of the item
-        const stock = await Stock.findOne({
-            where: {
-                itemId: item.id
-            }
-        });
-
-        expect(stock?.quantity).toBe(1);
-    });
-
-    test("When an item is created, the category of that item should automatically be set to Undefined", async() => {
-        const undefined = "Undefined";
-
-        const category = await Category.findOne({
-            where: {
-                name: undefined
-            }
-        });
-
-        expect(category).not.toBeNull();
-
-        const categoryItem = await CategoryItem.findOne({
             where: {
                 itemId: item.id,
-                categoryId: category?.id
             }
         });
+    
+        expect(howManyInStock).toBe(stock?.quantity);
+    });
 
-        expect(categoryItem).toBeDefined();
-    })
+    test("Remove from stock", async () => {
+        // Assuming removeFromStock is defined and is a function
+    
+        await item.removeStock(3);
+    
+        const howManyInStock = await item.howManyInStock();
 
-    test("Item model should have a method to add a category to the item", async () => {
-    // Assuming addCategory is defined and is a function
-  
-      const category = await Category.create({
-        name: "Plushies"
-      });
-
-      // Call the method and check the result
-      await item.addCategory(category.name);
-
-      // Verify that the category was added
-      const categoryItem = await CategoryItem.findOne({
-        where: {
-          itemId: item.id,
-          categoryId: category.id
-        }
-      });
-
-      expect(categoryItem).toBeDefined();
-        }
-
-    );
+        const stock = await Stock.findOne({
+            where: {
+                itemId: item.id,
+            }
+        });
+    
+        expect(howManyInStock).toBe(stock?.quantity);
+    });
 });
-
