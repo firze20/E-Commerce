@@ -57,5 +57,9 @@ describe("Test Item model", () => {
 
         expect(categoryItem).toBeDefined();
     })
+
+    test("Item model should have a method to add a category to the item", async () => {
+        
+    });
 });
 

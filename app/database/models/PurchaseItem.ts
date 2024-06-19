@@ -47,6 +47,20 @@ class PurchaseItem extends Model {
      */
     @BelongsTo(() => Item)
     item!: Item;
+
+      /**
+   * The quantity of items in the Cart.
+   * @type {number}
+   */
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    defaultValue: 1,
+    validate: {
+      min: 1, // Example: Quantity should not be negative
+    },
+  })
+  quantity!: number;
 }
 
 export default PurchaseItem;
