@@ -35,7 +35,30 @@
     - [x] __Set up version control__: Set up Git tracking in your directory and make sure to add and commit changes as you make them.
     
 
-### Docker Command
+### Docker Compose
+
+This project uses Nginx with reverse proxy:
+
+- Create a folder in the root of the project called nginx 
+- Create a file inside nginx folder called nginx.conf
+- Change configurations if needed
+
+```conf
+# nginx.conf
+server {
+    listen 80;
+    server_name localhost;
+
+    location / {
+        proxy_pass http://express-typescript-docker:3000; # This is the port that the express server is running on.
+        proxy_http_version 1.1; 
+        proxy_set_header Upgrade $http_upgrade; 
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
 
 __First time ? Run Docker compose Build__
 
