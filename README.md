@@ -316,4 +316,4 @@ __Currently List:__
 
 # Things to rework
 
-- [ ] Rework process.env right now alot of repetive, may create config folder that exports all env variables to get consumed by the whole project, jwt and db to be percise
+- [ ] Might need to revisit swagger documentation, the post item is wrong
