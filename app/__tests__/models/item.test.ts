@@ -1,5 +1,7 @@
 import Item from "../../database/models/Item";
 import Stock from "../../database/models/Stock";
+import Category from "../../database/models/Category";
+import CategoryItem from "../../database/models/CategoryItem";
 
 let item: Item;
 
@@ -34,5 +36,26 @@ describe("Test Item model", () => {
 
         expect(stock?.quantity).toBe(1);
     });
+
+    test("When an item is created, the category of that item should automatically be set to Undefined", async() => {
+        const undefined = "Undefined";
+
+        const category = await Category.findOne({
+            where: {
+                name: undefined
+            }
+        });
+
+        expect(category).not.toBeNull();
+
+        const categoryItem = await CategoryItem.findOne({
+            where: {
+                itemId: item.id,
+                categoryId: category?.id
+            }
+        });
+
+        expect(categoryItem).toBeDefined();
+    })
 });
 
