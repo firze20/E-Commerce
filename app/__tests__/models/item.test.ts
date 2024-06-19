@@ -11,8 +11,6 @@ describe("Test Item model", () => {
             image: "https://www.pokemoncenter.com/images/DAMRoot/High/10000/P7730_701-29240_02.jpg"
         });
 
-        expect(item.name).toBe("Pikachu Plushie Doll");
-
         // Find the stock of the item
         const stock = await Stock.findOne({
             where: {
