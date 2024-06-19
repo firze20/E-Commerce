@@ -63,7 +63,7 @@ server {
 __First time ? Run Docker compose Build__
 
 ```shell
-docker-compose up --build 
+docker compose up --build 
 ```
 
 __Next time just run this:__
