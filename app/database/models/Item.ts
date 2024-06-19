@@ -352,17 +352,21 @@ class Item extends Model {
       categories = [categories];
     }
 
+    const transaction = await sequelize.transaction();
+
     try {
       const categorySearch = await Category.findAll({
-        where: { name: categories },
+        where: { name: categories }, transaction
       });
 
       if (categorySearch.length !== categories.length) {
         throw new Error("One or more categories do not exist");
       }
 
-      await this.$add("categories", categorySearch);
+      await this.$add("categories", categorySearch, { transaction});
+      await transaction.commit();
     } catch (error) {
+      await transaction.rollback();
       logger.error("Error adding category: ", error);
       throw new Error("Error adding category");
     }
@@ -379,9 +383,11 @@ class Item extends Model {
       categories = [categories];
     }
 
+    const transaction = await sequelize.transaction();
+
     try {
       const categorySearch = await Category.findAll({
-        where: { name: categories },
+        where: { name: categories }, transaction
       });
 
       if (categorySearch.length !== categories.length) {
@@ -389,7 +395,9 @@ class Item extends Model {
       }
 
       await this.$remove("categories", categorySearch);
+      await transaction.commit();
     } catch (error) {
+      await transaction.rollback();
       logger.error("Error removing category: ", error);
       throw new Error("Error removing category");
     }

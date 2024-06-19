@@ -71,11 +71,11 @@ class Cart extends Model {
 
   /**
    * Adds an item to the cart.
-   * @param {number} itemId - The ID of the item to add.
+   * @param {Item} item - The item to add.
    * @param {number} [quantity=1] - The quantity of the item to add.
    * @returns {Promise<void>}
    */
-  async addItemToCart(itemId: number, quantity: number = 1): Promise<void> {
+  async addItemToCart(item: Item, quantity: number = 1): Promise<void> {
     // Begin a transaction
     const transaction = await sequelize.transaction();
     try {
@@ -83,7 +83,7 @@ class Cart extends Model {
 
       // Find or create CartItem
       const [cartItem, created] = await CartItem.findOrCreate({
-        where: { cartId: this.id, itemId },
+        where: { cartId: this.id, itemId: item.id },
         defaults: { quantity },
         transaction,
       });
@@ -105,7 +105,7 @@ class Cart extends Model {
 
   /**
    * Removes an item from the cart.
-   * @param {number} itemId - The ID of the item to add.
+   * @param {Item} item - The Item to add
    * @param {number} [quantity=1] - The quantity of the item to remove.
    * @returns {Promise<void>}
    */
@@ -116,7 +116,7 @@ class Cart extends Model {
    * @returns {Promise<void>}
    */
   async removeItemFromCart(
-    itemId: number,
+    item: Item,
     quantity: number = 1
   ): Promise<void> {
     // Begin a transaction
@@ -124,7 +124,7 @@ class Cart extends Model {
     try {
       // Find CartItem
       const cartItem = await CartItem.findOne({
-        where: { cartId: this.id, itemId },
+        where: { cartId: this.id, itemId: item.id },
         transaction,
       });
 

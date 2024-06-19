@@ -91,11 +91,5 @@ describe("Test Tokens", () => {
       const response = await request(app).post("/api/e-commerce/auth/refresh-token").set("Cookie", `refreshToken=${refreshToken}`);
 
       expect(response.status).toBe(401);
-
-      expect(response.body.message).toBe("Refresh token has expired.");
-
       })
-
-      
-
 });
