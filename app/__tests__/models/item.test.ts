@@ -59,7 +59,26 @@ describe("Test Item model", () => {
     })
 
     test("Item model should have a method to add a category to the item", async () => {
-        
-    });
+    // Assuming addCategory is defined and is a function
+  
+      const category = await Category.create({
+        name: "Plushies"
+      });
+
+      // Call the method and check the result
+      await item.addCategory(category.name);
+
+      // Verify that the category was added
+      const categoryItem = await CategoryItem.findOne({
+        where: {
+          itemId: item.id,
+          categoryId: category.id
+        }
+      });
+
+      expect(categoryItem).toBeDefined();
+        }
+
+    );
 });
 
