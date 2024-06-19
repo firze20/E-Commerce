@@ -1,4 +1,5 @@
 import User from "../../database/models/User";
+import Cart from "../../database/models/Cart";
 
 let user: User;
 const password = "megaPassword";
@@ -18,6 +19,12 @@ describe("Test User model", () => {
   });
 
   test("User should have a cart created after creation", async () => {
+    const cart = await Cart.findOne({
+      where: {
+        userId: user.id,
+      },
+    });
 
+    expect(cart).not.toBeNull();
   });
 });
