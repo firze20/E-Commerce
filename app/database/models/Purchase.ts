@@ -2,6 +2,7 @@ import { Table, Column, Model, DataType, CreatedAt, ForeignKey, AutoIncrement, B
 import User from "./User";
 import Item from "./Item";
 import Cart from "./Cart";
+import PurchaseItem from "./PurchaseItem";
 /**
  * Represents an Purchase in the database.
  * @class
@@ -28,6 +29,13 @@ class Purchase extends Model {
         type: DataType.DATE
     })
     date!: Date;
+
+      /**
+     * The items purchased in this purchase.
+     * @type {Item[]}
+     */
+      @BelongsToMany(() => Item, () => PurchaseItem)
+      items!: Item[];
 
     /**
      * The foreign key for the user who made the purchase.
