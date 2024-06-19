@@ -21,6 +21,8 @@ import CartItem from "./CartItem";
 import sequelize from "../db.config"; // Adjust the path as needed
 
 import logger from "../../utils/logger";
+import Purchase from "./Purchase";
+import PurchaseItem from "./PurchaseItem";
 /**
  * Represents an Item in the database.
  * @class
@@ -116,6 +118,13 @@ class Item extends Model {
   cart!: Cart[];
 
   /**
+   * The purchases associated with this item.
+   * @type {Purchase[]}
+   */
+  @BelongsToMany(() => Purchase, () => PurchaseItem)
+  purchase!: Purchase[];
+
+  /**
    * The date and time the item was created.
    * @type {Date}
    */
@@ -191,7 +200,6 @@ class Item extends Model {
    * @param {Item} item - An items
    */
 
-
   @AfterCreate
   static async assignCategory(item: Item) {
     const transaction = await sequelize.transaction();
@@ -228,7 +236,6 @@ class Item extends Model {
    * @param {Item[]} items - An array of items
    */
 
-
   @AfterBulkCreate
   static async assignCategoryBulk(items: Item[]) {
     const transaction = await sequelize.transaction();
@@ -263,7 +270,6 @@ class Item extends Model {
       );
     }
   }
-
 
   /**
    * Retrieves the current quantity of this item in stock.
