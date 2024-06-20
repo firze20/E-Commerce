@@ -22,14 +22,14 @@ describe("Test Cart endpoints", () => {
 
     test("Remove an item from my cart", async () => {
         const response = await request(app)
-            .delete("/api/e-commerce/shop/cart/1");
+            .delete("/api/e-commerce/shop/cart/?itemId=1");
         expect(response.status).toBe(200);
         expect(response.body.cart).toBeDefined();
     });
 
     test("Update an item in my cart", async () => {
         const response = await request(app)
-            .put("/api/e-commerce/shop/cart/1")
+            .put("/api/e-commerce/shop/cart/?itemId=1")
             .send({
                 quantity: 2
             });
