@@ -38,7 +38,7 @@ passport.use(
       const roles = user.roles.map(role => role.name);
 
       const userInfo = {
-        ...user,
+        id: user.id,
         roles,
       }
 
