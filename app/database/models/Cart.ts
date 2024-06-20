@@ -174,6 +174,50 @@ class Cart extends Model {
       throw new Error("Failed to fetch cart items");
     }
   }
+
+  /**
+   * Returns the total price of the items in the cart.
+   * @returns {Promise<number>}
+   */
+
+  async getTotalPrice(): Promise<number> {
+    try {
+      const cartItems = await CartItem.findAll({
+        where: { cartId: this.id },
+        include: Item,
+      });
+
+      let totalPrice = 0;
+
+      for (const cartItem of cartItems) {
+        totalPrice += cartItem.quantity * cartItem.item.price;
+      }
+
+      return totalPrice;
+    } catch (error: any) {
+      logger.error(`Error fetching cart items: ${error.message}`);
+      throw new Error("Failed to fetch cart items");
+    }
 }
+
+/**
+ * Get cart Items
+ * Returns the items in the cart.
+ * @returns {Promise<Item[]>}
+ */
+
+async getCartItems(): Promise<Item[]> {
+  try {
+    const cartItems = await CartItem.findAll({
+      where: { cartId: this.id },
+      include: Item,
+    });
+
+    return cartItems.map((cartItem) => cartItem.item);
+  } catch (error: any) {
+    logger.error(`Error fetching cart items: ${error.message}`);
+    throw new Error("Failed to fetch cart items");
+  }
+}}
 
 export default Cart;

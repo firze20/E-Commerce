@@ -4,6 +4,7 @@ import Item from "./Item";
 import Cart from "./Cart";
 import PurchaseItem from "./PurchaseItem";
 import sequelize from "../db.config";
+import logger from "../../utils/logger";
 
 /**
  * Represents an Purchase in the database.
@@ -71,28 +72,51 @@ class Purchase extends Model {
     totalPrice!: number; // Total price of the purchase
 
     // Create purchase
-
-    static async createPurchase(user: User): Promise<void> {
-        // const transaction = await sequelize.transaction();
-
-        // const cart = await Cart.findOne({
-        //     where: {
-        //         userId: user.id,
-        //     }
-        // });
-
-
-    }
-
-    async getPurchasePrice(): Promise<number> {
-        return 1
-    }
-
-    // async getPurchaseItems(): Promise<Item[]> {
-        
-    // }
-
+    /**
+     * Creates a new purchase in the database.
+     * @param cart 
+     */
+    static async createPurchase(cart: Cart): Promise<void> {
+        const transaction = await sequelize.transaction();
+        try {
+            // Get total price from the cart to calculate the price
+            const totalPrice = await cart.getTotalPrice();
+            // Gets all Items in the cart
+            const totalItems = await cart.getCartItems();
     
+            // Create a new purchase
+            const purchase = await Purchase.create({
+                date: new Date(),
+                userId: cart.userId,
+                cartId: cart.id,
+                totalPrice
+            }, { transaction });
+    
+            for (const item of totalItems) {
+                await PurchaseItem.create({
+                    purchaseId: purchase.id,
+                    itemId: item.id,
+                    price: item.price
+                }, { transaction });
+            }
+    
+            await transaction.commit();
+        } catch (error: any) {
+            await transaction.rollback();
+            logger.error("Error creating purchase: ", error);
+            throw new Error("Error creating purchase");
+        }
+    }
+
+    // Get Purchase Items
+    /**
+     * Gets the items in the purchase.
+     * @returns {Promise<Item[]>}
+     */
+    async getPurchaseItems(): Promise<Item[]> {
+        const items = await this.$get("items") as Item[];
+        return items;
+    }
 }
 
 export default Purchase;
