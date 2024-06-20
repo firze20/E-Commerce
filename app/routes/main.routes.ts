@@ -1,6 +1,6 @@
 import { Request, Response, Router} from "express";
 import authRouter from "./auth/auth.routes";
-import myCartRouter from "./profile/my-cart.routes";
+import myCartRouter from "./cart/my-cart.routes";
 import shopRouter from "./shop/items.routes";
 import { unknownEndpoint } from "./unknown/unknown.routes";
 
