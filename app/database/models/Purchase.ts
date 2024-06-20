@@ -3,6 +3,8 @@ import User from "./User";
 import Item from "./Item";
 import Cart from "./Cart";
 import PurchaseItem from "./PurchaseItem";
+import sequelize from "../db.config";
+
 /**
  * Represents an Purchase in the database.
  * @class
@@ -67,6 +69,30 @@ class Purchase extends Model {
         defaultValue: 0.0,
     })
     totalPrice!: number; // Total price of the purchase
+
+    // Create purchase
+
+    static async createPurchase(user: User): Promise<void> {
+        // const transaction = await sequelize.transaction();
+
+        // const cart = await Cart.findOne({
+        //     where: {
+        //         userId: user.id,
+        //     }
+        // });
+
+
+    }
+
+    async getPurchasePrice(): Promise<number> {
+        return 1
+    }
+
+    // async getPurchaseItems(): Promise<Item[]> {
+        
+    // }
+
+    
 }
 
 export default Purchase;
