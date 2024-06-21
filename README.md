@@ -6,6 +6,7 @@
 - [Current stage](#current-stage)
 - [Database](#database-schema)
 - [Project annotations](#project-annotations)
+- [Project libraries](#project-libraries)
 - [Useful Links](#usefull-links)
 
 ## This is a back-end nodejs project for an e-commerce website.
@@ -308,6 +309,28 @@ __Currently List:__
 - [Jest](https://jestjs.io/) and [Supertest](https://www.npmjs.com/package/supertest) for unit and integration tests TDD
 
 *Note I'm defining 2 passport strategies, passport local for signin and register and jwt strategy to verify protected routes that require authentication*
+
+# Project Libraries
+
+## Libraries
+
+| Libraries       | Purpose                                                                                      |
+| --------------- | -------------------------------------------------------------------------------------------- |
+| **Express**     | A minimal and flexible Node.js web application framework that provides robust features for web and mobile applications. |
+| **Sequelize**   | A promise-based Node.js ORM for Postgres, MySQL, MariaDB, SQLite, and Microsoft SQL Server. It features solid transaction support, relations, read replication, and more. |
+| **Passport**    | A middleware for authentication in Node.js applications. It supports various authentication strategies, including local, OAuth, and JWT. |
+| **JWT**         | JSON Web Token (JWT) is a compact, URL-safe means of representing claims to be transferred between two parties. Used for secure authentication and information exchange. |
+| **Lodash**      | A JavaScript utility library that provides helpful functions for common programming tasks, such as manipulating arrays and objects. |
+| **Jest**        | A delightful JavaScript testing framework with a focus on simplicity. It works with projects using Babel, TypeScript, Node.js, React, Angular, Vue.js, and more. |
+| **TypeScript**  | A typed superset of JavaScript that compiles to plain JavaScript. It provides static typing and modern JavaScript features. |
+| **Dotenv**      | A zero-dependency module that loads environment variables from a `.env` file into `process.env`. It helps manage environment variables for different stages of development. |
+| **Morgan**      | HTTP request logger middleware for Node.js. It helps in logging HTTP requests in a specific format for debugging and monitoring. |
+| **Cors**        | A Node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options. |
+| **Helmet**      | A collection of 12 smaller middleware functions that set HTTP response headers. It helps secure Express apps by setting various HTTP headers. |
+| **Bcrypt**      | A library to help you hash passwords. It provides a way to hash and compare passwords securely. |
+| **Winston**     | A logger for Node.js that supports multiple transports and log levels. It can be used to log information to various locations, such as files, databases, or the console. |
+| **Swagger UI**  | A collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API. It allows you to visualize and interact with the API’s resources without having any of the implementation logic in place. |
+
 
 # Usefull Links
 

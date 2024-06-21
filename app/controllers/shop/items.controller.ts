@@ -14,48 +14,54 @@ const { formatItem } = format;
  * @param {Response} res - The response object.
  */
 const getItemsFromStore = async (req: Request, res: Response) => {
-  const { page = 1, limit = 10, category } = req.query; // Get the query params
+  const { page = 1, limit = 10, category, price, name} = req.query; // Get the query params from the request
 
   const parsedPage = Number(page);
   const parsedLimit = Number(limit);
-
+  const parsedPrice = Number(price);
+  
   const whereClause: any = {};
-
-  const include: any = [
-    {
-      model: Stock,
-      as: "stock",
-      attributes: ["quantity"],
-    },
-    {
-      model: Category,
-      as: "categories",
-      attributes: ["name"],
-      through: { attributes: [] }, // To remove the join table attributes
-    },
-  ];
-
   if (category) {
-    include.push({
-      model: Category,
-      as: "categories",
-      where: {
-        name: category,
-      },
-      attributes: [],
-    });
+    whereClause.category = category;
   }
+
+
+  // const include: any = [
+  //   {
+  //     model: Stock,
+  //     as: "stock",
+  //     attributes: ["quantity"],
+  //   },
+  //   {
+  //     model: Category,
+  //     as: "categories",
+  //     attributes: ["name"],
+  //     through: { attributes: [] }, // To remove the join table attributes
+  //   },
+  // ];
+
+  // if (category) {
+  //   include.push({
+  //     model: Category,
+  //     as: "categories",
+  //     where: {
+  //       name: category,
+  //     },
+  //     attributes: [],
+  //   });
+  // }
 
   const offset = (Number(page) - 1) * Number(limit);
 
   try {
     const { count: totalItems, rows: items } = await Item.findAndCountAll({
       where: whereClause,
-      include,
+      // include,
       limit: parsedLimit,
       offset,
       attributes: ["id", "name", "description", "price", "image"],
       order: [["id", "DESC"]],
+      
     });
 
     const totalPages = Math.ceil(totalItems / parsedLimit);
