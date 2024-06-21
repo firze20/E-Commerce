@@ -23,24 +23,19 @@ const getItemsFromStore = async (req: Request, res: Response) => {
   const parsedMaximumPrice = maximumPrice ? Number(maximumPrice) : undefined;
 
 
-  const whereClause: any = {};
+  const whereClause: any = {
+    ...(name && { name: { [Op.like]: `%${name}%` } }),
+    ...(category && { categories: { [Op.contains]: [category] } }),
+  };
   
-  if (name) {
-    whereClause.name = { [Op.like]: `%${name}%` };
-  }
-
-  if(category) {
-    whereClause.categories = { [Op.contains]: [category] };
-  }
-
   if (parsedMinimumPrice) {
-    whereClause.price = { [Op.gte]: minimumPrice};
+    whereClause.price = { ...(whereClause.price || {}), [Op.gte]: parsedMinimumPrice };
   }
-
+  
   if (parsedMaximumPrice) {
-    whereClause.price = { [Op.lte]: maximumPrice};
+    whereClause.price = { ...(whereClause.price || {}), [Op.lte]: parsedMaximumPrice };
   }
-
+  
   const offset = (Number(page) - 1) * Number(limit);
 
   try {
