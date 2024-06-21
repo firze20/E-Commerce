@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Op } from "sequelize";
 
 import format from "../../helpers/format";
 
@@ -14,49 +15,37 @@ const { formatItem } = format;
  * @param {Response} res - The response object.
  */
 const getItemsFromStore = async (req: Request, res: Response) => {
-  const { page = 1, limit = 10, category, price, name} = req.query; // Get the query params from the request
+  const { page = 1, limit = 10, category, minimumPrice, maximumPrice, name} = req.query; // Get the query params from the request
 
   const parsedPage = Number(page);
   const parsedLimit = Number(limit);
-  const parsedPrice = Number(price);
-  
+  const parsedMinimumPrice = minimumPrice ? Number(minimumPrice) : undefined;
+  const parsedMaximumPrice = maximumPrice ? Number(maximumPrice) : undefined;
+
+
   const whereClause: any = {};
-  if (category) {
-    whereClause.category = category;
+  
+  if (name) {
+    whereClause.name = { [Op.like]: `%${name}%` };
   }
 
+  if(category) {
+    whereClause.categories = { [Op.contains]: [category] };
+  }
 
-  // const include: any = [
-  //   {
-  //     model: Stock,
-  //     as: "stock",
-  //     attributes: ["quantity"],
-  //   },
-  //   {
-  //     model: Category,
-  //     as: "categories",
-  //     attributes: ["name"],
-  //     through: { attributes: [] }, // To remove the join table attributes
-  //   },
-  // ];
+  if (parsedMinimumPrice) {
+    whereClause.price = { [Op.gte]: minimumPrice};
+  }
 
-  // if (category) {
-  //   include.push({
-  //     model: Category,
-  //     as: "categories",
-  //     where: {
-  //       name: category,
-  //     },
-  //     attributes: [],
-  //   });
-  // }
+  if (parsedMaximumPrice) {
+    whereClause.price = { [Op.lte]: maximumPrice};
+  }
 
   const offset = (Number(page) - 1) * Number(limit);
 
   try {
     const { count: totalItems, rows: items } = await Item.findAndCountAll({
       where: whereClause,
-      // include,
       limit: parsedLimit,
       offset,
       attributes: ["id", "name", "description", "price", "image"],

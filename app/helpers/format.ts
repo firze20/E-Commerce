@@ -1,4 +1,5 @@
-import Item from "../database/models/Item"
+import Item from "../database/models/Item";
+import { map, get } from "lodash";
 
 const formatResponses = {
     formatItem: (item: Item) => {
@@ -8,8 +9,8 @@ const formatResponses = {
             description: item.description,
             price: item.price,
             image: item.image,
-            stock: item.stock.quantity,
-            categories: item.categories.map((category: any) => category.name),
+            stock: get(item, "stock.quantity", 0), // // Using Lodash get for safe access
+            categories: map(item.categories, "name") // // Using Lodash get for safe access
         }
     }
 }
