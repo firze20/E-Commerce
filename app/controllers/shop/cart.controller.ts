@@ -31,6 +31,12 @@ const getMyCart = async (req: Request, res: Response) => {
     return res.status(200).send({ cart: items, totalPrice: totalPrice });
 };
 
+const addItemToCart = async (req: Request, res: Response) => {};
+
+const removeItemFromCart = async (req: Request, res: Response) => {};
+
+const updateItemInCart = async (req: Request, res: Response) => {};
+
 export {
     getMyCart as getMyCartController
 }
