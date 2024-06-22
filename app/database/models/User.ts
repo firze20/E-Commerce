@@ -173,6 +173,27 @@ class User extends Model {
   }
 
   /**
+   * Assigns the 'User' role to the user after the user is created.
+   * @param {User} user - The user instance.
+   * @returns {Promise<void>}
+   */
+  @AfterCreate
+  static async assignUserRole(user: User): Promise<void> {
+    const transaction = await sequelize.transaction();
+    try {
+      const role = await Role.findOne({ where: { name: "User" } });
+      if (!role) {
+        throw new Error("Role not found");
+      }
+      await user.$add("role", role, { transaction });
+      await transaction.commit();
+    } catch (error) {
+      await transaction.rollback();
+      logger.error(`Error assigning role to user: ${error}`);
+    }
+  }
+
+  /**
    * Checks if the user has a specific role.
    * @param {string} roleName - The name of the role to check.
    * @returns {Promise<boolean>}
@@ -204,6 +225,19 @@ class User extends Model {
       logger.error("Error adding role(s) to user:", error);
       throw new Error("Failed to add role(s) to user");
     }
+  }
+
+  /**
+   * Removes roles from the user.
+   * @param {string | string[]} roleNames - The name(s) of the roles to remove.
+   * @returns {Promise<void>}
+   */
+  async removeRoles(roleNames: string | string[]): Promise<void> {
+    const rolesToRemove = Array.isArray(roleNames) ? roleNames : [roleNames];
+    const roles = await Role.findAll({ where: { name: rolesToRemove } });
+
+    // Remove roles from the user except the 'User' role
+    await this.$remove("roles", roles.filter((role) => role.name !== "User"));
   }
 }
 
