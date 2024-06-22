@@ -31,16 +31,8 @@ const signUp = async (req: Request, res: Response) => {
       age,
     });
 
-    // If roles were provided
-    if (req.roles) {
-      const rolesToAssign = req.roles.map((role) => role.name);
-      user.addRoles(rolesToAssign);
-    }
-
-    logger.info(`User ${user.username} created!`);
-
     res.status(201).send({
-      message: "User created!",
+      message: `Successfully sign up, username: ${user.username}`,
     });
   } catch (err: any) {
     if (!res.headersSent) {

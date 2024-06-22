@@ -91,7 +91,7 @@ const authRouter = Router();
  */
 authRouter.post(
   "/signup", // Route
-  [checkDuplicateUsername, checkDuplicateEmail, checkRolesExistance], // Middlewares
+  [checkDuplicateUsername, checkDuplicateEmail], // Middlewares
   signUpController // Controller
 );
 /**
