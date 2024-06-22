@@ -8,8 +8,7 @@ import {
   updateItemController,
 } from "../../controllers/shop/items.controller";
 
-import { authenticateJwt } from "../../middlewares/passport/passportJWT";
-import { isManager } from "../../middlewares/auth";
+import { authenticateJwt, isManager } from "../../middlewares";
 
 const shopRouter = Router();
 

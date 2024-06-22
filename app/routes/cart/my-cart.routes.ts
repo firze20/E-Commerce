@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authenticateJwt } from "../../middlewares/passport/passportJWT";
+import { authenticateJwt } from "../../middlewares";
 
 import { getMyCartController } from "../../controllers/shop/cart.controller";
 

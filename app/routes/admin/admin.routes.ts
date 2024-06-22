@@ -1,20 +1,21 @@
 import { Router } from "express";
 
 import {
-    isAdmin
-} from "../../middlewares/auth";
-
-import {
+    isAdmin,
+    checkRolesExistance,
     authenticateJwt
-} from "../../middlewares/passport/passportJWT"
+} from "../../middlewares";
 
 
 import {
-    getAllUsersController
+    getAllUsersController,
+    getUserController
 } from "../../controllers/admin/admin.controller";
 
 const adminRouter = Router();
 
 adminRouter.get("/users", [authenticateJwt, isAdmin], getAllUsersController);
+
+adminRouter.get("/users/:id", [authenticateJwt, isAdmin], getUserController);
 
 export default adminRouter;

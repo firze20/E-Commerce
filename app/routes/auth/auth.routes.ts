@@ -5,7 +5,7 @@ import {
   checkDuplicateUsername,
   checkRolesExistance,
   verifyRefreshToken
-} from "../../middlewares/auth";
+} from "../../middlewares";
 
 import {
   signUpController,
