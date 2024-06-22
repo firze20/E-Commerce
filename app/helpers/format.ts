@@ -66,8 +66,7 @@ const formatResponses = {
      * @returns An object containing a list of formatted user details.
      */
     formatUsers: (users: User[]) => {
-        return {
-            users: map(users, (user) => {
+        return map(users, (user) => {
                 return {
                     id: user.id,
                     username: user.username,
@@ -78,9 +77,8 @@ const formatResponses = {
                     verified: user.verified,
                     createdAt: user.createdAt,
                     updatedAt: user.updatedAt,
-                }
-            }), // Using Lodash map for iteration
-        }
+                };
+            }) // Using Lodash map for iteration
     }
 }
 

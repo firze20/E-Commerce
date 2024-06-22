@@ -48,7 +48,7 @@ const getAllUsers = async (req: Request, res: Response) => {
     const usersResponse = formatUsers(users);
 
     res.status(200).send({
-      usersResponse,
+      users: usersResponse,
       totalPages,
       currentPage: parsedPage,
       perPage: parsedLimit,
