@@ -9,10 +9,9 @@ const { formatCartItems } = formatResponses;
 
 const getMyCart = async (req: Request, res: Response) => {
     try {
-        const { id } = req.user!;
         const cart = await Cart.findOne({
             where: {
-                userId: id
+                userId: req.user!.id
             }
         });
 
@@ -116,7 +115,7 @@ const updateItemInCart = async (req: Request, res: Response) => {
             return res.status(404).send({ message: "Item not found in cart" });
         }
 
-        // await cart(cartItem, parsedQuantity);
+        await cart.updateItemInCart(cartItem!, parsedQuantity);
 
         return res.status(200).send({ message: "Item updated in cart" });
     } catch (error) {
@@ -147,5 +146,9 @@ const emptyCart = async (req: Request, res: Response) => {
 };
 
 export {
-    getMyCart as getMyCartController
+    getMyCart as getMyCartController,
+    addItemToCart as addItemToCartController,
+    removeItemFromCart as removeItemFromCartController,
+    updateItemInCart as updateItemInCartController,
+    emptyCart as emptyCartController
 }
