@@ -104,9 +104,9 @@ const addUserRoles = async (req: Request, res: Response) => {
       return res.status(404).send({ message: "User doesn't exist" });
     }
 
-    const roleNames = roles!.map((role: any) => role.name);
+    if(!roles) return res.status(400).send({ message: "Roles are not provided" });
 
-    await user.addRoles(roleNames);
+    await user.addRoles(roles);
 
     res.status(200).send({ message: "Role added to user" });
   } catch (error) {
@@ -125,9 +125,9 @@ const removeUserRoles = async (req: Request, res: Response) => {
       return res.status(404).send({ message: "User doesn't exist" });
     }
 
-    const roleNames = roles!.map((role: any) => role.name);
+    if(!roles) return res.status(400).send({ message: "Roles are not provided" });
 
-    await user.removeRoles(roleNames);
+    await user.removeRoles(roles);
 
     res.status(200).send({ message: "Role removed from user" });
   } catch (error) {

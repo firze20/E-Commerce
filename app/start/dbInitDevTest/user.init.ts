@@ -1,6 +1,7 @@
 import User from "../../database/models/User";
 import { superUser } from "../data/data";
 import logger from "../../utils/logger";
+import Role from "../../database/models/Role";
 
 async function initSuperUser() {
   logger.info("Checking if super user exist in the database...");
@@ -13,7 +14,15 @@ async function initSuperUser() {
     try {
       const createdUser = await User.create(superUser);
 
-      await createdUser.addRoles(["Admin", "User"]);
+      const roles = await Role.findAll({
+        where: {
+          name: ["Admin", "User"],
+        },
+      });
+
+      if (roles) {
+        await createdUser.addRoles(roles);
+      }
 
       logger.info("Super user created in the database");
     } catch (error) {

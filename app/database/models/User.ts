@@ -205,22 +205,14 @@ class User extends Model {
 
   /**
    * Adds roles to the user.
-   * @param {string | string[]} roleNames - The name(s) of the roles to add.
+   * @param {Role[]} roles - The roles to add
    * @returns {Promise<void>}
    * @throws {Error} If one or more roles do not exist.
    */
-  async addRoles(roleNames: string | string[]): Promise<void> {
+  async addRoles(roles: Role[]): Promise<void> {
     try {
-      const rolesToAssign = Array.isArray(roleNames) ? roleNames : [roleNames];
-      const roles = await Role.findAll({ where: { name: rolesToAssign } });
-
-      if (roles.length !== rolesToAssign.length) {
-        // Some roles were not found in the database
-        throw new Error("One or more roles do not exist");
-      }
-
       // Assign roles to the user
-      await this.$set("roles", roles);
+      await this.$add("role", roles);
     } catch (error) {
       logger.error("Error adding role(s) to user:", error);
       throw new Error("Failed to add role(s) to user");
@@ -229,15 +221,20 @@ class User extends Model {
 
   /**
    * Removes roles from the user.
-   * @param {string | string[]} roleNames - The name(s) of the roles to remove.
+   * @param {roles[]} roleNames - The name(s) of the roles to remove.
    * @returns {Promise<void>}
    */
-  async removeRoles(roleNames: string | string[]): Promise<void> {
-    const rolesToRemove = Array.isArray(roleNames) ? roleNames : [roleNames];
-    const roles = await Role.findAll({ where: { name: rolesToRemove } });
-
-    // Remove roles from the user except the 'User' role
-    await this.$remove("roles", roles.filter((role) => role.name !== "User"));
+  async removeRoles(roles: Role[]): Promise<void> {
+    try {
+      // Remove roles from the user except the 'User' role
+      await this.$remove(
+        "role",
+        roles.filter((role) => role.name !== "User")
+      );
+    } catch (error) {
+      logger.error("Error removing role(s) to user:", error);
+      throw new Error("Failed to remove role(s) to user");
+    }
   }
 }
 
