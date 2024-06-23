@@ -1,0 +1,16 @@
+cloud-architecture-diagram
+
+// Title
+title Docker-based Architecture with Nginx, Express, and Neon Database
+
+// Nodes and groups
+Docker [icon: docker] {
+  Nginx Reverse Proxy [icon: nginx] // entry point
+  Express Nodes [icon: nodejs]
+  Neon Database [icon: postgresql]
+}
+
+// Connections
+Nginx Reverse Proxy > Express Nodes
+Express Nodes > Neon Database
+

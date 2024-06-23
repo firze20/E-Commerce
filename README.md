@@ -1,49 +1,43 @@
+<p><a target="_blank" href="https://app.eraser.io/workspace/rf7uOfOOuweqmoum2hVB" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
+
 # E-Commerce Portfolio Project
-
 ## Table of Contents
-
-- [This is a back-end nodejs project for an e-commerce website.](#this-is-a-back-end-nodejs-project-for-an-e-commerce-website)
-- [Current stage](#current-stage)
-- [Database](#database-schema)
-- [Project annotations](#project-annotations)
-- [Project libraries](#project-libraries)
-- [Useful Links](#usefull-links)
-
+- [﻿This is a back-end nodejs project for an e-commerce website.](#this-is-a-back-end-nodejs-project-for-an-e-commerce-website) 
+- [﻿Current stage](#current-stage) 
+- [﻿Database](#database-schema) 
+- [﻿Project annotations](#project-annotations) 
+- [﻿Project libraries](#project-libraries) 
+- [﻿Useful Links](#usefull-links) 
 ## This is a back-end nodejs project for an e-commerce website.
+![image.png](/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___QKb_MXQdIXsIo-4aJF2xA.png "image.png")
+
+ 
 
 ### Current stage
-
-- **To Do**:
-
-  - [ ] **Set up checkout endpoint**: Add the logic for handling checkout. There is no need to actually try and charge somebody yet; charging will come in a later evolution of this project. For now, we will assume that all charges succeed for ease of development (still add in error handling to account for times it doesn’t).
-  - [ ] **Set up order endpoint**: Add the logic for handling CRUD operations related to orders.
-  - [ ] **Document the API**: Document the API you have built by adding and configuring Swagger to your project.
-  - [ ] **Next Steps**: You’re welcome to expand your API beyond these project tasks and get creative! A future portfolio project will build on top of what you have built here, covering tasks for creating the client side of your e-commerce application. If you don’t want to wait that long, you can try building out a client for your API on your own!
-
-- **In Progress**:
-
-  - [ ] **Set up cart endpoint**: Add the logic for handling CRUD operations related to a user’s cart.
-
-- **Done**:
-  - [x] **Set up user endpoints**: Add the logic for handling CRUD operations related to users and their accounts. (Implementing Refresh Tokens at the moment)
-  - [x] **Set up product endpoints**: Add the logic for handling CRUD operations related to products.
-  - [x] **Set up local login**: Add the logic for handling login using a username and password.
-  - [x] **Plan API endpoints**: Plan the API endpoints that will be used in retrieving data from your database.
-  - [x] **Set up user registration**: Add the logic for handling registration of new users.
-  - [x] **Connect the app and database**: Set up your application to be able to interface with the PostgreSQL database.
-  - [x] **Create PostgreSQL database and tables**: Create a PostgreSQL database and add the tables from your design.
-  - [x] **Design the database**: Plan out the different types of data the application will track and how those pieces of data relate.
-  - [x] **Set up an Express server**: Create a directory for your project and set up a basic Express server.
-  - [x] **Set up version control**: Set up Git tracking in your directory and make sure to add and commit changes as you make them.
-
+- [ ] **To Do**:
+    - [ ] **Set up checkout endpoint**: Add the logic for handling checkout. There is no need to actually try and charge somebody yet; charging will come in a later evolution of this project. For now, we will assume that all charges succeed for ease of development (still add in error handling to account for times it doesn’t).
+    - [ ] **Set up order endpoint**: Add the logic for handling CRUD operations related to orders.
+    - [ ] **Document the API**: Document the API you have built by adding and configuring Swagger to your project.
+    - [ ] **Next Steps**: You’re welcome to expand your API beyond these project tasks and get creative! A future portfolio project will build on top of what you have built here, covering tasks for creating the client side of your e-commerce application. If you don’t want to wait that long, you can try building out a client for your API on your own!
+- [ ] **In Progress**:
+    - [ ] **Set up cart endpoint**: Add the logic for handling CRUD operations related to a user’s cart.
+- [x] **Done**:
+    - [x] **Set up user endpoints**: Add the logic for handling CRUD operations related to users and their accounts. (Implementing Refresh Tokens at the moment)
+    - [x] **Set up product endpoints**: Add the logic for handling CRUD operations related to products.
+    - [x] **Set up local login**: Add the logic for handling login using a username and password.
+    - [x] **Plan API endpoints**: Plan the API endpoints that will be used in retrieving data from your database.
+    - [x] **Set up user registration**: Add the logic for handling registration of new users.
+    - [x] **Connect the app and database**: Set up your application to be able to interface with the PostgreSQL database.
+    - [x] **Create PostgreSQL database and tables**: Create a PostgreSQL database and add the tables from your design.
+    - [x] **Design the database**: Plan out the different types of data the application will track and how those pieces of data relate.
+    - [x] **Set up an Express server**: Create a directory for your project and set up a basic Express server.
+    - [x] **Set up version control**: Set up Git tracking in your directory and make sure to add and commit changes as you make them.
 ### Docker Compose
-
 This project uses Nginx with reverse proxy:
 
 - Create a folder in the root of the project called nginx
 - Create a file inside nginx folder called nginx.conf
 - Change configurations if needed
-
 ```conf
 # nginx.conf
 server {
@@ -60,24 +54,20 @@ server {
     }
 }
 ```
-
 **First time ? Run Docker compose Build**
 
 ```shell
 docker compose up --build
 ```
-
 **Next time just run this:**
 
 ```shell
 docker-compose up -d
 ```
-
 # Database Schema
+Using [﻿dbdiagram](https://dbdiagram.io/) 
 
-Using [dbdiagram](https://dbdiagram.io/)
-
-![alt text](ECommerce_Diagram.png)
+![alt text](ECommerce_Diagram.png "")
 
 ```dbml
 Table users {
@@ -157,7 +147,6 @@ Table itemStocks {
 
 }
 ```
-
 **Generated PostgresSQL Schema:**
 
 ```sql
@@ -265,10 +254,8 @@ ALTER TABLE "itemStocks" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
 ALTER TABLE "purchase_items" ADD FOREIGN KEY ("purchase_id") REFERENCES "purchases" ("id");
 
 ALTER TABLE "purchase_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
-
 ```
-
-_Note you should store your `.env` file in the root of the project_
+_Note you should store your _`_.env_`_ file in the root of the project_
 
 **Enviroment Setup Template**
 
@@ -294,50 +281,51 @@ SUPER_USER_FIRST_NAME=
 SUPER_USER_LAST_NAME=
 SUPER_USER_AGE=
 ```
-
 # Project annotations
-
 In this project I'm setting up an express with Typescript, I opted for a ORM to integrate the app with the database.
 
 **Currently List:**
 
 - Docker container that contains the app itself
-- PostgreSQL server-less database [Neon Tech](https://neon.tech/)
+- PostgreSQL server-less database [﻿Neon Tech](https://neon.tech/) 
 - Created 2 seperate databases, one for production, another for testing
-- [Sequelize Typescript v6](https://sequelize.org/docs/v6/other-topics/typescript/)
-- Jsonwebtokens [Jwt](https://jwt.io/) for authentication
-- [Passport](https://www.passportjs.org/) Jwt Strategy for Authentication, may add OAuth later
-- [Jest](https://jestjs.io/) and [Supertest](https://www.npmjs.com/package/supertest) for unit and integration tests TDD
-
+- [﻿Sequelize Typescript v6](https://sequelize.org/docs/v6/other-topics/typescript/) 
+- Jsonwebtokens [﻿Jwt](https://jwt.io/)  for authentication
+- [﻿Passport](https://www.passportjs.org/)  Jwt Strategy for Authentication, may add OAuth later
+- [﻿Jest](https://jestjs.io/)  and [﻿Supertest](https://www.npmjs.com/package/supertest)  for unit and integration tests TDD
 _Note I'm defining 2 passport strategies, passport local for signin and register and jwt strategy to verify protected routes that require authentication_
 
 # Project Libraries
-
 ## Libraries
-
-| Libraries      | Purpose                                                                                                                                                                                                                                                    |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Express**    | A minimal and flexible Node.js web application framework that provides robust features for web and mobile applications.                                                                                                                                    |
-| **Sequelize**  | A promise-based Node.js ORM for Postgres, MySQL, MariaDB, SQLite, and Microsoft SQL Server. It features solid transaction support, relations, read replication, and more.                                                                                  |
-| **Passport**   | A middleware for authentication in Node.js applications. It supports various authentication strategies, including local, OAuth, and JWT.                                                                                                                   |
-| **JWT**        | JSON Web Token (JWT) is a compact, URL-safe means of representing claims to be transferred between two parties. Used for secure authentication and information exchange.                                                                                   |
-| **Lodash**     | A JavaScript utility library that provides helpful functions for common programming tasks, such as manipulating arrays and objects.                                                                                                                        |
-| **Jest**       | A delightful JavaScript testing framework with a focus on simplicity. It works with projects using Babel, TypeScript, Node.js, React, Angular, Vue.js, and more.                                                                                           |
-| **Supertest**  | HTTP assertions for testing Node.js HTTP servers                                                                                                                                                                                                           |
-| **TypeScript** | A typed superset of JavaScript that compiles to plain JavaScript. It provides static typing and modern JavaScript features.                                                                                                                                |
-| **Dotenv**     | A zero-dependency module that loads environment variables from a `.env` file into `process.env`. It helps manage environment variables for different stages of development.                                                                                |
-| **Morgan**     | HTTP request logger middleware for Node.js. It helps in logging HTTP requests in a specific format for debugging and monitoring.                                                                                                                           |
-| **Cors**       | A Node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.                                                                                                                                         |
-| **Helmet**     | A collection of 12 smaller middleware functions that set HTTP response headers. It helps secure Express apps by setting various HTTP headers.                                                                                                              |
-| **Bcrypt**     | A library to help you hash passwords. It provides a way to hash and compare passwords securely.                                                                                                                                                            |
-| **Winston**    | A logger for Node.js that supports multiple transports and log levels. It can be used to log information to various locations, such as files, databases, or the console.                                                                                   |
+| Libraries | Purpose |
+| ----- | ----- |
+| **Express** | A minimal and flexible Node.js web application framework that provides robust features for web and mobile applications. |
+| **Sequelize** | A promise-based Node.js ORM for Postgres, MySQL, MariaDB, SQLite, and Microsoft SQL Server. It features solid transaction support, relations, read replication, and more. |
+| **Passport** | A middleware for authentication in Node.js applications. It supports various authentication strategies, including local, OAuth, and JWT. |
+| **JWT** | JSON Web Token (JWT) is a compact, URL-safe means of representing claims to be transferred between two parties. Used for secure authentication and information exchange. |
+| **Lodash** | A JavaScript utility library that provides helpful functions for common programming tasks, such as manipulating arrays and objects. |
+| **Jest** | A delightful JavaScript testing framework with a focus on simplicity. It works with projects using Babel, TypeScript, Node.js, React, Angular, Vue.js, and more. |
+| **Supertest** | HTTP assertions for testing Node.js HTTP servers |
+| **TypeScript** | A typed superset of JavaScript that compiles to plain JavaScript. It provides static typing and modern JavaScript features. |
+| **Dotenv** | <p>A zero-dependency module that loads environment variables from a </p><p> file into </p><p>. It helps manage environment variables for different stages of development.</p> |
+| **Morgan** | HTTP request logger middleware for Node.js. It helps in logging HTTP requests in a specific format for debugging and monitoring. |
+| **Cors** | A Node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options. |
+| **Helmet** | A collection of 12 smaller middleware functions that set HTTP response headers. It helps secure Express apps by setting various HTTP headers. |
+| **Bcrypt** | A library to help you hash passwords. It provides a way to hash and compare passwords securely. |
+| **Winston** | A logger for Node.js that supports multiple transports and log levels. It can be used to log information to various locations, such as files, databases, or the console. |
 | **Swagger UI** | A collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API. It allows you to visualize and interact with the API’s resources without having any of the implementation logic in place. |
-
 # Usefull Links
-
-- [Passport JWT and Session Authentication Tutorial](https://www.fullstackfoundations.com/blog/passport-jwt)
-- [Express Caching](https://medium.com/@muhammadtaifkhan/cache-your-express-nodejs-api-1e9f80b87c88)
-
+- [﻿Passport JWT and Session Authentication Tutorial](https://www.fullstackfoundations.com/blog/passport-jwt) 
+- [﻿Express Caching](https://medium.com/@muhammadtaifkhan/cache-your-express-nodejs-api-1e9f80b87c88) 
 # Things to rework
-
 - [ ] Might need to revisit swagger documentation, the post item is wrong
+
+
+
+<!-- eraser-additional-content -->
+## Diagrams
+<!-- eraser-additional-files -->
+<a href="/README-Docker-based Architecture with Nginx, Express, and Neon Database-1.eraserdiagram" data-element-id="c3SiRryW7LCtH7M4n0VYO"><img src="/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___---diagram----277da1e81ab047d7f5cbf2666b9c1c57-Docker-based-Architecture-with-Nginx--Express--and-Neon-Database.png" alt="" data-element-id="c3SiRryW7LCtH7M4n0VYO" /></a>
+<!-- end-eraser-additional-files -->
+<!-- end-eraser-additional-content -->
+<!--- Eraser file: https://app.eraser.io/workspace/rf7uOfOOuweqmoum2hVB --->
