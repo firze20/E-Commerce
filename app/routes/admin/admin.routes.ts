@@ -25,7 +25,9 @@ adminRouter.post("/users/:id", [authenticateJwt, isAdmin, checkRolesExistance], 
 
 adminRouter.put("/users/:id", [authenticateJwt, isAdmin, checkRolesExistance], removeUserRolesController);
 
-adminRouter.delete("users/:id", [authenticateJwt, isAdmin], removeUserController);
+adminRouter.delete("/users/:id", [authenticateJwt, isAdmin], removeUserController);
 
 export default adminRouter;
+
+
 
