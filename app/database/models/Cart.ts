@@ -103,6 +103,7 @@ class Cart extends Model {
       // Rollback transaction
       await transaction.rollback();
       logger.error(`Error adding item to cart: ${error.message}`);
+      throw new Error(`Failed to add item to cart: ${error.message}`);
     }
   }
 

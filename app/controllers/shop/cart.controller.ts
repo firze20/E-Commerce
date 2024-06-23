@@ -54,7 +54,7 @@ const addItemToCart = async (req: Request, res: Response) => {
             return res.status(404).send({ message: "Cart not found" });
         }
 
-        const cartItem = await cart.addItemToCart(item, parsedQuantity);
+        const cartItem = await cart.addItemToCart(item, quantity && parsedQuantity);
 
         return res.status(200).send({ cartItem });
     } catch (error) {

@@ -1,6 +1,5 @@
 import {Router} from 'express';
 import {getAllCategoriesController, getSingleCategoryController} from "../../../controllers/shop/categories.controller";
-import {authenticateJwt, isManager} from "../../../middlewares";
 
 const categoryRouter = Router();
 
