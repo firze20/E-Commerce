@@ -1,6 +1,15 @@
 <p><a target="_blank" href="https://app.eraser.io/workspace/rf7uOfOOuweqmoum2hVB" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
 
 # E-Commerce Portfolio Project
+
+<!-- eraser-additional-content -->
+## Diagrams
+<!-- eraser-additional-files -->
+<a href="/README-Docker-based Architecture with Nginx, Express, and Neon Database-1.eraserdiagram" data-element-id="c3SiRryW7LCtH7M4n0VYO"><img src="/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___---diagram----277da1e81ab047d7f5cbf2666b9c1c57-Docker-based-Architecture-with-Nginx--Express--and-Neon-Database.png" alt="" data-element-id="c3SiRryW7LCtH7M4n0VYO" /></a>
+<!-- end-eraser-additional-files -->
+<!-- end-eraser-additional-content -->
+<!--- Eraser file: https://app.eraser.io/workspace/rf7uOfOOuweqmoum2hVB --->
+
 ## Table of Contents
 - [﻿This is a back-end nodejs project for an e-commerce website.](#this-is-a-back-end-nodejs-project-for-an-e-commerce-website) 
 - [﻿Current stage](#current-stage) 
@@ -322,10 +331,3 @@ _Note I'm defining 2 passport strategies, passport local for signin and register
 
 
 
-<!-- eraser-additional-content -->
-## Diagrams
-<!-- eraser-additional-files -->
-<a href="/README-Docker-based Architecture with Nginx, Express, and Neon Database-1.eraserdiagram" data-element-id="c3SiRryW7LCtH7M4n0VYO"><img src="/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___---diagram----277da1e81ab047d7f5cbf2666b9c1c57-Docker-based-Architecture-with-Nginx--Express--and-Neon-Database.png" alt="" data-element-id="c3SiRryW7LCtH7M4n0VYO" /></a>
-<!-- end-eraser-additional-files -->
-<!-- end-eraser-additional-content -->
-<!--- Eraser file: https://app.eraser.io/workspace/rf7uOfOOuweqmoum2hVB --->
