@@ -306,7 +306,7 @@ class Item extends Model {
         stock.quantity += quantity;
         await stock.save();
         return this.reload({
-          include: [{ model: Stock, as: "stock", attributes: ["quantity"]}],
+          include: [{ model: Stock, as: "stock", attributes: ["quantity"]}, { model: Category, attributes: ["name"] }],
         });
       } else {
         const createStock = await Stock.create({ quantity });
@@ -343,7 +343,7 @@ class Item extends Model {
       stock.quantity -= quantity;
       await stock.save();
       return this.reload({
-        include: [{ model: Stock, as: "stock", attributes: ["quantity"] }],
+        include: [{ model: Stock, as: "stock", attributes: ["quantity"] }, { model: Category, attributes: ["name"] }],
       })
     } catch (error) {
       logger.error("Error removing stock: ", error);
