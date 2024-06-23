@@ -5,6 +5,7 @@ import User from "../../database/models/User";
 import Role from "../../database/models/Role";
 
 import formatResponses from "../../helpers/format";
+import { format } from "path";
 
 const { formatUsers, formatUser } = formatResponses;
 
@@ -25,16 +26,9 @@ const getAllUsers = async (req: Request, res: Response) => {
       where: whereClause,
       limit: parsedLimit,
       offset,
-      attributes: [
-        "id",
-        "username",
-        "email",
-        "name",
-        "age",
-        "verified",
-        "createdAt",
-        "updatedAt",
-      ],
+      attributes: {
+        exclude: ["password"]
+      },
       include: {
         model: Role,
         as: "roles",
@@ -63,16 +57,9 @@ const getUser = async (req: Request, res: Response) => {
 
   try {
     const user = await User.findByPk(id, {
-      attributes: [
-        "id",
-        "username",
-        "email",
-        "name",
-        "age",
-        "verified",
-        "createdAt",
-        "updatedAt",
-      ],
+      attributes: {
+        exclude: ["password"]
+      },
       include: {
         model: Role,
         as: "roles",
@@ -106,9 +93,9 @@ const addUserRoles = async (req: Request, res: Response) => {
 
     if(!roles) return res.status(400).send({ message: "Roles are not provided" });
 
-    await user.addRoles(roles);
+    const updatedUser = await user.addRoles(roles);
 
-    res.status(200).send({ message: "Role added to user" });
+    res.status(200).send({ message: "Role added to user", user: formatUser(updatedUser) });
   } catch (error) {
     res.status(500).send("Error adding role to user");
   }
@@ -127,9 +114,9 @@ const removeUserRoles = async (req: Request, res: Response) => {
 
     if(!roles) return res.status(400).send({ message: "Roles are not provided" });
 
-    await user.removeRoles(roles);
+    const updatedUser = await user.removeRoles(roles);
 
-    res.status(200).send({ message: "Role removed from user" });
+    res.status(200).send({ message: "Role removed from user", user: formatUser(updatedUser) });
   } catch (error) {
     res.status(500).send("Error removing role from user");
   }

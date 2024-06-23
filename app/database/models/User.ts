@@ -206,13 +206,23 @@ class User extends Model {
   /**
    * Adds roles to the user.
    * @param {Role[]} roles - The roles to add
-   * @returns {Promise<void>}
-   * @throws {Error} If one or more roles do not exist.
+   * @returns {Promise<User>}
    */
-  async addRoles(roles: Role[]): Promise<void> {
+  async addRoles(roles: Role[]): Promise<User> {
     try {
       // Assign roles to the user
       await this.$add("role", roles);
+      return this.reload({
+        include: [{
+          model: Role,
+          as: "roles",
+          attributes: ["name"],
+          through: { attributes: [] },
+        }],
+        attributes: {
+          exclude: ["password"]
+        },
+      });
     } catch (error) {
       logger.error("Error adding role(s) to user:", error);
       throw new Error("Failed to add role(s) to user");
@@ -221,16 +231,28 @@ class User extends Model {
 
   /**
    * Removes roles from the user.
-   * @param {roles[]} roleNames - The name(s) of the roles to remove.
-   * @returns {Promise<void>}
+   * @param {roles[]} roles - The name(s) of the roles to remove.
+   * @returns {Promise<User>} - The new user instance.
    */
-  async removeRoles(roles: Role[]): Promise<void> {
+  async removeRoles(roles: Role[]): Promise<User> {
     try {
       // Remove roles from the user except the 'User' role
       await this.$remove(
         "role",
         roles.filter((role) => role.name !== "User")
       );
+
+      return this.reload({
+        include: [{
+          model: Role,
+          as: "roles",
+          attributes: ["name"],
+          through: { attributes: [] },
+        }],
+        attributes: {
+          exclude: ["password"]
+        },
+      });
     } catch (error) {
       logger.error("Error removing role(s) to user:", error);
       throw new Error("Failed to remove role(s) to user");
