@@ -19,9 +19,9 @@ const getSingleCategory = async (req: Request, res: Response) => {
         if (!category) {
         return res.status(404).json({ message: "Category not found" });
         }
-        res.status(200).json(category);
+        res.status(200).send(category);
     } catch (error) {
-        res.status(500).json({ message: "Failed to retrieve category" });
+        res.status(500).send({ message: "Failed to retrieve category" });
     }
 };
 
@@ -29,9 +29,9 @@ const postCategory = async (req: Request, res: Response) => {
   try {
     const { name, description } = req.body;
     const category = await Category.create({ name, description });
-    res.status(201).json(category);
+    res.status(201).send({ message: "Category created", category });
   } catch (error) {
-    res.status(500).json({ message: "Failed to create category" });
+    res.status(500).send({ message: "Failed to create category" });
   }
 };
 
@@ -46,9 +46,9 @@ const editCategory = async (req: Request, res: Response) => {
     category.name = name ? name : category.name;
     category.description = description ? description : category.description;
     await category.save();
-    res.status(200).json(category);
+    res.status(200).send({ message: "Category updated", category});
   } catch (error) {
-    res.status(500).json({ message: "Failed to update category" });
+    res.status(500).send({ message: "Failed to update category" });
   }
 };
 
@@ -60,9 +60,9 @@ const removeCategory = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Category not found" });
     }
     await category.destroy();
-    res.status(204).send();
+    res.status(204).send({ message: "Category deleted"});
   } catch (error) {
-    res.status(500).json({ message: "Failed to delete category" });
+    res.status(500).send({ message: "Failed to delete category" });
   }
 };
 
