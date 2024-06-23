@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, AutoIncrement, BelongsToMany, PrimaryKey } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, AutoIncrement, BelongsToMany, PrimaryKey, AfterDestroy } from "sequelize-typescript";
 import Item from "./Item";
 import CategoryItem from "./CategoryItem";
 
@@ -59,6 +59,16 @@ class Category extends Model {
      */
     @BelongsToMany(() => Item, () => CategoryItem)
     items!: Item[];
+
+    /**
+     * Removes all CategoryItems associated with the Category.
+     * @param {Category} instance The Category instance to remove items from.
+     */
+    @AfterDestroy
+    static async removeCategoryItems(instance: Category) {
+        await CategoryItem.destroy({ where: { categoryId: instance.id } });
+    }
+    
 }
 
 export default Category;
