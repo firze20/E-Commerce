@@ -12,6 +12,13 @@ const getMyCart = async (req: Request, res: Response) => {
         const cart = await Cart.findOne({
             where: {
                 userId: req.user!.id
+            },
+            include: {
+                model: Item,
+                as: 'items',
+                through: {
+                    attributes: ['quantity']
+                }
             }
         });
 
@@ -115,7 +122,7 @@ const updateItemInCart = async (req: Request, res: Response) => {
             return res.status(404).send({ message: "Item not found in cart" });
         }
 
-        await cart.updateItemInCart(cartItem!, parsedQuantity);
+        await cart.updateItemInCart(cartItem, quantity && parsedQuantity);
 
         return res.status(200).send({ message: "Item updated in cart" });
     } catch (error) {

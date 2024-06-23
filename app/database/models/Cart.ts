@@ -184,7 +184,8 @@ class Cart extends Model {
       // Rollback transaction
       await transaction.rollback();
       logger.error(`Error updating item in cart: ${error.message}`);
-    }}
+    }
+  }
 
   /**
    * Returns the quantity of items inside the cart
@@ -237,17 +238,26 @@ class Cart extends Model {
   /**
    * Get cart Items
    * Returns the items in the cart.
-   * @returns {Promise<Item[]>}
+   * @returns {{ item: Item, quantity: number }[]}
    */
 
-  async getCartItems(): Promise<Item[]> {
+  async getCartItems(): Promise<{ item: Item; quantity: number }[]> {
     try {
       const cartItems = await CartItem.findAll({
         where: { cartId: this.id },
-        include: Item,
+        include: [
+          {
+            model: Item,
+            as: "item",
+            attributes: ["id", "name", "description", "price"],
+          },
+        ],
       });
 
-      return cartItems.map((cartItem) => cartItem.item);
+      return cartItems.map((cartItem) => ({
+        item: cartItem.item,
+        quantity: cartItem.quantity,
+      }));
     } catch (error: any) {
       logger.error(`Error fetching cart items: ${error.message}`);
       throw new Error("Failed to fetch cart items");

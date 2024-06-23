@@ -92,11 +92,11 @@ class Purchase extends Model {
                 totalPrice
             }, { transaction });
     
-            for (const item of totalItems) {
+            for (const cart of totalItems) {
                 await PurchaseItem.create({
                     purchaseId: purchase.id,
-                    itemId: item.id,
-                    price: item.price
+                    itemId: cart.item.id,
+                    price: cart.item.price
                 }, { transaction });
             }
     
