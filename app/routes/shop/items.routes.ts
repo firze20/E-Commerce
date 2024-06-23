@@ -200,10 +200,6 @@ shopRouter.get("/item/:id", getItemController);
  *                 type: string
  *                 description: "URL of the item image"
  *                 example: "https://e7.pngegg.com/pngimages/996/985/png-clipart-sandals-sandals.png"
- *               stockId:
- *                 type: integer
- *                 description: "ID of the stock associated with the item"
- *                 example: 7
  *     responses:
  *       201:
  *         description: "Item created successfully"

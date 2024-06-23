@@ -17,6 +17,7 @@ import Item from "./Item";
 import sequelize from "../db.config";
 
 import logger from "../../utils/logger";
+import { on } from "events";
 
 /**
  * Represents a Cart in the database.
@@ -54,7 +55,9 @@ class Cart extends Model {
    * The User who owns the Cart.
    * @type {User}
    */
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, {
+    onDelete: "CASCADE",
+  })
   user!: User;
 
   /**

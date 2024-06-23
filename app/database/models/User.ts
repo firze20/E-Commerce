@@ -127,7 +127,9 @@ class User extends Model {
    * The cart associated with the user.
    * @type {Cart}
    */
-  @HasOne(() => Cart)
+  @HasOne(() => Cart, {
+    onDelete: "CASCADE",
+  })
   cart!: Cart;
 
   /**
