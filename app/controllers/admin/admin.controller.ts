@@ -5,7 +5,6 @@ import User from "../../database/models/User";
 import Role from "../../database/models/Role";
 
 import formatResponses from "../../helpers/format";
-import { format } from "path";
 
 const { formatUsers, formatUser } = formatResponses;
 
