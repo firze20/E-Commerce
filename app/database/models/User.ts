@@ -11,6 +11,7 @@ import {
   HasMany,
   BelongsToMany,
   AfterCreate,
+  AfterDestroy,
 } from "sequelize-typescript";
 import RefreshToken from "./RefreshToken";
 import Cart from "./Cart";
@@ -196,6 +197,16 @@ class User extends Model {
   }
 
   /**
+   * Destroys all user roles when a user is deleted.
+   * @param {User} user - The user instance.
+   * @returns {Promise<void>}
+   */
+  @AfterDestroy
+  static async deleteUserRoles(user: User): Promise<void> {
+    await UserRole.destroy({ where: { userId: user.id } });
+  }
+
+  /**
    * Checks if the user has a specific role.
    * @param {string} roleName - The name of the role to check.
    * @returns {Promise<boolean>}
@@ -215,14 +226,16 @@ class User extends Model {
       // Assign roles to the user
       await this.$add("role", roles);
       return this.reload({
-        include: [{
-          model: Role,
-          as: "roles",
-          attributes: ["name"],
-          through: { attributes: [] },
-        }],
+        include: [
+          {
+            model: Role,
+            as: "roles",
+            attributes: ["name"],
+            through: { attributes: [] },
+          },
+        ],
         attributes: {
-          exclude: ["password"]
+          exclude: ["password"],
         },
       });
     } catch (error) {
@@ -245,14 +258,16 @@ class User extends Model {
       );
 
       return this.reload({
-        include: [{
-          model: Role,
-          as: "roles",
-          attributes: ["name"],
-          through: { attributes: [] },
-        }],
+        include: [
+          {
+            model: Role,
+            as: "roles",
+            attributes: ["name"],
+            through: { attributes: [] },
+          },
+        ],
         attributes: {
-          exclude: ["password"]
+          exclude: ["password"],
         },
       });
     } catch (error) {
