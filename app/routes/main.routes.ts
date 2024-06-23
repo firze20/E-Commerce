@@ -3,6 +3,7 @@ import authRouter from "./auth/auth.routes";
 import myCartRouter from "./cart/my-cart.routes";
 import shopRouter from "./shop/shop.routes";
 import adminRouter from "./admin/admin.routes";
+import managerRouter from "./manager/manager.routes";
 import { unknownEndpoint } from "./unknown/unknown.routes";
 
 
@@ -47,6 +48,7 @@ mainRouter.use("/auth", authRouter); // Authentication Router
 mainRouter.use("/my-cart", myCartRouter); // Cart Routher
 mainRouter.use("/store", shopRouter); // Store router
 mainRouter.use("/admin", adminRouter) // Admin Router
+mainRouter.use("/manager", managerRouter) // Manager Router
 
 // Unknown Endpoints
 mainRouter.use(unknownEndpoint);

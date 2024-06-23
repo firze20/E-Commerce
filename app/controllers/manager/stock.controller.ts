@@ -2,6 +2,10 @@ import { Request, Response } from "express";
 import logger from "../../utils/logger";
 import Item from "../../database/models/Item";
 
+import formatResponses from "../../helpers/format";
+
+const { formatItem } = formatResponses;
+
 const addStock = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -16,9 +20,22 @@ const addStock = async (req: Request, res: Response) => {
       return res.status(404).send({ message: "Item not found" });
     }
 
-    const stock = await item.addStock(parsedQuantity);
+    const updateItemStock = await item.addStock(quantity && parsedQuantity);
 
-    return res.status(200).send({ stock });
+    if (!updateItemStock) {
+      return res
+        .status(500)
+        .send({ message: "An error occurred while adding stock" });
+    }
+
+    logger.info(updateItemStock);
+
+    return res
+      .status(200)
+      .send({
+        message: "Successfully increased item stock",
+        item: formatItem(updateItemStock),
+      });
   } catch (error) {
     logger.error(`Error adding stock: ${error}`);
     return res
@@ -35,13 +52,26 @@ const removeStock = async (req: Request, res: Response) => {
   const item = await Item.findByPk(id);
 
   try {
+    const parsedQuantity = Number(quantity);
+
     if (!item) {
       return res.status(404).send({ message: "Item not found" });
     }
 
-    const stock = await item.removeStock(quantity);
+    const updateItemStock = await item.removeStock(quantity && parsedQuantity);
 
-    return res.status(200).send({ stock });
+    if (!updateItemStock) {
+      return res
+        .status(500)
+        .send({ message: "An error occurred while removing stock" });
+    }
+
+    return res
+      .status(200)
+      .send({
+        message: "Successfully decreased item stock",
+        item: formatItem(updateItemStock),
+      });
   } catch (error) {
     logger.error(`Error removing stock: ${error}`);
     return res
@@ -50,7 +80,4 @@ const removeStock = async (req: Request, res: Response) => {
   }
 };
 
-export {
-    addStock as addStockController,
-    removeStock as removeStockController
-}
+export { addStock as addStockController, removeStock as removeStockController };

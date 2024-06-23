@@ -290,11 +290,12 @@ class Item extends Model {
 
   /**
    * Adds stock to this item.
-   * @async
+   * @async 
    * @param {number} quantity - The quantity of stock to add.
+   * @returns {Item | undefined} The updated item instance.
    * @throws {Error} If the quantity is less than or equal to 0.
    */
-  async addStock(quantity: number = 1): Promise<void> {
+  async addStock(quantity: number = 1): Promise<Item | undefined> {
     if (quantity <= 0) {
       throw new Error("Quantity must be greater than zero");
     }
@@ -304,6 +305,9 @@ class Item extends Model {
       if (stock) {
         stock.quantity += quantity;
         await stock.save();
+        return this.reload({
+          include: [{ model: Stock, as: "stock", attributes: ["quantity"]}],
+        });
       } else {
         const createStock = await Stock.create({ quantity });
         await this.$set("stock", createStock);
@@ -318,9 +322,10 @@ class Item extends Model {
    * Removes stock from this item.
    * @async
    * @param {number} quantity - The quantity of stock to remove.
+   * @returns {Item | undefined} The updated item instance.
    * @throws {Error} If the quantity is less than or equal to 0, if no stock is found, or if there isn't enough stock to remove.
    */
-  async removeStock(quantity: number = 1): Promise<void> {
+  async removeStock(quantity: number = 1): Promise<Item | undefined> {
     if (quantity <= 0) {
       throw new Error("Quantity must be greater than zero");
     }
@@ -337,6 +342,9 @@ class Item extends Model {
 
       stock.quantity -= quantity;
       await stock.save();
+      return this.reload({
+        include: [{ model: Stock, as: "stock", attributes: ["quantity"] }],
+      })
     } catch (error) {
       logger.error("Error removing stock: ", error);
       throw new Error("Error removing stock");
