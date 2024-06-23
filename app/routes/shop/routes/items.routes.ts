@@ -1,14 +1,11 @@
 import { Router } from "express";
 
 import {
-  getItemsFromStoreController,
   getItemController,
   createItemController,
   deleteItemController,
   updateItemController,
 } from "../../../controllers/shop/items.controller";
-
-import categoryRouter from "./categories.routes";
 
 import { authenticateJwt, isManager } from "../../../middlewares";
 
