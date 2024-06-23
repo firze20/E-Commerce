@@ -137,7 +137,9 @@ class User extends Model {
    * The purchases made by the user.
    * @type {Purchase[]}
    */
-  @HasMany(() => Purchase)
+  @HasMany(() => Purchase, {
+    onDelete: "CASCADE",
+  })
   purchase!: Purchase[];
 
   /**

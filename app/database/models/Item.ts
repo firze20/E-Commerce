@@ -100,7 +100,9 @@ class Item extends Model {
    * The Stock instance associated with this item.
    * @type {Stock}
    */
-  @HasOne(() => Stock)
+  @HasOne(() => Stock, {
+    onDelete: "CASCADE",
+  })
   stock!: Stock;
 
   /**
