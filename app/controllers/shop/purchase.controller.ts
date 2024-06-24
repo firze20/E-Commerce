@@ -18,7 +18,7 @@ const makePurchase = async (req: Request, res: Response) => {
         await Purchase.createPurchase(cart);
         return res.status(201).send({ message: "Purchase completed" });
     } catch (error: any) {
-        res.status(500).send({ message: `Error making a purchase: ${error.message}`})
+        res.status(500).send({ message: error.message })
     }
 }
 

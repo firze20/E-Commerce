@@ -152,7 +152,7 @@ class Purchase extends Model {
     } catch (error: any) {
       await transaction.rollback();
       logger.error("Error creating purchase: ", error);
-      throw new Error("Error creating purchase");
+      throw error;
     }
   }
 
