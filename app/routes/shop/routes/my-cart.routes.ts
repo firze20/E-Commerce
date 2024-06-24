@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { authenticateJwt } from "../../middlewares";
+import { authenticateJwt } from "../../../middlewares";
 
-import { getMyCartController, addItemToCartController, updateItemInCartController, removeItemFromCartController, emptyCartController } from "../../controllers/shop/cart.controller";
+import { getMyCartController, addItemToCartController, updateItemInCartController, removeItemFromCartController, emptyCartController } from "../../../controllers/shop/cart.controller";
 
 const myCartRouter = Router();
 

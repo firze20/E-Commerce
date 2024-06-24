@@ -75,9 +75,9 @@ class Cart extends Model {
    * Adds an item to the cart.
    * @param {Item} item - The item to add.
    * @param {number} [quantity=1] - The quantity of the item to add.
-   * @returns {Promise<void>}
+   * @returns {Promise<Cart>} - The updated Cart.
    */
-  async addItemToCart(item: Item, quantity: number = 1): Promise<void> {
+  async addItemToCart(item: Item, quantity: number = 1): Promise<{ item: Item, quantity: number }[] | undefined> {
     // Begin a transaction
     const transaction = await sequelize.transaction();
     try {
@@ -95,9 +95,9 @@ class Cart extends Model {
         cartItem.quantity += quantity;
         await cartItem.save({ transaction });
       }
-
       // Commmit transaction
       await transaction.commit();
+      return await this.getCartItems();
     } catch (error: any) {
       // Rollback transaction
       await transaction.rollback();
@@ -108,17 +108,11 @@ class Cart extends Model {
 
   /**
    * Removes an item from the cart.
-   * @param {Item} item - The Item to add
+   * @param {Item} item - The ID of the item to remove.
    * @param {number} [quantity=1] - The quantity of the item to remove.
-   * @returns {Promise<void>}
+   * @returns {Promise<Cart>} - The updated Cart.
    */
-  /**
-   * Removes an item from the cart.
-   * @param {number} itemId - The ID of the item to remove.
-   * @param {number} [quantity=1] - The quantity of the item to remove.
-   * @returns {Promise<void>}
-   */
-  async removeItemFromCart(item: Item, quantity: number = 1): Promise<void> {
+  async removeItemFromCart(item: Item, quantity: number = 1): Promise<{ item: Item, quantity: number }[] | undefined> {
     // Begin a transaction
     const transaction = await sequelize.transaction();
     try {
@@ -146,6 +140,7 @@ class Cart extends Model {
 
       // Commit transaction
       await transaction.commit();
+      return await this.getCartItems();
     } catch (error: any) {
       // Rollback transaction
       await transaction.rollback();
@@ -157,9 +152,9 @@ class Cart extends Model {
    * Updates the quantity of an item in the cart.
    * @param {Item} item - The Item to update.
    * @param {number} quantity - The new quantity of the item.
-   * @returns {Promise<void>}
+  * @returns {{ item: Item, quantity: number }[] | undefined} - The updated Cart.
    */
-  async updateItemInCart(item: Item, quantity: number): Promise<void> {
+  async updateItemInCart(item: Item, quantity: number): Promise<{ item: Item, quantity: number }[] | undefined> {
     // Begin a transaction
     const transaction = await sequelize.transaction();
     try {
@@ -176,9 +171,10 @@ class Cart extends Model {
       // Update CartItem quantity
       cartItem.quantity = quantity;
       await cartItem.save({ transaction });
-
+      
       // Commit transaction
       await transaction.commit();
+      return await this.getCartItems();
     } catch (error: any) {
       // Rollback transaction
       await transaction.rollback();
@@ -289,10 +285,10 @@ class Cart extends Model {
 
   /**
    * Empty the cart.
-   * @returns {Promise<void>}
+   * @returns {Promise<Cart | undefined>}
    */
 
-  async emptyCart(): Promise<void> {
+  async emptyCart(): Promise<{ item: Item; quantity: number }[] | undefined> {
     // Begin a transaction
     const transaction = await sequelize.transaction();
     try {
@@ -304,6 +300,7 @@ class Cart extends Model {
 
       // Commit transaction
       await transaction.commit();
+      return await this.getCartItems();
     } catch (error: any) {
       // Rollback transaction
       await transaction.rollback();
