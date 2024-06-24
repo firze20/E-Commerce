@@ -131,7 +131,6 @@ class Purchase extends Model {
             purchaseId: purchase.id,
             itemId: cartItem.item.id,
             quantity: cartItem.quantity,
-            price: cartItem.item.price,
           },
           { transaction }
         );

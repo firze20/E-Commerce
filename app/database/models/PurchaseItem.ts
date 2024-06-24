@@ -68,16 +68,6 @@ class PurchaseItem extends Model {
     },
   })
   quantity!: number;
-
-  /**
-   * The price of the item at the time of purchase.
-   * @type {number}
-   */
-  @Column({
-    type: DataType.DECIMAL(10, 2), 
-    allowNull: false,
-  })
-  price!: number;
 }
 
 export default PurchaseItem;
