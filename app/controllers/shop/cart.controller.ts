@@ -27,9 +27,8 @@ const getMyCart = async (req: Request, res: Response) => {
         }
 
         const cartItems = await cart.getCartItems();
-        const totalPrice = await cart.getTotalPrice();
 
-        const response = formatCartItems(cartItems, totalPrice);
+        const response = formatCartItems(cartItems);
 
         return res.status(200).send(response);
     } catch (error) {
@@ -61,16 +60,9 @@ const addItemToCart = async (req: Request, res: Response) => {
             return res.status(404).send({ message: "Cart not found" });
         }
 
-        const cartItems = await cart.addItemToCart(item, quantity && parsedQuantity);
-        const totalPrice = await cart.getTotalPrice();
+        await cart.addItemToCart(item, quantity && parsedQuantity);
 
-        if(!cartItems) {
-            return res.status(400).send({ message: "An error occurred while adding item to cart" });
-        }
-
-        const response = formatCartItems(cartItems, totalPrice);
-
-        return res.status(200).send({ message: "Item added to cart!", response });
+        return res.status(200).send({ message: "Item added to cart!" });
     } catch (error) {
         logger.error(`Error adding item to cart: ${error}`);
         return res.status(500).send({ message: "An error occurred while adding item to cart" });
@@ -97,16 +89,9 @@ const removeItemFromCart = async (req: Request, res: Response) => {
             return res.status(404).send({ message: "Item not found in cart" });
         }
 
-        const cartItems = await cart.removeItemFromCart(cartItem);
-        const totalPrice = await cart.getTotalPrice();
+        await cart.removeItemFromCart(cartItem);
 
-        if (!cartItems) {
-            return res.status(400).send({ message: "An error occurred while removing item from cart" });
-        }
-
-        const response = formatCartItems(cartItems, totalPrice);
-
-        return res.status(200).send({ message: "Item removed from cart", response });    
+        return res.status(200).send({ message: "Item removed from cart" });    
     } catch (error) {
         logger.error(`Error removing item from cart: ${error}`);
         return res.status(500).send({ message: "An error occurred while removing item from cart" });
@@ -136,17 +121,9 @@ const updateItemInCart = async (req: Request, res: Response) => {
             return res.status(404).send({ message: "Item not found in cart" });
         }
 
-        const cartItems = await cart.updateItemInCart(cartItem, quantity && parsedQuantity);
+        await cart.updateItemInCart(cartItem, quantity && parsedQuantity);
 
-        const totalPrice = await cart.getTotalPrice();
-
-        if (!cartItems) {
-            return res.status(400).send({ message: "An error occurred while updating item in cart" });
-        }
-
-        const response = formatCartItems(cartItems, totalPrice);
-
-        return res.status(200).send({ message: "Item updated in cart", response });
+        return res.status(200).send({ message: "Item updated in cart" });
     } catch (error) {
         logger.error(`Error updating item in cart: ${error}`);
         return res.status(500).send({ message: "An error occurred while updating item in cart" });
@@ -165,14 +142,9 @@ const emptyCart = async (req: Request, res: Response) => {
             return res.status(404).send({ message: "Cart not found" });
         }
 
-        const cartState = await cart.emptyCart();
+        await cart.emptyCart();
 
-        if (!cartState) {
-            return res.status(400).send({ message: "An error occurred while emptying cart" });
-        }
-
-
-        return res.status(200).send({ message: "Cart emptied", cartState });
+        return res.status(200).send({ message: "Cart emptied" });
     } catch (error) {
         logger.error(`Error emptying cart: ${error}`);
         return res.status(500).send({ message: "An error occurred while emptying cart" });

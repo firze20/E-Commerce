@@ -1,6 +1,6 @@
 import Item from "../database/models/Item";
 import User from "../database/models/User";
-import { map, get } from "lodash";
+import { map, get, sumBy } from "lodash";
 
 /**
  * A collection of formatting functions for various entities like items, cart items, users, and user lists.
@@ -26,12 +26,10 @@ const formatResponses = {
   /**
    * Formats cart items with their respective quantities and total price.
    * @param {Array<{ item: Item, quantity: number }>} itemsWithQuantities - Array of items with their quantities.
-   * @param {number} totalPrice - The total price of the cart.
    * @returns {object} - Formatted cart items and total price.
    */
   formatCartItems: (
     itemsWithQuantities: Array<{ item: Item; quantity: number }>,
-    totalPrice: number
   ) => {
     {
       return {
@@ -39,11 +37,14 @@ const formatResponses = {
           return {
             id: item.id,
             name: item.name,
+            description: item.description,
+            image: item.image,
             price: item.price,
             quantity: quantity,
           };
         }),
-        totalPrice,
+        totalItems: sumBy(itemsWithQuantities, 'quantity'),
+        totalPrice: sumBy(itemsWithQuantities, ({ item, quantity }) => item.price * quantity),
       };
     }
   },
