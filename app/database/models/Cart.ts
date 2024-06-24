@@ -17,7 +17,6 @@ import Item from "./Item";
 import sequelize from "../db.config";
 
 import logger from "../../utils/logger";
-import { on } from "events";
 
 /**
  * Represents a Cart in the database.
