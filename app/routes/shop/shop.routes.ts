@@ -6,7 +6,9 @@ import {
 
 import categoryRouter from "./routes/categories.routes";
 
-import itemRouter from "./routes/items.routes";;
+import itemRouter from "./routes/items.routes";
+
+import myCartRouter from "./routes/my-cart.routes";
 
 const shopRouter = Router();
 
@@ -98,5 +100,7 @@ shopRouter.get("/", getItemsFromStoreController);
 // Shop routes
 shopRouter.use("/item", itemRouter);
 shopRouter.use("/categories", categoryRouter);
+shopRouter.use("/my-cart", myCartRouter);
+
 
 export default shopRouter;

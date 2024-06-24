@@ -1,6 +1,5 @@
 import { Request, Response, Router} from "express";
 import authRouter from "./auth/auth.routes";
-import myCartRouter from "./cart/my-cart.routes";
 import shopRouter from "./shop/shop.routes";
 import adminRouter from "./admin/admin.routes";
 import managerRouter from "./manager/manager.routes";
@@ -45,7 +44,6 @@ mainRouter.get("/", (req: Request, res: Response) => {
 
 // List of Routes
 mainRouter.use("/auth", authRouter); // Authentication Router
-mainRouter.use("/my-cart", myCartRouter); // Cart Routher
 mainRouter.use("/store", shopRouter); // Store router
 mainRouter.use("/admin", adminRouter) // Admin Router
 mainRouter.use("/manager", managerRouter) // Manager Router
