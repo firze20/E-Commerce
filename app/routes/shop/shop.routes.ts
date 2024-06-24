@@ -10,6 +10,8 @@ import itemRouter from "./routes/items.routes";
 
 import myCartRouter from "./routes/my-cart.routes";
 
+import purchasesRouter from "./routes/purchases.routes";
+
 const shopRouter = Router();
 
 /**
@@ -101,6 +103,7 @@ shopRouter.get("/", getItemsFromStoreController);
 shopRouter.use("/item", itemRouter);
 shopRouter.use("/categories", categoryRouter);
 shopRouter.use("/my-cart", myCartRouter);
+shopRouter.use("/purchase", purchasesRouter);
 
 
 export default shopRouter;

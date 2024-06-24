@@ -17,6 +17,7 @@ import PurchaseItem from "./PurchaseItem";
 import sequelize from "../db.config";
 import logger from "../../utils/logger";
 import Stock from "./Stock";
+import CartItem from "./CartItem";
 
 /**
  * Represents an Purchase in the database.
@@ -96,6 +97,11 @@ class Purchase extends Model {
       // Gets all Items in the cart
       const totalItems = await cart.getCartItems();
 
+      // Check if the cart is empty
+      if (totalItems.length === 0) {
+        throw new Error("Cannot create purchase. The cart is empty.");
+      }
+
       // Create a new purchase
       const purchase = await Purchase.create(
         {
@@ -113,7 +119,7 @@ class Purchase extends Model {
         const stock = await Stock.findOne({
           where: { itemId: cartItem.item.id },
           transaction,
-          lock: transaction.LOCK.UPDATE, // Lock the row to prevent race conditions, lock any updates 
+          lock: transaction.LOCK.UPDATE, // Lock the row to prevent race conditions, lock any updates
         });
 
         if (!stock || stock.quantity < cartItem.quantity) {
@@ -133,8 +139,14 @@ class Purchase extends Model {
         // Decrease the item stock quantity
 
         stock.quantity -= cartItem.quantity;
-        await stock.save({ transaction })
+        await stock.save({ transaction });
       }
+
+      // Empty the cart
+      await CartItem.destroy({
+        where: { cartId: cart.id },
+        transaction,
+      });
 
       await transaction.commit();
     } catch (error: any) {
