@@ -1,11 +1,7 @@
 import { Request, Response } from "express";
 
-import format from "../../helpers/format";
-
 import Item from "../../database/models/Item";
 
-// Helper Format Item Response
-const { formatItem } = format;
 /**
  * Controller to create a new item.
  * @param {Request} req - The request object.
