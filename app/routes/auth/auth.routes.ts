@@ -153,7 +153,97 @@ authRouter.post(
  *                  example: "Server error"
  */
 authRouter.post("/signin", signInController);
-
+/**
+ * @openapi
+ * /api/e-commerce/auth/refresh-token:
+ *  post:
+ *    tags:
+ *      - Authentication
+ *    description: "Refresh JWT token using the refresh token provided in cookies."
+ *    security:
+ *      - cookieAuth: []
+ *    responses:
+ *      200:
+ *        description: Token refreshed successfully.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Token refreshed"
+ *      400:
+ *        description: Bad request.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  example: "Bad request"
+ *      401:
+ *        description: Unauthorized access.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "No refresh token provided"
+ *      401:
+ *        description: Invalid refresh token.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Invalid refresh token"
+ *      401:
+ *        description: Refresh token not found.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Refresh token not found"
+ *      401:
+ *        description: Refresh token has expired.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Refresh token has expired"
+ *      404:
+ *        description: User not found.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "User not found"
+ *      500:
+ *        description: Server error.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Server error"
+ */
 authRouter.post("/refresh-token", [verifyRefreshToken], refreshTokenController);
 
 

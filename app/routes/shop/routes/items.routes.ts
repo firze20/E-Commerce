@@ -11,7 +11,7 @@ const itemRouter = Router();
  * /api/e-commerce/store/item/{id}:
  *   get:
  *     tags:
- *       - Items
+ *       - Store
  *     description: "Get a specific item by ID from the store."
  *     parameters:
  *       - in: path

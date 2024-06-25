@@ -63,7 +63,7 @@ docker compose up --build
 **Next time just run this:**
 
 ```shell
-docker-compose up -d
+docker compose up -d
 ```
 # Database Schema
 Using [﻿dbdiagram](https://dbdiagram.io/) 

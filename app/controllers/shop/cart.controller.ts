@@ -103,6 +103,11 @@ const updateItemInCart = async (req: Request, res: Response) => {
     const { quantity } = req.body;
 
     try {
+
+        if(!quantity) {
+            return res.status(400).send({ message: "Provide a quantity you want to update"})
+        }
+
         const parsedQuantity = Number(quantity);
 
         const cart = await Cart.findOne({
@@ -120,6 +125,8 @@ const updateItemInCart = async (req: Request, res: Response) => {
         if (!cartItem) {
             return res.status(404).send({ message: "Item not found in cart" });
         }
+
+        
 
         await cart.updateItemInCart(cartItem, quantity && parsedQuantity);
 
