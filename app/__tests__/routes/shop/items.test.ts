@@ -43,7 +43,7 @@ describe("Test Shop EndPoints", () => {
 
   test("Create a new shop item!", async () => {
     const response = await request(app)
-      .post("/api/e-commerce/store/item")
+      .post("/api/e-commerce/manager/item")
       .set("Cookie", `jwt=${token}`)
       .send({
         name: "Test-Item",
@@ -59,7 +59,7 @@ describe("Test Shop EndPoints", () => {
 
   test("Update a shop item!", async () => {
     const response = await request(app)
-      .put("/api/e-commerce/store/item/1")
+      .put("/api/e-commerce/manager/item/1")
       .set("Cookie", `jwt=${token}`)
       .send({
         name: "Motorbyke",
@@ -73,7 +73,7 @@ describe("Test Shop EndPoints", () => {
 
 test("Delete a shop item!", async () => {
   const response = await request(app)
-    .delete("/api/e-commerce/store/item/1")
+    .delete("/api/e-commerce/manager/item/1")
     .set("Cookie", `jwt=${token}`)
 
 expect(response.status).toBe(200);
