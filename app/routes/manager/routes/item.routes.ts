@@ -12,11 +12,11 @@ const itemRouter = Router();
 
 /**
  * @openapi
- * /api/e-commerce/store/item:
+ * /api/e-commerce/manager/item:
  *   post:
  *     tags:
- *       - Items
- *     description: "Create a new item in the store."
+ *       - Manager
+ *     description: "Create a new item in the store. Requires Manager role"
  *     security:
  *       - cookieAuth: []
  *     requestBody:
@@ -105,7 +105,7 @@ const itemRouter = Router();
 itemRouter.post("/", [authenticateJwt, isManager], createItemController);
 /**
  * @openapi
- * /api/e-commerce/store/item/{id}:
+ * /api/e-commerce/manager/item/{id}:
  *   delete:
  *     tags:
  *       - Items
@@ -119,37 +119,9 @@ itemRouter.post("/", [authenticateJwt, isManager], createItemController);
  *         schema:
  *           type: integer
  *         description: "ID of the item to delete"
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 description: "Name of the item"
- *                 example: "Box of Pencils"
- *               description:
- *                 type: string
- *                 description: "Description of the item"
- *                 example: "A box of 200 pencils!"
- *               price:
- *                 type: number
- *                 format: float
- *                 description: "Price of the item"
- *                 example: 2.5
- *               image:
- *                 type: string
- *                 description: "URL of the item image"
- *                 example: "https://e7.pngegg.com/pngimages/702/527/png-clipart-colored-pencil-crayon-boxed-color-pencil-png-material-color-splash.png"
- *               stockId:
- *                 type: integer
- *                 description: "ID of the stock associated with the item"
- *                 example: 1
  *     responses:
  *       200:
- *         description: "Item updated successfully"
+ *         description: "Item deleted successfully"
  *         content:
  *           application/json:
  *             schema:

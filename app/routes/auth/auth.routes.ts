@@ -51,12 +51,6 @@ const authRouter = Router();
  *                description: "User's age."
  *                example: 21
  *                nullable: true
- *              roles:
- *                type: array
- *                items:
- *                  type: string
- *                description: "User's roles."
- *                example: ["User", "Moderator", "Admin"]
  *    responses:
  *      201:
  *        description: Successful sign up
@@ -77,7 +71,7 @@ const authRouter = Router();
  *                      properties:
  *                          message:
  *                              type: string
- *                              example: "Username|Email is already in use"
+ *                              example: "Username| Email is already in use"
  *      500:
  *        description: Server error!
  *        content:
