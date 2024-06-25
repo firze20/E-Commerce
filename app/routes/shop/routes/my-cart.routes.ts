@@ -79,7 +79,8 @@ const myCartRouter = Router();
  *                  type: string
  *                  example: "An error occurred while retrieving the cart"
  */
-myCartRouter.get("/", authenticateJwt, getMyCartController );
+myCartRouter.get("/", authenticateJwt, getMyCartController);
+
 /**
  * @openapi
  * /api/e-commerce/store/my-cart/{id}:
@@ -118,8 +119,15 @@ myCartRouter.get("/", authenticateJwt, getMyCartController );
  *                message:
  *                  type: string
  *                  example: "Item added to cart!"
+ *      401:
+ *        description: Unauthorized access.
+ *        content:
+ *          text/plain:
+ *            schema:
+ *              type: string
+ *              example: "Unauthorized"
  *      404:
- *        description: Item or cart not found.
+ *        description: Item not found.
  *        content:
  *          application/json:
  *            schema:
@@ -127,7 +135,17 @@ myCartRouter.get("/", authenticateJwt, getMyCartController );
  *              properties:
  *                message:
  *                  type: string
- *                  example: "Item not found" | "Cart not found"
+ *                  example: "Item not found"
+ *      404_1:
+ *        description: Cart not found.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Cart not found"
  *      500:
  *        description: Server error.
  *        content:
@@ -139,10 +157,211 @@ myCartRouter.get("/", authenticateJwt, getMyCartController );
  *                  type: string
  *                  example: "Error occurred while adding item to cart"
  */
-myCartRouter.post("/:id", authenticateJwt, addItemToCartController );
+myCartRouter.post("/:id", authenticateJwt, addItemToCartController);
 
-myCartRouter.put("/:id", authenticateJwt, updateItemInCartController );
-myCartRouter.delete("/:id", authenticateJwt, removeItemFromCartController );
+/**
+ * @openapi
+ * /api/e-commerce/store/my-cart/{id}:
+ *  put:
+ *    tags:
+ *      - Store
+ *    description: "Update the quantity of an item in your cart."
+ *    security:
+ *      - cookieAuth: []
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of the item to update in the cart
+ *        schema:
+ *          type: integer
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              quantity:
+ *                type: integer
+ *                description: The new quantity of the item
+ *                example: 2
+ *    responses:
+ *      200:
+ *        description: Item updated in cart successfully.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Item updated in cart"
+ *      401:
+ *        description: Unauthorized access.
+ *        content:
+ *          text/plain:
+ *            schema:
+ *              type: string
+ *              example: "Unauthorized"
+ *      400:
+ *        description: Bad request. Quantity not provided.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Provide a quantity you want to update"
+ *      404:
+ *        description: Cart not found.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Cart not found"
+ *      404_1:
+ *        description: Item not found in cart.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Item not found in cart"
+ *      500:
+ *        description: Server error.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "An error occurred while updating item in cart"
+ */
+myCartRouter.put("/:id", authenticateJwt, updateItemInCartController);
+
+/**
+ * @openapi
+ * /api/e-commerce/store/my-cart/{id}:
+ *  delete:
+ *    tags:
+ *      - Store
+ *    description: "Remove an item from your cart."
+ *    security:
+ *      - cookieAuth: []
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of the item to remove from the cart
+ *        schema:
+ *          type: integer
+ *    responses:
+ *      200:
+ *        description: Item removed from cart successfully.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Item removed from cart"
+ *      401:
+ *        description: Unauthorized access.
+ *        content:
+ *          text/plain:
+ *            schema:
+ *              type: string
+ *              example: "Unauthorized"
+ *      404:
+ *        description: Cart not found.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Cart not found"
+ *      404_1:
+ *        description: Item not found in cart.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Item not found in cart"
+ *      500:
+ *        description: Server error.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "An error occurred while removing item from cart"
+ */
+myCartRouter.delete("/:id", authenticateJwt, removeItemFromCartController);
+
+/**
+ * @openapi
+ * /api/e-commerce/store/my-cart:
+ *  delete:
+ *    tags:
+ *      - Store
+ *    description: "Empty the user's cart by removing all items."
+ *    security:
+ *      - cookieAuth: []
+ *    responses:
+ *      200:
+ *        description: Cart emptied successfully.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Cart emptied"
+ *      401:
+ *        description: Unauthorized access.
+ *        content:
+ *          text/plain:
+ *            schema:
+ *              type: string
+ *              example: "Unauthorized"
+ *      404:
+ *        description: Cart not found.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Cart not found"
+ *      500:
+ *        description: Server error.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "An error occurred while emptying cart"
+ */
 myCartRouter.delete("/", authenticateJwt, emptyCartController );
 
 export default myCartRouter;

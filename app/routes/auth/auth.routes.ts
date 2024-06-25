@@ -3,7 +3,6 @@ import { Router } from "express";
 import {
   checkDuplicateEmail,
   checkDuplicateUsername,
-  checkRolesExistance,
   verifyRefreshToken
 } from "../../middlewares";
 
@@ -183,7 +182,7 @@ authRouter.post("/signin", signInController);
  *                error:
  *                  type: string
  *                  example: "Bad request"
- *      401:
+ *      401_1:
  *        description: Unauthorized access.
  *        content:
  *          application/json:
@@ -193,7 +192,7 @@ authRouter.post("/signin", signInController);
  *                message:
  *                  type: string
  *                  example: "No refresh token provided"
- *      401:
+ *      401_2:
  *        description: Invalid refresh token.
  *        content:
  *          application/json:
@@ -203,7 +202,7 @@ authRouter.post("/signin", signInController);
  *                message:
  *                  type: string
  *                  example: "Invalid refresh token"
- *      401:
+ *      401_3:
  *        description: Refresh token not found.
  *        content:
  *          application/json:
@@ -213,7 +212,7 @@ authRouter.post("/signin", signInController);
  *                message:
  *                  type: string
  *                  example: "Refresh token not found"
- *      401:
+ *      401_4:
  *        description: Refresh token has expired.
  *        content:
  *          application/json:
