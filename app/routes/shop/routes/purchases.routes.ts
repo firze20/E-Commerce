@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authenticateJwt } from "../../../middlewares";
 
-import { makePurchaseController } from "../../../controllers/shop/purchase.controller";
+import { makePurchaseController, getMyPurchasesController } from "../../../controllers/shop/purchase.controller";
 
 const purchaseRouter = Router();
 /**
@@ -53,6 +53,8 @@ const purchaseRouter = Router();
  *                  example: "Not enough stock for item {item name}"
  */
 purchaseRouter.post("/", authenticateJwt, makePurchaseController);
+
+purchaseRouter.get("/", authenticateJwt, getMyPurchasesController);
 
 export default purchaseRouter;
 
