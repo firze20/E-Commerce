@@ -5,6 +5,8 @@ import User from "../../database/models/User";
 import Role from "../../database/models/Role";
 
 import formatResponses from "../../helpers/format";
+import Purchase from "../../database/models/Purchase";
+import Item from "../../database/models/Item";
 
 const { formatUsers, formatUser } = formatResponses;
 
@@ -139,10 +141,80 @@ const removeUser = async (req: Request, res: Response) => {
   }
 };
 
+const getAllPurchases = async (req: Request, res: Response) => {
+  const { page = 1, limit = 10, username, minDate, maxDate } = req.query;
+
+  const parsedPage = Number(page);
+  const parsedLimit = Number(limit);
+
+  const offset = (parsedPage - 1) * parsedLimit;
+
+  // Validate and parse dates
+  let minimumDate: Date | undefined;
+  let maximumDate: Date | undefined;
+
+  if (minDate) {
+    minimumDate = new Date(minDate as string);
+    if (isNaN(minimumDate.getTime())) {
+      return res.status(400).send({ message: "Invalid minDate" });
+    }
+  }
+
+  if (maxDate) {
+    maximumDate = new Date(maxDate as string);
+    if (isNaN(maximumDate.getTime())) {
+      return res.status(400).send({ message: "Invalid maxDate" });
+    }
+  }
+
+  const whereClause: any = {
+    ...(minimumDate && { createdAt: { [Op.gte]: minimumDate } }),
+    ...(maximumDate && { createdAt: { [Op.lte]: maximumDate } }),
+  };
+
+  try {
+    const { count: totalPurchases, rows: purchases } = await Purchase.findAndCountAll({
+      where: whereClause,
+      limit: parsedLimit,
+      offset,
+      include: [
+        {
+          model: Item,
+          as: "items",
+          attributes: ["name", "price", "description", "image"],
+        },
+        {
+          model: User,
+          as: "user",
+          attributes: {
+            exclude: ["password"]
+          },
+          where: username ? { username: { [Op.like]: `%${username}%` } } : undefined,
+        }
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    const totalPages = Math.ceil(totalPurchases / parsedLimit);
+
+    res.status(200).send({
+      purchases,
+      totalPages,
+      currentPage: parsedPage,
+      perPage: parsedLimit,
+    });
+  } catch (error: any) {
+    console.error("Error getting all purchases:", error); // Log the error for debugging
+    res.status(500).send({ message: "Error getting all purchases" });
+  }
+};
+
+
 export {
   getAllUsers as getAllUsersController,
   getUser as getUserController,
   addUserRoles as addUserRolesController,
   removeUserRoles as removeUserRolesController,
   removeUser as removeUserController,
+  getAllPurchases as getAllPurchasesController,
 };

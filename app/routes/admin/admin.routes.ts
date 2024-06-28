@@ -12,7 +12,8 @@ import {
     getUserController,
     addUserRolesController,
     removeUserRolesController,
-    removeUserController
+    removeUserController,
+    getAllPurchasesController
 } from "../../controllers/admin/admin.controller";
 
 const adminRouter = Router();
@@ -26,6 +27,8 @@ adminRouter.post("/users/:id", [authenticateJwt, isAdmin, checkRolesExistance], 
 adminRouter.put("/users/:id", [authenticateJwt, isAdmin, checkRolesExistance], removeUserRolesController);
 
 adminRouter.delete("/users/:id", [authenticateJwt, isAdmin], removeUserController);
+
+adminRouter.get("/purchases", [authenticateJwt, isAdmin], getAllPurchasesController);
 
 export default adminRouter;
 
