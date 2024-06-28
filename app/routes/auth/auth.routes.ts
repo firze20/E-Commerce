@@ -3,7 +3,6 @@ import { Router } from "express";
 import {
   checkDuplicateEmail,
   checkDuplicateUsername,
-  checkRolesExistance,
   verifyRefreshToken
 } from "../../middlewares";
 
@@ -51,12 +50,6 @@ const authRouter = Router();
  *                description: "User's age."
  *                example: 21
  *                nullable: true
- *              roles:
- *                type: array
- *                items:
- *                  type: string
- *                description: "User's roles."
- *                example: ["User", "Moderator", "Admin"]
  *    responses:
  *      201:
  *        description: Successful sign up
@@ -77,7 +70,7 @@ const authRouter = Router();
  *                      properties:
  *                          message:
  *                              type: string
- *                              example: "Username|Email is already in use"
+ *                              example: "Username| Email is already in use"
  *      500:
  *        description: Server error!
  *        content:
@@ -159,7 +152,97 @@ authRouter.post(
  *                  example: "Server error"
  */
 authRouter.post("/signin", signInController);
-
+/**
+ * @openapi
+ * /api/e-commerce/auth/refresh-token:
+ *  post:
+ *    tags:
+ *      - Authentication
+ *    description: "Refresh JWT token using the refresh token provided in cookies."
+ *    security:
+ *      - cookieAuth: []
+ *    responses:
+ *      200:
+ *        description: Token refreshed successfully.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Token refreshed"
+ *      400:
+ *        description: Bad request.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  example: "Bad request"
+ *      401_1:
+ *        description: Unauthorized access.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "No refresh token provided"
+ *      401_2:
+ *        description: Invalid refresh token.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Invalid refresh token"
+ *      401_3:
+ *        description: Refresh token not found.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Refresh token not found"
+ *      401_4:
+ *        description: Refresh token has expired.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Refresh token has expired"
+ *      404:
+ *        description: User not found.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "User not found"
+ *      500:
+ *        description: Server error.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Server error"
+ */
 authRouter.post("/refresh-token", [verifyRefreshToken], refreshTokenController);
 
 

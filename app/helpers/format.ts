@@ -1,5 +1,6 @@
 import Item from "../database/models/Item";
 import User from "../database/models/User";
+import Purchase from "../database/models/Purchase";
 import { map, get, sumBy } from "lodash";
 
 /**
@@ -85,6 +86,28 @@ const formatResponses = {
         updatedAt: user.updatedAt,
       };
     }); // Using Lodash map for iteration
+  },
+  /**
+   * Formats a list of purchases for presentation.
+   * @param {Purchase[]} purchases - The purchases to format.
+   * @returns An object containing a list of formatted purchase details.
+   */
+  formatPurchases: (purchases: Purchase[]) => {
+    return map(purchases, (purchase) => {
+      return {
+        id: purchase.id,
+        totalPrice: purchase.totalPrice,
+        createdAt: purchase.createdAt,
+        items: map(purchase.items, (item) => {
+          return {
+            name: item.name,
+            price: item.price,
+            description: item.description,
+            image: item.image,
+          };
+        }),
+      };
+    });
   },
 };
 

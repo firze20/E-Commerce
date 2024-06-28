@@ -63,7 +63,7 @@ docker compose up --build
 **Next time just run this:**
 
 ```shell
-docker-compose up -d
+docker compose up -d
 ```
 # Database Schema
 Using [﻿dbdiagram](https://dbdiagram.io/) 
@@ -315,6 +315,7 @@ _Note I'm defining 2 passport strategies, passport local for signin and register
 | **Bcrypt** | A library to help you hash passwords. It provides a way to hash and compare passwords securely. |
 | **Winston** | A logger for Node.js that supports multiple transports and log levels. It can be used to log information to various locations, such as files, databases, or the console. |
 | **Swagger UI** | A collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API. It allows you to visualize and interact with the API’s resources without having any of the implementation logic in place. |
+| **moment** | A JavaScript date library for parsing, validating, manipulating, and formatting dates |
 # Usefull Links
 - [﻿Passport JWT and Session Authentication Tutorial](https://www.fullstackfoundations.com/blog/passport-jwt) 
 - [﻿Express Caching](https://medium.com/@muhammadtaifkhan/cache-your-express-nodejs-api-1e9f80b87c88) 
