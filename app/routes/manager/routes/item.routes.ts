@@ -108,7 +108,7 @@ itemRouter.post("/", [authenticateJwt, isManager], createItemController);
  * /api/e-commerce/manager/item/{id}:
  *   delete:
  *     tags:
- *       - Items
+ *       - Manager
  *     description: "Deletes an existing item in the store."
  *     security:
  *       - bearerAuth: []
@@ -151,7 +151,7 @@ itemRouter.delete(
  * /api/e-commerce/store/item/{id}:
  *   put:
  *     tags:
- *       - Items
+ *       - Manager
  *     description: "Update an existing item in the store."
  *     security:
  *       - bearerAuth: []

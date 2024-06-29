@@ -19,7 +19,7 @@ const shopRouter = Router();
  * /api/e-commerce/store:
  *   get:
  *     tags:
- *       - Items
+ *       - Store
  *     description: "Get all items from the store."
  *     parameters:
  *       - in: query
