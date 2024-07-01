@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /usr/app
 
-COPY ./backend/package.json ./backend
+COPY backend/package*.json ./
 
 RUN npm install
 
