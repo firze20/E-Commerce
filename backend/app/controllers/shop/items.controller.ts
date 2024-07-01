@@ -7,6 +7,8 @@ import Item from "../../database/models/Item";
 import Stock from "../../database/models/Stock";
 import Category from "../../database/models/Category";
 
+import { getAsync, setAsync} from "../../utils/redis";
+
 // Helper Format Item Response
 const { formatItem } = format;
 /**
@@ -16,6 +18,8 @@ const { formatItem } = format;
  */
 const getItemsFromStore = async (req: Request, res: Response) => {
   const { page = 1, limit = 10, category, minimumPrice, maximumPrice, name} = req.query; // Get the query params from the request
+
+  const cacheKey = `store:${page}:${limit}:${category}:${minimumPrice}:${maximumPrice}:${name}`; // Create a cache key based on the query params
 
   const parsedPage = Number(page);
   const parsedLimit = Number(limit);
@@ -39,6 +43,12 @@ const getItemsFromStore = async (req: Request, res: Response) => {
   const offset = (Number(page) - 1) * Number(limit);
 
   try {
+    // Check if the response is in the cache
+    const cashedData = await getAsync(cacheKey);
+    if(cashedData){
+      return res.status(200).json(JSON.parse(cashedData));
+    }
+
     const { count: totalItems, rows: items } = await Item.findAndCountAll({
       where: whereClause,
       limit: parsedLimit,
@@ -50,12 +60,16 @@ const getItemsFromStore = async (req: Request, res: Response) => {
 
     const totalPages = Math.ceil(totalItems / parsedLimit);
 
-    res.status(200).send({
+    const responseData = {
       items,
       totalPages,
       currentPage: parsedPage,
       perPage: parsedLimit,
-    });
+    };
+
+    await setAsync(cacheKey, JSON.stringify(responseData), 120); // Cache the response for 120 seconds
+
+    res.status(200).send(responseData);
   } catch (error) {
     res.status(500).send({
       message: "Error getting items",

@@ -1,33 +1,32 @@
-import redis from "redis";
-import logger from "./logger";
+import { createClient } from 'redis';
+import logger from './logger';
 
-// Create Redis Client
-const client = redis.createClient({
+// Create a new Redis client
+const client = createClient({
   socket: {
-    host: "redis", // docker-compose service name
+    host: 'redis', // docker-compose service name
     port: 6379,
   },
 });
 
-// Event Listenner for Redis Client
-client.on("error", (err) => {
+// Handle Redis client errors
+client.on('error', (err) => {
   logger.error(`Redis error: ${err}`);
 });
 
-// Connect the redis server
-client.connect();
+// Connect to the Redis server
+client.connect().catch((err) => logger.error(`Redis connection error: ${err}`));
 
-// Asynchronous function to get a value by key from Redis
-const getAsync = async (key: string) => {
+// Async function to get a value from Redis
+const getAsync = async (key: string): Promise<string | null> => {
   return await client.get(key);
 };
 
-// Asynchronous function to set a key-value pair in Redis with an expiration time
-const setAsync = async (key: string, value: string, expirationTime: number) => {
+// Async function to set a value in Redis with an expiration time
+const setAsync = async (key: string, value: string, expirationTime: number): Promise<string | null> => {
   return await client.set(key, value, {
     EX: expirationTime,
   });
 };
 
-// Export the Redis client and the asynchronous get and set functions
-export { client, getAsync, setAsync}
+export { client, getAsync, setAsync };
