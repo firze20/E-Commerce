@@ -22,3 +22,8 @@ services:
       - "80:80"
     depends_on:
       - express-typescript-docker
+    
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
