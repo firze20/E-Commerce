@@ -34,6 +34,28 @@ const shopRouter = Router();
  *           type: integer
  *           default: 10
  *         description: "Number of items per page"
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *         description: "Filter items by category"
+ *       - in: query
+ *         name: minimumPrice
+ *         schema:
+ *           type: number
+ *           format: float
+ *         description: "Filter items by minimum price"
+ *       - in: query
+ *         name: maximumPrice
+ *         schema:
+ *           type: number
+ *           format: float
+ *         description: "Filter items by maximum price"
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: "Filter items by name"
  *     responses:
  *       200:
  *         description: "Retrieve items"

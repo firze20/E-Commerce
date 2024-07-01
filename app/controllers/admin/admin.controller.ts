@@ -156,14 +156,14 @@ const getAllPurchases = async (req: Request, res: Response) => {
   if (minDate) {
     minimumDate = new Date(minDate as string);
     if (isNaN(minimumDate.getTime())) {
-      return res.status(400).send({ message: "Invalid minDate" });
+      return res.status(400).send({ message: "Invalid date" });
     }
   }
 
   if (maxDate) {
     maximumDate = new Date(maxDate as string);
     if (isNaN(maximumDate.getTime())) {
-      return res.status(400).send({ message: "Invalid maxDate" });
+      return res.status(400).send({ message: "Invalid date" });
     }
   }
 
@@ -187,7 +187,7 @@ const getAllPurchases = async (req: Request, res: Response) => {
           model: User,
           as: "user",
           attributes: {
-            exclude: ["password"]
+            include: ["username", "email", "name"]
           },
           where: username ? { username: { [Op.like]: `%${username}%` } } : undefined,
         }
@@ -197,8 +197,19 @@ const getAllPurchases = async (req: Request, res: Response) => {
 
     const totalPages = Math.ceil(totalPurchases / parsedLimit);
 
+    const formattedPurchases = formatResponses.formatPurchases(purchases);
+
+    const formattedUsers = formatResponses.formatUsers(purchases.map((purchase) => purchase.user));
+
+    const formattedPurchasesWithUsers = formattedPurchases.map((purchase, index) => {
+      return {
+        ...purchase,
+        user: formattedUsers[index],
+      };
+    });
+
     res.status(200).send({
-      purchases,
+      purchases: formattedPurchasesWithUsers,
       totalPages,
       currentPage: parsedPage,
       perPage: parsedLimit,
