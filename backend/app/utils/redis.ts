@@ -5,7 +5,7 @@ import logger from './logger';
 const client = createClient({
   socket: {
     host: 'redis', // docker-compose service name
-    port: 6379,
+    port: 6379, // default Redis port
   },
 });
 
