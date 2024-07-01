@@ -320,7 +320,7 @@ _Note I'm defining 2 passport strategies, passport local for signin and register
 - [﻿Passport JWT and Session Authentication Tutorial](https://www.fullstackfoundations.com/blog/passport-jwt)  
 - [﻿Express Caching](https://medium.com/@muhammadtaifkhan/cache-your-express-nodejs-api-1e9f80b87c88) 
 # Things to rework
-- [ ] Might need to revisit swagger documentation, the post item is wrong
+- [x] Adding redis cache on the backend 
 
 
 
