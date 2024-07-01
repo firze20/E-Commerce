@@ -1,4 +1,3 @@
-import exp from "constants";
 import request from "supertest";
 
 const app = global.__APP__;

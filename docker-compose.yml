@@ -4,7 +4,7 @@ services:
       - NODE_ENV=development
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: BackendDev.Dockerfile
     volumes:
       - ./:/app
     container_name: ecommerce-api
