@@ -16,13 +16,14 @@
 
 ### Current stage
 - [ ] **To Do**:
-    - [ ] **Set up checkout endpoint**: Add the logic for handling checkout. There is no need to actually try and charge somebody yet; charging will come in a later evolution of this project. For now, we will assume that all charges succeed for ease of development (still add in error handling to account for times it doesn’t).
-    - [ ] **Set up order endpoint**: Add the logic for handling CRUD operations related to orders.
-    - [ ] **Document the API**: Document the API you have built by adding and configuring Swagger to your project.
-    - [ ] **Next Steps**: You’re welcome to expand your API beyond these project tasks and get creative! A future portfolio project will build on top of what you have built here, covering tasks for creating the client side of your e-commerce application. If you don’t want to wait that long, you can try building out a client for your API on your own!
 - [ ] **In Progress**:
-    - [ ] **Set up cart endpoint**: Add the logic for handling CRUD operations related to a user’s cart.
+    - [ ] **Next Steps**: You’re welcome to expand your API beyond these project tasks and get creative! A future portfolio project will build on top of what you have built here, covering tasks for creating the client side of your e-commerce application. If you don’t want to wait that long, you can try building out a client for your API on your own!
+
 - [x] **Done**:
+    - [x] **Document the API**: Document the API you have built by adding and configuring Swagger to your project.
+    - [x] **Set up order endpoint**: Add the logic for handling CRUD operations related to orders.
+    - [x] **Set up checkout endpoint**: Add the logic for handling checkout. There is no need to actually try and charge somebody yet; charging will come in a later evolution of this project. For now, we will assume that all charges succeed for ease of development (still add in error handling to account for times it doesn’t).
+    - [x] **Set up cart endpoint**: Add the logic for handling CRUD operations related to a user’s cart.
     - [x] **Set up user endpoints**: Add the logic for handling CRUD operations related to users and their accounts. (Implementing Refresh Tokens at the moment)
     - [x] **Set up product endpoints**: Add the logic for handling CRUD operations related to products.
     - [x] **Set up local login**: Add the logic for handling login using a username and password.
