@@ -1,24 +1,24 @@
 <p><a target="_blank" href="https://app.eraser.io/workspace/rf7uOfOOuweqmoum2hVB" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
 
 # E-Commerce Portfolio Project
-
 ## Table of Contents
-- [﻿This is a back-end nodejs project for an e-commerce website.](#this-is-a-back-end-nodejs-project-for-an-e-commerce-website) 
-- [﻿Current stage](#current-stage) 
-- [﻿Database](#database-schema) 
-- [﻿Project annotations](#project-annotations) 
-- [﻿Project libraries](#project-libraries) 
+- [﻿This is a back-end nodejs project for an e-commerce website.](#this-is-a-back-end-nodejs-project-for-an-e-commerce-website)  
+- [﻿Current stage](#current-stage)  
+- [﻿Database](#database-schema)  
+- [﻿Project annotations](#project-annotations)  
+- [﻿Project libraries](#project-libraries)  
 - [﻿Useful Links](#usefull-links) 
 ## This is a back-end nodejs project for an e-commerce website.
-![image.png](/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___QKb_MXQdIXsIo-4aJF2xA.png "image.png")
-
  
+
+![image.png](/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___Nyf0bPS2X07CjHShoYeMP.png "image.png")
+
+
 
 ### Current stage
 - [ ] **To Do**:
 - [ ] **In Progress**:
     - [ ] **Next Steps**: You’re welcome to expand your API beyond these project tasks and get creative! A future portfolio project will build on top of what you have built here, covering tasks for creating the client side of your e-commerce application. If you don’t want to wait that long, you can try building out a client for your API on your own!
-
 - [x] **Done**:
     - [x] **Document the API**: Document the API you have built by adding and configuring Swagger to your project.
     - [x] **Set up order endpoint**: Add the logic for handling CRUD operations related to orders.
@@ -257,7 +257,7 @@ ALTER TABLE "purchase_items" ADD FOREIGN KEY ("purchase_id") REFERENCES "purchas
 
 ALTER TABLE "purchase_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
 ```
-_Note you should store your _`_.env_`_ file in the root of the project_
+_Note you should store your _`__.env__`_ file in the root of the project_
 
 **Enviroment Setup Template**
 
@@ -289,14 +289,13 @@ In this project I'm setting up an express with Typescript, I opted for a ORM to 
 **Currently List:**
 
 - Docker container that contains the app itself
-- PostgreSQL server-less database [﻿Neon Tech](https://neon.tech/) 
+- PostgreSQL server-less database [﻿Neon Tech](https://neon.tech/)  
 - Created 2 seperate databases, one for production, another for testing
-- [﻿Sequelize Typescript v6](https://sequelize.org/docs/v6/other-topics/typescript/) 
+- [﻿Sequelize Typescript v6](https://sequelize.org/docs/v6/other-topics/typescript/)  
 - Jsonwebtokens [﻿Jwt](https://jwt.io/)  for authentication
 - [﻿Passport](https://www.passportjs.org/)  Jwt Strategy for Authentication, may add OAuth later
 - [﻿Jest](https://jestjs.io/)  and [﻿Supertest](https://www.npmjs.com/package/supertest)  for unit and integration tests TDD
 _Note I'm defining 2 passport strategies, passport local for signin and register and jwt strategy to verify protected routes that require authentication_
-
 # Project Libraries
 ## Libraries
 | Libraries | Purpose |
@@ -318,10 +317,17 @@ _Note I'm defining 2 passport strategies, passport local for signin and register
 | **Swagger UI** | A collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API. It allows you to visualize and interact with the API’s resources without having any of the implementation logic in place. |
 | **moment** | A JavaScript date library for parsing, validating, manipulating, and formatting dates |
 # Usefull Links
-- [﻿Passport JWT and Session Authentication Tutorial](https://www.fullstackfoundations.com/blog/passport-jwt) 
+- [﻿Passport JWT and Session Authentication Tutorial](https://www.fullstackfoundations.com/blog/passport-jwt)  
 - [﻿Express Caching](https://medium.com/@muhammadtaifkhan/cache-your-express-nodejs-api-1e9f80b87c88) 
 # Things to rework
 - [ ] Might need to revisit swagger documentation, the post item is wrong
 
 
 
+<!-- eraser-additional-content -->
+## Diagrams
+<!-- eraser-additional-files -->
+<a href="/README-Docker Compose Application Architecture-1.eraserdiagram" data-element-id="uQ7xQp_Mm-dc4JgBlDClt"><img src="/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___---diagram----7e8e6a4cf8705b1a3ceab28955a9c8c6-Docker-Compose-Application-Architecture.png" alt="" data-element-id="uQ7xQp_Mm-dc4JgBlDClt" /></a>
+<!-- end-eraser-additional-files -->
+<!-- end-eraser-additional-content -->
+<!--- Eraser file: https://app.eraser.io/workspace/rf7uOfOOuweqmoum2hVB --->
