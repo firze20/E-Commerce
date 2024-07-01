@@ -223,11 +223,319 @@ adminRouter.get("/users", [authenticateJwt, isAdmin], getAllUsersController);
  */
 adminRouter.get("/users/:id", [authenticateJwt, isAdmin], getUserController);
 
-
+/**
+ * @openapi
+ * /api/e-commerce/admin/users/{id}:
+ *   post:
+ *     tags:
+ *       - Admin
+ *     description: "Add roles to a user."
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: "The ID of the user to add roles to"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               roles:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: "Array of roles to add to the user"
+ *                 example: ["admin", "manager"]
+ *     responses:
+ *       200:
+ *         description: "Role added to user successfully."
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Role added to user"
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     username:
+ *                       type: string
+ *                       example: "john_doe"
+ *                     email:
+ *                       type: string
+ *                       example: "john_doe@example.com"
+ *                     name:
+ *                       type: string
+ *                       example: "John Doe"
+ *                     age:
+ *                       type: integer
+ *                       example: 30
+ *                     roles:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                         example: "admin"
+ *                     verified:
+ *                       type: boolean
+ *                       example: true
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-06-25T10:26:44.065Z"
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-06-25T10:26:44.065Z"
+ *       400:
+ *         description: Bad request. Roles not provided or roles not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Roles not found"
+ *       401:
+ *         description: Unauthorized access.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Unauthorized"
+ *       403:
+ *         description: Forbidden.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "You don't have permission to access this route"
+ *       404:
+ *         description: User not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "User doesn't exist"
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error adding role to user"
+ */
 adminRouter.post("/users/:id", [authenticateJwt, isAdmin, checkRolesExistance], addUserRolesController);
 
+/**
+ * @openapi
+ * /api/e-commerce/admin/users/{id}:
+ *   put:
+ *     tags:
+ *       - Admin
+ *     description: "Remove roles from a user."
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: "The ID of the user to remove roles from"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               roles:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: "Array of roles to remove from the user"
+ *                 example: ["admin", "manager"]
+ *     responses:
+ *       200:
+ *         description: "Role removed from user successfully."
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Role removed from user"
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     username:
+ *                       type: string
+ *                       example: "john_doe"
+ *                     email:
+ *                       type: string
+ *                       example: "john_doe@example.com"
+ *                     name:
+ *                       type: string
+ *                       example: "John Doe"
+ *                     age:
+ *                       type: integer
+ *                       example: 30
+ *                     roles:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                         example: "admin"
+ *                     verified:
+ *                       type: boolean
+ *                       example: true
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-06-25T10:26:44.065Z"
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-06-25T10:26:44.065Z"
+ *       400:
+ *         description: Bad request. Roles not provided or roles not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Roles not found"
+ *       401:
+ *         description: Unauthorized access.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Unauthorized"
+ *       403:
+ *         description: Forbidden.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "You don't have permission to access this route"
+ *       404:
+ *         description: User not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "User doesn't exist"
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error removing role from user"
+ */
 adminRouter.put("/users/:id", [authenticateJwt, isAdmin, checkRolesExistance], removeUserRolesController);
 
+/**
+ * @openapi
+ * /api/e-commerce/admin/users/{id}:
+ *   delete:
+ *     tags:
+ *       - Admin
+ *     description: "Delete a user by ID."
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: "The ID of the user to delete"
+ *     responses:
+ *       200:
+ *         description: User deleted successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "User deleted"
+ *       401:
+ *         description: Unauthorized access.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Unauthorized"
+ *       403:
+ *         description: Forbidden.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "You don't have permission to access this route"
+ *       404:
+ *         description: User not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "User doesn't exist"
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error deleting user"
+ */
 adminRouter.delete("/users/:id", [authenticateJwt, isAdmin], removeUserController);
 
 /**
