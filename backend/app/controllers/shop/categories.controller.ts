@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 import Category from "../../database/models/Category";
-
+import logger from "../../utils/logger";
 import { getAsync, setAsync } from "../../utils/redis";
 
 const getAllCategories = async (req: Request, res: Response) => {
-
   const cacheKey = `store/categories`;
 
   try {
     // Check if the response is in the cache
     const cashedData = await getAsync(cacheKey);
     // If the response is in the cache, return it
-    if(cashedData) {
+    if (cashedData) {
+      logger.info("Retrieved categories from cache");
       return res.status(200).json(JSON.parse(cashedData));
     }
     const categories = await Category.findAll({
@@ -27,21 +27,32 @@ const getAllCategories = async (req: Request, res: Response) => {
 };
 
 const getSingleCategory = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    try {
-        const category = await Category.findByPk(id);
-        if (!category) {
-        return res.status(404).json({ message: "Category not found" });
-        }
-        res.status(200).send(category);
-    } catch (error) {
-        res.status(500).send({ message: "Failed to retrieve category" });
+  const { id } = req.params;
+
+  const cacheKey = `store/categories/${id}`;
+
+  try {
+    // Check if the response is in the cache
+    const cashedData = await getAsync(cacheKey);
+    // If the response is in the cache, return it
+    if (cashedData) {
+      logger.info("Retrieved category from cache");
+      return res.status(200).json(JSON.parse(cashedData));
     }
+
+    const category = await Category.findByPk(id);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    await setAsync(cacheKey, JSON.stringify(category), 3600); // Cache the response for an hour
+    res.status(200).send(category);
+  } catch (error) {
+    res.status(500).send({ message: "Failed to retrieve category" });
+  }
 };
-
-
 
 export {
   getAllCategories as getAllCategoriesController,
-  getSingleCategory as getSingleCategoryController
+  getSingleCategory as getSingleCategoryController,
 };
