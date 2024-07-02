@@ -14,7 +14,13 @@ COPY frontend/e-commerce/package*.json ./
 RUN npm install
 
 # Copy local code to the container image.
-COPY . .
+COPY frontend/e-commerce ./
+
+# Change ownership of the app directory to the node user
+RUN chown -R node:node /usr/app
+
+# Switch to the node user
+USER node
 
 # Run the web service on container startup.
 CMD ["npm", "run", "dev"]
