@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: BackendDev.Dockerfile
     volumes:
-        - ./backend:/usr/app/backend
-        - /usr/app/backend/node_modules
+        - ./backend:/usr/app
+        - /usr/app/node_modules
     container_name: ecommerce-api
     expose:
       - '3000'
