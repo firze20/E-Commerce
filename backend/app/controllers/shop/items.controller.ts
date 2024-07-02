@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Op } from "sequelize";
+import logger from "../../utils/logger";
 
 import format from "../../helpers/format";
 
@@ -47,8 +48,9 @@ const getItemsFromStore = async (req: Request, res: Response) => {
     const cashedData = await getAsync(cacheKey);
     // If the response is in the cache, return it
     if(cashedData){
+      logger.info("Retrieved items from cache");
       return res.status(200).json(JSON.parse(cashedData));
-    }
+    };
 
     const { count: totalItems, rows: items } = await Item.findAndCountAll({
       where: whereClause,
@@ -107,6 +109,7 @@ const getItem = async (req: Request, res: Response) => {
     const cashedData = await getAsync(cacheKey);
     // If the response is in the cache, return it
     if(cashedData){
+      logger.info("Retrieved item from cache");
       return res.status(200).json(JSON.parse(cashedData));
     }
 
