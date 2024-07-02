@@ -6,6 +6,9 @@ import Purchase from "../../database/models/Purchase";
 import Cart from "../../database/models/Cart";
 import Item from "../../database/models/Item";
 
+import { delAsync, getAsync, setAsync } from "../../utils/redis";
+import logger from "../../utils/logger";
+
 const { formatPurchases } = formatResponses;
 
 const makePurchase = async (req: Request, res: Response) => {
@@ -21,6 +24,12 @@ const makePurchase = async (req: Request, res: Response) => {
     }
 
     await Purchase.createPurchase(cart);
+
+    // Clear the cache
+
+    const casheKey = `store/purchase:${req.user!.id}`;
+    await delAsync(casheKey);
+
     return res.status(201).send({ message: "Purchase completed" });
   } catch (error: any) {
     res.status(500).send({ message: error.message });
@@ -30,6 +39,8 @@ const makePurchase = async (req: Request, res: Response) => {
 const getMyPurchases = async (req: Request, res: Response) => {
   // Need to add pagination to this endpoint
   const { page = 1, limit = 10, minDate, maxDate } = req.query;
+
+  const casheKey = `store/purchase:${req.user!.id}:${page}:${limit}:${minDate}:${maxDate}`;
 
   const parsedPage = Number(page);
   const parsedLimit = Number(limit);
@@ -59,6 +70,14 @@ const getMyPurchases = async (req: Request, res: Response) => {
   };
 
   try {
+    // Check if the response is in the cache
+    const cashedData = await getAsync(casheKey);
+    // If the response is in the cache, return it
+    if (cashedData) {
+      logger.info("Retrieved purchases from cache");
+      return res.status(200).json(JSON.parse(cashedData));
+    }
+
     const { count: totalPurchases, rows: purchases } = await Purchase.findAndCountAll({
       where: whereClause,
       limit: parsedLimit,
@@ -77,7 +96,16 @@ const getMyPurchases = async (req: Request, res: Response) => {
 
     const formatResponse = formatPurchases(purchases);
 
-    return res.status(200).send({ purchases: formatResponse, totalPages, currentPage: parsedPage, perPage: parsedLimit });
+    const response = {
+      purchases: formatResponse,
+      totalPages,
+      currentPage: parsedPage,
+      perPage: parsedLimit,
+    };
+
+    await setAsync(casheKey, JSON.stringify(response), 60); // Cache the response for 60 seconds
+    
+    return res.status(200).send(response);
   } catch (error: any) {
     res.status(500).send({ message: error.message });
   }
