@@ -1,4 +1,4 @@
-Logs
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -84,8 +84,8 @@ web_modules/
 .parcel-cache
 
 # Next.js build output
-.next
-out
+.next/
+out/
 
 # Nuxt.js build / generate output
 .nuxt
@@ -128,6 +128,28 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+.pnp.js
 
-# DS Store
+# Misc
 .DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env*.local
+
+# Production
+/build
+
+# Testing
+/coverage
+
+# Vercel
+.vercel
+
+# TypeScript
+next-env.d.ts
