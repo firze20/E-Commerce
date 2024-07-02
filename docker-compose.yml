@@ -39,6 +39,7 @@ services:
       - "80:80"
     depends_on:
       - express-typescript-docker
+      - react-frontend-docker
     
   redis:
     image: redis:alpine
