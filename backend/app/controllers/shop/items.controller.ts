@@ -67,7 +67,7 @@ const getItemsFromStore = async (req: Request, res: Response) => {
       perPage: parsedLimit,
     };
 
-    await setAsync(cacheKey, JSON.stringify(responseData), 120); // Cache the response for 120 seconds
+    await setAsync(cacheKey, JSON.stringify(responseData), 60); // Cache the response for 60 seconds
 
     res.status(200).send(responseData);
   } catch (error) {
