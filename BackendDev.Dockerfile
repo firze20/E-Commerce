@@ -2,7 +2,7 @@
 FROM node:lts-alpine
 
 # Create and change to the app directory.
-WORKDIR /usr/app
+WORKDIR /usr/app/backend
 
 # Copy application dependency manifests to the container image.
 COPY backend/package*.json ./
