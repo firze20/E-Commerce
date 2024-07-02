@@ -29,4 +29,9 @@ const setAsync = async (key: string, value: string, expirationTime: number): Pro
   });
 };
 
-export { client, getAsync, setAsync };
+// Async function to delete a value from Redis
+const delAsync = async (key: string): Promise<number> => {
+  return await client.del(key);
+};
+
+export { client, getAsync, setAsync, delAsync };
