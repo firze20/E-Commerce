@@ -8,7 +8,7 @@ RUN apk add --no-cache bash vim git
 WORKDIR /usr/app
 
 # Copy application dependency manifests to the container image.
-COPY package*.json ./
+COPY frontend/e-commerce/package*.json ./
 
 # Install dependencies.
 RUN npm install
