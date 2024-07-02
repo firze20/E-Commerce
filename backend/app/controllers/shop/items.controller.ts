@@ -45,6 +45,7 @@ const getItemsFromStore = async (req: Request, res: Response) => {
   try {
     // Check if the response is in the cache
     const cashedData = await getAsync(cacheKey);
+    // If the response is in the cache, return it
     if(cashedData){
       return res.status(200).json(JSON.parse(cashedData));
     }
@@ -84,6 +85,8 @@ const getItemsFromStore = async (req: Request, res: Response) => {
 const getItem = async (req: Request, res: Response) => {
   const { id } = req.params;
 
+  const cacheKey = `store/item:${id}`; // Create a cache key based on the item ID
+
   const include = [
     {
       model: Stock,
@@ -99,6 +102,14 @@ const getItem = async (req: Request, res: Response) => {
   ];
 
   try {
+    // Check if the response is in the cache
+
+    const cashedData = await getAsync(cacheKey);
+    // If the response is in the cache, return it
+    if(cashedData){
+      return res.status(200).json(JSON.parse(cashedData));
+    }
+
     const item = await Item.findOne({
       where: { id },
       include,
@@ -109,7 +120,12 @@ const getItem = async (req: Request, res: Response) => {
     }
 
     const itemResponse = formatItem(item);
-    return res.status(200).send({ item: itemResponse });
+
+    const responseData = { item: itemResponse };
+
+    await setAsync(cacheKey, JSON.stringify(responseData), 60); // Cache the response for 60 seconds
+
+    return res.status(200).send(responseData);
   } catch (error) {
     return res.status(500).send({ message: "Error getting item" });
   }
