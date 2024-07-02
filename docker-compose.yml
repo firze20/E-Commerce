@@ -6,13 +6,30 @@ services:
       context: .
       dockerfile: BackendDev.Dockerfile
     volumes:
-      - ./:/app
+        - ./backend:/usr/app
+        - /usr/app/node_modules
     container_name: ecommerce-api
     expose:
       - '3000'
     ports:
       - '3000:3000'
     command: npm run dev
+
+  # react-frontend-docker:
+  #   environment:
+  #     - NODE_ENV=development
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: FrontendDev.Dockerfile
+  #   volumes:
+  #     - ./frontend:/usr/app
+  #     - ./frontend/node_modules
+  #   container_name: ecommerce-frontend
+  #   expose:
+  #     - '3001'
+  #   ports:
+  #     - '3001:3001'
+  #   command: npm run dev
 
   nginx:
     build:

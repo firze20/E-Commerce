@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 
 import Item from "../../database/models/Item";
 
+import { getAsync, setAsync } from "../../utils/redis";
+
 /**
  * Controller to create a new item.
  * @param {Request} req - The request object.

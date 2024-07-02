@@ -1,0 +1,23 @@
+{
+    "name": "E-commerce Dev Container",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "express-typescript-docker",
+    "workspaceFolder": "/usr/app",
+    "forwardPorts": [3000, 3001],
+    "postCreateCommand": "npm install",
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "editor.formatOnSave": true,
+          "terminal.integrated.defaultProfile.linux": "bash",
+          "terminal.integrated.shell.linux": "/bin/bash"
+        },
+        "extensions": [
+          "dbaeumer.vscode-eslint",
+          "esbenp.prettier-vscode",
+          "ms-azuretools.vscode-docker"
+        ]
+      }
+    },
+    "remoteUser": "node"
+  }
