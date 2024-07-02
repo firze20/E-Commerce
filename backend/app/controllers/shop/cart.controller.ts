@@ -17,6 +17,7 @@ const getMyCart = async (req: Request, res: Response) => {
     const cashedData = await getAsync(casheKey);
     // If the response is in the cache, return it
     if (cashedData) {
+      logger.info("Retrieved cart from cache");
       return res.status(200).json(JSON.parse(cashedData));
     }
 
