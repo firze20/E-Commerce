@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { ThemeProvider } from "./components/theme-provider";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "./components/theme-provider";
+import Navbar from "./components/navbar/Navbar";
+import ThemeHydration from "./components/theme/ThemeHydration";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,20 +14,27 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <link rel="icon" href="ecommerce.ico" />
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/ecommerce.ico" />
+      </head>
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <ThemeProvider 
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-          >
-        {children}
+        >
+          <ThemeHydration />
+          <Navbar />
+          <main className="flex-grow">{children}</main>
+          <footer className="py-6 w-full text-center text-sm bg-black bg-opacity-50 text-white dark:bg-opacity-60 dark:text-gray-100">
+            © 2024 E-Commerce. All rights reserved. Github firze20
+          </footer>
         </ThemeProvider>
       </body>
     </html>
