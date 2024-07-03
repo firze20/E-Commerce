@@ -35,26 +35,8 @@
     - [x] **Set up an Express server**: Create a directory for your project and set up a basic Express server.
     - [x] **Set up version control**: Set up Git tracking in your directory and make sure to add and commit changes as you make them.
 ### Docker Compose
-This project uses Nginx with reverse proxy:
-
-- Create a folder in the root of the project called nginx
-- Create a file inside nginx folder called nginx.conf
-- Change configurations if needed
-```conf
-# nginx.conf
-server {
-    listen 80;
-    server_name localhost;
-
-    location / {
-        proxy_pass http://express-typescript-docker:3000; # This is the port that the express server is running on.
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
+This project uses Nginx with reverse proxy
+Redis as cache 
 ```
 **First time ? Run Docker compose Build**
 
@@ -257,7 +239,7 @@ ALTER TABLE "purchase_items" ADD FOREIGN KEY ("purchase_id") REFERENCES "purchas
 
 ALTER TABLE "purchase_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
 ```
-_Note you should store your _`__.env__`_ file in the root of the project_
+_Note you should store your _`__.env__`_ file in the root of the backend project_
 
 **Enviroment Setup Template**
 
