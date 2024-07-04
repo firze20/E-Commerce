@@ -91,6 +91,7 @@ const getUser = async (req: Request, res: Response) => {
 
     // If the response is in the cache, return it
     if (cacheData) {
+      logger.info("Retrieved user from cache");
       return res.status(200).json(JSON.parse(cacheData));
     }
 
@@ -170,7 +171,7 @@ const removeUserRoles = async (req: Request, res: Response) => {
     const updatedUser = await user.removeRoles(roles);
 
     // Invalidate the cache
-    await deleteKeysByPattern("admin:*");
+    await deleteKeysByPattern("admin/users:*");
     // Create a cache key based on the user id
     const cacheKey = usersKeys.singleUser(id);
     
@@ -202,7 +203,7 @@ const removeUser = async (req: Request, res: Response) => {
     await user.destroy();
 
     // Invalidate the cache
-    await deleteKeysByPattern("admin:*");
+    await deleteKeysByPattern("admin/users:*");
 
     res.status(200).send({ message: "User deleted" });
   } catch (error) {

@@ -37,18 +37,24 @@ const delAsync = async (key: string): Promise<number> => {
 // Async delete keys by pattern from Redis
 
 const deleteKeysByPattern = async (pattern: string): Promise<void> => {
-  try {
-    const keys = await client.keys(pattern);
+  let globalCursor = '0';
+
+
+  do {
+    const reply = await client.scan(Number(globalCursor), {
+      MATCH: pattern,
+      COUNT: 100,
+    });
+    const { cursor, keys } = reply;
+    globalCursor = cursor.toString();
+
     if (keys.length > 0) {
       const multi = client.multi();
-      keys.forEach((key) => {
-        multi.del(key);
-      });
+      keys.forEach((key: any) => multi.del(key));
       await multi.exec();
     }
-  } catch (error) {
-    console.error(`Error deleting keys by pattern ${pattern}:`, error);
-  }
+  } while (globalCursor !== '0');
 };
+
 
 export { client, getAsync, setAsync, delAsync, deleteKeysByPattern };

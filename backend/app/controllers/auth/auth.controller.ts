@@ -44,14 +44,17 @@ const signUp = async (req: Request, res: Response) => {
         id: user.id,
       },
       include: ["roles"],
+      attributes: {
+        exclude: ["password"],
+      }
     });
 
     const cacheUser = formatUser(newUser!);
 
     // Delete all keys that start with "admin:"
-    await deleteKeysByPattern("admin:*")
+    await deleteKeysByPattern("admin/users:*")
     
-    const cacheKey = usersKeys.singleUser(cacheUser.id);
+    const cacheKey = usersKeys.singleUser(newUser!.id);
      // Set user in cache
     await setAsync(cacheKey, JSON.stringify(cacheUser), 3600);
 
