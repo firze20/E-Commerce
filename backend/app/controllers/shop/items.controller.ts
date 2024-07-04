@@ -8,6 +8,7 @@ import Item from "../../database/models/Item";
 import Stock from "../../database/models/Stock";
 import Category from "../../database/models/Category";
 
+import { itemKeys } from "../../config/cache/store.redis";
 import { getAsync, setAsync} from "../../utils/redis";
 
 // Helper Format Item Response
@@ -20,7 +21,14 @@ const { formatItem } = format;
 const getItemsFromStore = async (req: Request, res: Response) => {
   const { page = 1, limit = 10, category, minimumPrice, maximumPrice, name} = req.query; // Get the query params from the request
 
-  const cacheKey = `store:${page}:${limit}:${category}:${minimumPrice}:${maximumPrice}:${name}`; // Create a cache key based on the query params
+  const cacheKey = itemKeys.items(
+    Number(page),
+    Number(limit),
+    category as string,
+    minimumPrice ? Number(minimumPrice) : undefined,
+    maximumPrice ? Number(maximumPrice) : undefined,
+    name as string
+  );
 
   const parsedPage = Number(page);
   const parsedLimit = Number(limit);
@@ -45,11 +53,11 @@ const getItemsFromStore = async (req: Request, res: Response) => {
 
   try {
     // Check if the response is in the cache
-    const cashedData = await getAsync(cacheKey);
+    const cacheData = await getAsync(cacheKey);
     // If the response is in the cache, return it
-    if(cashedData){
+    if(cacheData){
       logger.info("Retrieved items from cache");
-      return res.status(200).json(JSON.parse(cashedData));
+      return res.status(200).json(JSON.parse(cacheData));
     };
 
     const { count: totalItems, rows: items } = await Item.findAndCountAll({
@@ -70,7 +78,7 @@ const getItemsFromStore = async (req: Request, res: Response) => {
       perPage: parsedLimit,
     };
 
-    await setAsync(cacheKey, JSON.stringify(responseData), 60); // Cache the response for 60 seconds
+    await setAsync(cacheKey, JSON.stringify(responseData), 3600); // Cache the response for 1 hour
 
     res.status(200).send(responseData);
   } catch (error) {
@@ -87,7 +95,7 @@ const getItemsFromStore = async (req: Request, res: Response) => {
 const getItem = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const cacheKey = `store/item:${id}`; // Create a cache key based on the item ID
+  const cacheKey = itemKeys.singleItem(id); // Create a cache key based on the item ID
 
   const include = [
     {
@@ -106,11 +114,11 @@ const getItem = async (req: Request, res: Response) => {
   try {
     // Check if the response is in the cache
 
-    const cashedData = await getAsync(cacheKey);
+    const cacheData = await getAsync(cacheKey);
     // If the response is in the cache, return it
-    if(cashedData){
+    if(cacheData){
       logger.info("Retrieved item from cache");
-      return res.status(200).json(JSON.parse(cashedData));
+      return res.status(200).json(JSON.parse(cacheData));
     }
 
     const item = await Item.findOne({
@@ -126,7 +134,7 @@ const getItem = async (req: Request, res: Response) => {
 
     const responseData = { item: itemResponse };
 
-    await setAsync(cacheKey, JSON.stringify(responseData), 60); // Cache the response for 60 seconds
+    await setAsync(cacheKey, JSON.stringify(responseData), 3600); // Cache the response for 60 seconds
 
     return res.status(200).send(responseData);
   } catch (error) {

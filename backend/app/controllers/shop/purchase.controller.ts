@@ -9,6 +9,8 @@ import Item from "../../database/models/Item";
 import { delAsync, getAsync, setAsync } from "../../utils/redis";
 import logger from "../../utils/logger";
 
+import { purchaseKeys } from "../../config/cache/store.redis";
+
 const { formatPurchases } = formatResponses;
 
 const makePurchase = async (req: Request, res: Response) => {
@@ -40,7 +42,13 @@ const getMyPurchases = async (req: Request, res: Response) => {
   // Need to add pagination to this endpoint
   const { page = 1, limit = 10, minDate, maxDate } = req.query;
 
-  const casheKey = `store/purchase:${req.user!.id}:${page}:${limit}:${minDate}:${maxDate}`;
+  const cacheKey = purchaseKeys.userPurchases(
+    req.user?.id!, 
+    Number(page), 
+    Number(limit), 
+    minDate as string, 
+    maxDate as string
+  );
 
   const parsedPage = Number(page);
   const parsedLimit = Number(limit);
@@ -71,11 +79,11 @@ const getMyPurchases = async (req: Request, res: Response) => {
 
   try {
     // Check if the response is in the cache
-    const cashedData = await getAsync(casheKey);
+    const cacheData = await getAsync(cacheKey);
     // If the response is in the cache, return it
-    if (cashedData) {
+    if (cacheData) {
       logger.info("Retrieved purchases from cache");
-      return res.status(200).json(JSON.parse(cashedData));
+      return res.status(200).json(JSON.parse(cacheData));
     }
 
     const { count: totalPurchases, rows: purchases } = await Purchase.findAndCountAll({
@@ -103,7 +111,7 @@ const getMyPurchases = async (req: Request, res: Response) => {
       perPage: parsedLimit,
     };
 
-    await setAsync(casheKey, JSON.stringify(response), 60); // Cache the response for 60 seconds
+    await setAsync(cacheKey, JSON.stringify(response), 60); // Cache the response for 60 seconds
     
     return res.status(200).send(response);
   } catch (error: any) {

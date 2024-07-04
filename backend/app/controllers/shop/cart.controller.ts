@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import logger from "../../utils/logger";
 import Cart from "../../database/models/Cart";
 import Item from "../../database/models/Item";
-
+import { cartKeys } from "../../config/cache/store.redis"
 import { getAsync, setAsync, delAsync } from "../../utils/redis";
 
 import formatResponses from "../../helpers/format";
@@ -10,15 +10,15 @@ import formatResponses from "../../helpers/format";
 const { formatCartItems } = formatResponses;
 
 const getMyCart = async (req: Request, res: Response) => {
-  const casheKey = `store/my-cart:${req.user!.id}`;
+  const cacheKey = cartKeys.userCart(req.user!.id);
 
   try {
     // Check if the response is in the cache
-    const cashedData = await getAsync(casheKey);
+    const cacheData = await getAsync(cacheKey);
     // If the response is in the cache, return it
-    if (cashedData) {
+    if (cacheData) {
       logger.info("Retrieved cart from cache");
-      return res.status(200).json(JSON.parse(cashedData));
+      return res.status(200).json(JSON.parse(cacheData));
     }
 
     const cart = await Cart.findOne({
@@ -42,7 +42,7 @@ const getMyCart = async (req: Request, res: Response) => {
 
     const response = formatCartItems(cartItems);
 
-    await setAsync(casheKey, JSON.stringify(response), 60); // Cache the response for 60 seconds
+    await setAsync(cacheKey, JSON.stringify(response), 60); // Cache the response for 60 seconds
 
     return res.status(200).send(response);
   } catch (error) {
@@ -79,8 +79,8 @@ const addItemToCart = async (req: Request, res: Response) => {
     await cart.addItemToCart(item, quantity && parsedQuantity);
 
     // Clear the cache
-    const casheKey = `store/my-cart:${req.user!.id}`;
-    await delAsync(casheKey); 
+    const cacheKey = cartKeys.userCart(req.user!.id);
+    await delAsync(cacheKey); 
 
     return res.status(200).send({ message: "Item added to cart!" });
   } catch (error) {
@@ -114,8 +114,8 @@ const removeItemFromCart = async (req: Request, res: Response) => {
     await cart.removeItemFromCart(cartItem);
 
     // Clear the cache
-    const casheKey = `store/my-cart:${req.user!.id}`;
-    await delAsync(casheKey); 
+    const cacheKey = cartKeys.userCart(req.user!.id);
+    await delAsync(cacheKey); 
 
     return res.status(200).send({ message: "Item removed from cart" });
   } catch (error) {
@@ -158,7 +158,7 @@ const updateItemInCart = async (req: Request, res: Response) => {
     await cart.updateItemInCart(cartItem, quantity && parsedQuantity);
 
     // Clear the cache
-    const casheKey = `store/my-cart:${req.user!.id}`;
+    const casheKey = cartKeys.userCart(req.user!.id);
     await delAsync(casheKey); 
 
     return res.status(200).send({ message: "Item updated in cart" });
@@ -185,7 +185,7 @@ const emptyCart = async (req: Request, res: Response) => {
     await cart.emptyCart();
 
     // Clear the cache
-    const casheKey = `store/my-cart:${req.user!.id}`;
+    const casheKey = cartKeys.userCart(req.user!.id);
     await delAsync(casheKey); 
 
     return res.status(200).send({ message: "Cart emptied" });

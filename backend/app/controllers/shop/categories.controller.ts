@@ -2,17 +2,18 @@ import { Request, Response } from "express";
 import Category from "../../database/models/Category";
 import logger from "../../utils/logger";
 import { getAsync, setAsync } from "../../utils/redis";
+import { categoryKeys } from "../../config/cache/store.redis";
 
 const getAllCategories = async (req: Request, res: Response) => {
-  const cacheKey = `store/categories`;
+  const cacheKey = categoryKeys.allCategories;
 
   try {
     // Check if the response is in the cache
-    const cashedData = await getAsync(cacheKey);
+    const cacheData = await getAsync(cacheKey);
     // If the response is in the cache, return it
-    if (cashedData) {
+    if (cacheData) {
       logger.info("Retrieved categories from cache");
-      return res.status(200).json(JSON.parse(cashedData));
+      return res.status(200).json(JSON.parse(cacheData));
     }
     const categories = await Category.findAll({
       attributes: ["id", "name", "description"],
@@ -29,15 +30,15 @@ const getAllCategories = async (req: Request, res: Response) => {
 const getSingleCategory = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const cacheKey = `store/categories/${id}`;
+  const cacheKey = categoryKeys.singleCategory(id);
 
   try {
     // Check if the response is in the cache
-    const cashedData = await getAsync(cacheKey);
+    const cacheData = await getAsync(cacheKey);
     // If the response is in the cache, return it
-    if (cashedData) {
+    if (cacheData) {
       logger.info("Retrieved category from cache");
-      return res.status(200).json(JSON.parse(cashedData));
+      return res.status(200).json(JSON.parse(cacheData));
     }
 
     const category = await Category.findByPk(id);

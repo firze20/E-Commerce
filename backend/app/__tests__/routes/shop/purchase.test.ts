@@ -28,11 +28,8 @@ describe("Test Purchase endpoints", () => {
         //
 
        const addCart = await request(app)
-        .post("/api/e-commerce/store/my-cart/3")
+        .post("/api/e-commerce/store/my-cart/4")
         .set("Cookie", `jwt=${token}`)
-        .send({
-          quantity: 1,
-        });
 
         expect(addCart.status).toBe(200);
 

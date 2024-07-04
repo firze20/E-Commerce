@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 import Item from "../../database/models/Item";
 
+import { setAsync, delAsync } from "../../utils/redis";
 
 /**
  * Controller to create a new item.
@@ -22,6 +23,12 @@ const createItem = async (req: Request, res: Response) => {
     if (categories) {
       await item.addCategory(categories);
     }
+
+    // Clear the cache
+    await delAsync("store");
+    // Set the new cache key
+    const cacheKey = `store/item:${item.id}`;
+    await setAsync(cacheKey, JSON.stringify(item), 3600); // Cache the response for an hour
 
     res.status(201).send({
       message: "Item created!",
@@ -46,6 +53,9 @@ const deleteItem = async (req: Request, res: Response) => {
       return res.status(404).send({ message: "Item not found" });
     }
     await item.destroy();
+
+    // Clear the cache
+    await delAsync("store/items");
     res.status(200).send({
       message: "Item deleted!",
     });
