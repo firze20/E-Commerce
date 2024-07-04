@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import Category from "../../database/models/Category";
 
+// Invalidate cache redis keys on data mutation 
+
 const postCategory = async (req: Request, res: Response) => {
   try {
     const { name, description } = req.body;

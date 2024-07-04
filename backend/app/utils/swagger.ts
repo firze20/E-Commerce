@@ -40,7 +40,7 @@ function swaggerDocs(app: Express, port: number) {
   });
 
   logger.info(
-    `Swagger documentation is available at http://localhost:${port}/api-docs/`
+    `Swagger documentation is available at http://localhost:${port}/api-docs`
   );
 }
 

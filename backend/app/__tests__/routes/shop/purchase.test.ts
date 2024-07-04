@@ -28,7 +28,7 @@ describe("Test Purchase endpoints", () => {
         //
 
        const addCart = await request(app)
-        .post("/api/e-commerce/store/my-cart/1")
+        .post("/api/e-commerce/store/my-cart/3")
         .set("Cookie", `jwt=${token}`)
         .send({
           quantity: 1,
