@@ -7,6 +7,14 @@ import { generateToken } from "../../utils/jwt";
 import Context from "../../config/context/context.config";
 import AuthConfig from "../../config/auth/auth.config";
 
+import {usersKeys} from "../../config/cache/admin.redis";
+
+import {setAsync, deleteKeysByPattern} from "../../utils/redis";
+
+import format from "../../helpers/format";
+
+const {formatUser} = format;
+
 const {
   isProduction
 } = Context;
@@ -30,6 +38,23 @@ const signUp = async (req: Request, res: Response) => {
       name,
       age,
     });
+
+    const newUser = await User.findOne({
+      where: {
+        id: user.id,
+      },
+      include: ["roles"],
+    });
+
+    const cacheUser = formatUser(newUser!);
+
+    // Delete all keys that start with "admin:"
+    await deleteKeysByPattern("admin:*")
+    
+    const cacheKey = usersKeys.singleUser(cacheUser.id);
+     // Set user in cache
+    await setAsync(cacheKey, JSON.stringify(cacheUser), 3600);
+
 
     res.status(201).send({
       message: `Successfully sign up, username: ${user.username}`,

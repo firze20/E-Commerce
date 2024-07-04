@@ -2,7 +2,15 @@ import { Request, Response } from "express";
 
 import Item from "../../database/models/Item";
 
-import { setAsync, delAsync } from "../../utils/redis";
+import { setAsync, deleteKeysByPattern, delAsync } from "../../utils/redis";
+
+import { itemKeys } from "../../config/cache/store.redis";
+
+import format from "../../helpers/format";
+import Category from "../../database/models/Category";
+import Stock from "../../database/models/Stock";
+
+const { formatItem } = format;
 
 /**
  * Controller to create a new item.
@@ -24,11 +32,32 @@ const createItem = async (req: Request, res: Response) => {
       await item.addCategory(categories);
     }
 
+    // Query the newly created item with necessary includes
+    const include = [
+      {
+        model: Stock,
+        as: "stock",
+        attributes: ["quantity"],
+      },
+      {
+        model: Category,
+        as: "categories",
+        attributes: ["name"],
+        through: { attributes: [] }, // To remove the join table attributes
+      },
+    ];
+
+    const newItem = await Item.findOne({
+      where: { id: item.id },
+      include,
+    }); // Find the newly created item
+
     // Clear the cache
-    await delAsync("store");
+    await deleteKeysByPattern("store:*");
+    const itemForCache = formatItem(newItem!); // Format the item response
     // Set the new cache key
-    const cacheKey = `store/item:${item.id}`;
-    await setAsync(cacheKey, JSON.stringify(item), 3600); // Cache the response for an hour
+    const cacheKey = itemKeys.singleItem(newItem!.id);
+    await setAsync(cacheKey, JSON.stringify({ item: itemForCache }), 3600); // Cache the response for an hour
 
     res.status(201).send({
       message: "Item created!",
@@ -55,7 +84,7 @@ const deleteItem = async (req: Request, res: Response) => {
     await item.destroy();
 
     // Clear the cache
-    await delAsync("store/items");
+    await deleteKeysByPattern("store:*"); // Clear all cache keys
     res.status(200).send({
       message: "Item deleted!",
     });
@@ -91,6 +120,36 @@ const updateItem = async (req: Request, res: Response) => {
       await item.addCategory(categories);
     }
 
+    // Clear the cache
+    await deleteKeysByPattern("store:*"); // Clear all cache keys for store
+
+    // Query the newly created item with necessary includes
+    const include = [
+      {
+        model: Stock,
+        as: "stock",
+        attributes: ["quantity"],
+      },
+      {
+        model: Category,
+        as: "categories",
+        attributes: ["name"],
+        through: { attributes: [] }, // To remove the join table attributes
+      },
+    ];
+    
+    const updatedItem = await Item.findOne({
+      where: { id: item.id },
+      include,
+    }); // Find the updated item
+
+
+    const itemForCache = formatItem(updatedItem!); // Format the item response
+
+    // Set the new cache key
+    const cacheKey = itemKeys.singleItem(item.id);
+    await setAsync(cacheKey, JSON.stringify({ item: itemForCache }), 3600); // Cache the response for an hour
+
     res.status(200).send({
       message: "Item updated!",
       item,
@@ -101,7 +160,6 @@ const updateItem = async (req: Request, res: Response) => {
     });
   }
 };
-
 
 export {
   createItem as createItemController,

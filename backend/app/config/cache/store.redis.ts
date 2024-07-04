@@ -11,7 +11,7 @@ const itemKeys = {
   ) => {
     return `${CACHE_PREFIX}:${page}:${limit}:${category || ""}:${minimumPrice || ""}:${maximumPrice || ""}:${name || ""}`;
   },
-  singleItem: (id: string) => `${CACHE_PREFIX}/item:${id}`,
+  singleItem: (id: string | number) => `${CACHE_PREFIX}/item:${id}`,
 };
 
 const categoryKeys = {

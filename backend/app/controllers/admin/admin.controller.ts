@@ -9,14 +9,24 @@ import formatResponses from "../../helpers/format";
 import Purchase from "../../database/models/Purchase";
 import Item from "../../database/models/Item";
 
-import { getAsync, setAsync, delAsync } from "../../utils/redis";
+import {
+  getAsync,
+  setAsync,
+  deleteKeysByPattern,
+} from "../../utils/redis";
+
+import { usersKeys, purchaseKeys } from "../../config/cache/admin.redis";
 
 const { formatUsers, formatUser } = formatResponses;
 
 const getAllUsers = async (req: Request, res: Response) => {
   const { page = 1, limit = 10, name } = req.query;
 
-  const cacheKey = `admin/users:${page}:${limit}:${name}`;
+  const cacheKey = usersKeys.allUsers(
+    Number(page),
+    Number(limit),
+    name as string
+  );
 
   const parsedPage = Number(page);
   const parsedLimit = Number(limit);
@@ -29,18 +39,18 @@ const getAllUsers = async (req: Request, res: Response) => {
 
   try {
     // Check if the response is in the cache
-    const cashedData = await getAsync(cacheKey);
+    const cachedData = await getAsync(cacheKey);
     // If the response is in the cache, return it
-    if(cashedData){
+    if (cachedData) {
       logger.info("Retrieved users from cache");
-      return res.status(200).json(JSON.parse(cashedData));
-    };
+      return res.status(200).json(JSON.parse(cachedData));
+    }
     const { count: totalUsers, rows: users } = await User.findAndCountAll({
       where: whereClause,
       limit: parsedLimit,
       offset,
       attributes: {
-        exclude: ["password"]
+        exclude: ["password"],
       },
       include: {
         model: Role,
@@ -72,21 +82,21 @@ const getAllUsers = async (req: Request, res: Response) => {
 const getUser = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const cacheKey = `admin/users:${id}`; // Create a cache key based on the query params
+  const cacheKey = usersKeys.singleUser(id); // Create a cache key based on the query params
 
   try {
     // Check if the response is in the cache
 
-    const cashedData = await getAsync(cacheKey);
+    const cacheData = await getAsync(cacheKey);
 
-    // If the response is in the cache, return it 
-    if(cashedData) {
-      return res.status(200).json(JSON.parse(cashedData));
-    };
+    // If the response is in the cache, return it
+    if (cacheData) {
+      return res.status(200).json(JSON.parse(cacheData));
+    }
 
     const user = await User.findByPk(id, {
       attributes: {
-        exclude: ["password"]
+        exclude: ["password"],
       },
       include: {
         model: Role,
@@ -121,19 +131,23 @@ const addUserRoles = async (req: Request, res: Response) => {
       return res.status(404).send({ message: "User doesn't exist" });
     }
 
-    if(!roles) return res.status(400).send({ message: "Roles are not provided" });
+    if (!roles)
+      return res.status(400).send({ message: "Roles are not provided" });
 
     const updatedUser = await user.addRoles(roles);
 
     // Invalidate the cache
-    const cacheKey = `admin/users:${id}`;
-    await delAsync(cacheKey);
+    await deleteKeysByPattern("admin:*");
+    // Create a cache key based on the user id
+    const cacheKey = usersKeys.singleUser(id);
 
     const formatedUserResponse = formatUser(updatedUser);
 
     await setAsync(cacheKey, JSON.stringify(formatedUserResponse), 3600); // Cache the response for an hour
 
-    res.status(200).send({ message: "Role added to user", user: formatedUserResponse });
+    res
+      .status(200)
+      .send({ message: "Role added to user", user: formatedUserResponse });
   } catch (error) {
     res.status(500).send("Error adding role to user");
   }
@@ -150,19 +164,26 @@ const removeUserRoles = async (req: Request, res: Response) => {
       return res.status(404).send({ message: "User doesn't exist" });
     }
 
-    if(!roles) return res.status(400).send({ message: "Roles are not provided" });
+    if (!roles)
+      return res.status(400).send({ message: "Roles are not provided" });
 
     const updatedUser = await user.removeRoles(roles);
 
     // Invalidate the cache
-    const cacheKey = `admin/users:${id}`;
-    await delAsync(cacheKey);
-
+    await deleteKeysByPattern("admin:*");
+    // Create a cache key based on the user id
+    const cacheKey = usersKeys.singleUser(id);
+    
     const formatedUserResponse = formatUser(updatedUser);
 
     await setAsync(cacheKey, JSON.stringify(formatedUserResponse), 3600); // Cache the response for an hour
 
-    res.status(200).send({ message: "Role removed from user", user: formatUser(updatedUser) });
+    res
+      .status(200)
+      .send({
+        message: "Role removed from user",
+        user: formatUser(updatedUser),
+      });
   } catch (error) {
     res.status(500).send("Error removing role from user");
   }
@@ -181,8 +202,7 @@ const removeUser = async (req: Request, res: Response) => {
     await user.destroy();
 
     // Invalidate the cache
-    const cacheKey = `admin/users:${id}`;
-    await delAsync(cacheKey);
+    await deleteKeysByPattern("admin:*");
 
     res.status(200).send({ message: "User deleted" });
   } catch (error) {
@@ -193,7 +213,7 @@ const removeUser = async (req: Request, res: Response) => {
 const getAllPurchases = async (req: Request, res: Response) => {
   const { page = 1, limit = 10, username, minDate, maxDate } = req.query;
 
-  const cacheKey = `admin/purchases:${page}:${limit}:${username}:${minDate}:${maxDate}`;
+  const cacheKey = purchaseKeys.allPurchases(Number(page), Number(limit), username as string, minDate as string, maxDate as string);
 
   const parsedPage = Number(page);
   const parsedLimit = Number(limit);
@@ -225,52 +245,59 @@ const getAllPurchases = async (req: Request, res: Response) => {
 
   try {
     // Check if the response is in the cache
-    const cashedData = await getAsync(cacheKey);
+    const cachedData = await getAsync(cacheKey);
     // If the response is in the cache, return it
-    if(cashedData){
+    if (cachedData) {
       logger.info("Retrieved purchases from cache");
-      return res.status(200).json(JSON.parse(cashedData));
-    };
-    const { count: totalPurchases, rows: purchases } = await Purchase.findAndCountAll({
-      where: whereClause,
-      limit: parsedLimit,
-      offset,
-      include: [
-        {
-          model: Item,
-          as: "items",
-          attributes: ["name", "price", "description", "image"],
-        },
-        {
-          model: User,
-          as: "user",
-          attributes: {
-            include: ["username", "email", "name"]
+      return res.status(200).json(JSON.parse(cachedData));
+    }
+    const { count: totalPurchases, rows: purchases } =
+      await Purchase.findAndCountAll({
+        where: whereClause,
+        limit: parsedLimit,
+        offset,
+        include: [
+          {
+            model: Item,
+            as: "items",
+            attributes: ["name", "price", "description", "image"],
           },
-          where: username ? { username: { [Op.like]: `%${username}%` } } : undefined,
-        }
-      ],
-      order: [["createdAt", "DESC"]],
-    });
+          {
+            model: User,
+            as: "user",
+            attributes: {
+              include: ["username", "email", "name"],
+            },
+            where: username
+              ? { username: { [Op.like]: `%${username}%` } }
+              : undefined,
+          },
+        ],
+        order: [["createdAt", "DESC"]],
+      });
 
     const totalPages = Math.ceil(totalPurchases / parsedLimit);
 
     const formattedPurchases = formatResponses.formatPurchases(purchases);
 
-    const formattedUsers = formatResponses.formatUsers(purchases.map((purchase) => purchase.user));
+    const formattedUsers = formatResponses.formatUsers(
+      purchases.map((purchase) => purchase.user)
+    );
 
-    const formattedPurchasesWithUsers = formattedPurchases.map((purchase, index) => {
-      return {
-        ...purchase,
-        user: formattedUsers[index],
-      };
-    });
+    const formattedPurchasesWithUsers = formattedPurchases.map(
+      (purchase, index) => {
+        return {
+          ...purchase,
+          user: formattedUsers[index],
+        };
+      }
+    );
 
     const response = {
       purchases: formattedPurchasesWithUsers,
       totalPages,
       currentPage: parsedPage,
-      perPage: parsedLimit
+      perPage: parsedLimit,
     };
 
     await setAsync(cacheKey, JSON.stringify(response), 3600); // Cache the response for an hour
@@ -281,7 +308,6 @@ const getAllPurchases = async (req: Request, res: Response) => {
     res.status(500).send({ message: "Error getting all purchases" });
   }
 };
-
 
 export {
   getAllUsers as getAllUsersController,
