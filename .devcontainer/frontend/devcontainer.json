@@ -17,7 +17,14 @@
             "esbenp.prettier-vscode",
             "ms-azuretools.vscode-docker",
             "bradlc.vscode-tailwindcss",
-            "ms-vscode.vscode-typescript-next"
+            "ms-vscode.vscode-typescript-next",
+            "antfu.vite",
+            "stylelint.vscode-stylelint",
+            "vitest.explorer",
+            "donjayamanne.githistory",
+            "aaron-bond.better-comments",
+            "chrmarti.regex",
+            "mikestead.dotenv"
         ]
       }
     },
