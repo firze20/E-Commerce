@@ -123,7 +123,6 @@ class User extends Model {
    */
   @HasOne(() => RefreshToken)
   refreshToken!: RefreshToken;
-
   /**
    * The cart associated with the user.
    * @type {Cart}

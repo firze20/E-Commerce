@@ -1,6 +1,9 @@
 # Use the official Node.js image.
 FROM node:lts-alpine
 
+# Install pnpm
+RUN npm install -g pnpm
+
 # Install necessary development tools
 RUN apk add --no-cache bash vim git
 
@@ -11,7 +14,7 @@ WORKDIR /usr/app
 COPY frontend/e-commerce/package*.json ./
 
 # Install dependencies.
-RUN npm install
+RUN pnpm install
 
 # Copy local code to the container image.
 COPY frontend/e-commerce ./
@@ -23,4 +26,4 @@ RUN chown -R node:node /usr/app
 USER node
 
 # Run the web service on container startup.
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "run", "dev"]

@@ -1,6 +1,9 @@
 # Use the official Node.js image.
 FROM node:lts-alpine
 
+# Install pnpm
+RUN npm install -g pnpm
+
 # Create and change to the app directory.
 WORKDIR /usr/app
 
@@ -8,7 +11,7 @@ WORKDIR /usr/app
 COPY backend/package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN pnpm install
 
 # Copy local code to the container image
 COPY backend/ ./
