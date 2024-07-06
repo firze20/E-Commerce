@@ -137,3 +137,5 @@ dist
 # DS Store
 .DS_Store
 
+# Ignore all .pnpm-store directories
+**/.pnpm-store/

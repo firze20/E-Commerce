@@ -4,7 +4,7 @@
     "service": "react-frontend-docker",
     "workspaceFolder": "/usr/app",
     "forwardPorts": [3001],
-    // "postCreateCommand": "pnpm install",
+    "postCreateCommand": "npm install",
     "customizations": {
       "vscode": {
         "settings": {
