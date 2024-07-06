@@ -7,5 +7,10 @@ export default defineConfig({
   server: {
     host: true, // for external access
     port: 3001, // for external access
+  },
+  resolve: {
+    alias: {
+      '@': '/src',
+    }
   }
 })
