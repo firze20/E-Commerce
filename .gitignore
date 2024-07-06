@@ -138,4 +138,5 @@ dist
 .DS_Store
 
 # Ignore all .pnpm-store directories
-**/.pnpm-store/
+backend/.pnpm-store/*
+frontend/.pnpm-store/
