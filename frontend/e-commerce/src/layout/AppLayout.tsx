@@ -1,22 +1,21 @@
 import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Sidebar from "./components/SideBar";
-import styles from "./dashboardLayout.module.css";
+import styles from "./appLayout.module.css";
+// import Sidebar from "./components/SideBar";
 
-type DashboardLayoutProps = {};
 
-const DashboardLayout = (props: DashboardLayoutProps) => {
+const AppLayout = () => {
   return (
-    <div className={styles.dashboardLayout}>
+    <div className={styles.appLayout}>
       {" "}
       <div className="col-span-2 row-span-1">
         <Header />
       </div>
-      <aside className="row-start-2 row-span-1">
+      {/* <aside className="row-start-2 row-span-1">
         <Sidebar />
-      </aside>
-      <main className="col-start-2 col-span-1">
+      </aside> */}
+      <main className="col-start-1 col-span-2">
         <Outlet />
       </main>
       <div className="col-span-2">
@@ -26,4 +25,4 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
   );
 };
 
-export default DashboardLayout;
+export default AppLayout;
