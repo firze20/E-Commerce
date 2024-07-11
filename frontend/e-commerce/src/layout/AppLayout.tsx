@@ -15,7 +15,7 @@ const AppLayout = () => {
       {/* <aside className="row-start-2 row-span-1">
         <Sidebar />
       </aside> */}
-      <main className="col-start-1 col-span-2">
+      <main className="col-start-1 col-span-2 container mx-auto">
         <Outlet />
       </main>
       <div className="col-span-2">
