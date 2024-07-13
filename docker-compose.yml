@@ -31,6 +31,19 @@ services:
       - '3001:3001'
     command: npm run dev
 
+  cypress:
+    build:
+      context: .
+      dockerfile: Cypress.Dockerfile
+    depends_on:
+      - express-typescript-docker
+      - react-frontend-docker
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend/e-commerce:/usr/app
+    command: npm run test:e2e
+
   nginx:
     build:
       context: .
