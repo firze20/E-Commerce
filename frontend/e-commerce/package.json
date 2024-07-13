@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "cypress:open": "yarn run cypress open --e2e",
+    "cypress:open": "yarn cypress open --e2e",
     "cypress:run": "yarn run cypress run --e2e",
     "test:e2e": "start-server-and-test dev http://localhost:3001 cy:run"
   },
@@ -31,7 +31,7 @@
     "cypress": "^13.13.0",
     "cypress-vite": "^1.5.0",
     "daisyui": "^4.12.10",
-    "eslint": "^8.57.0",
+    "eslint": "^9.7.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "postcss": "^8.4.39",
