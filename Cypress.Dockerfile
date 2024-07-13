@@ -20,6 +20,17 @@ RUN yarn global add start-server-and-test
 # Copy the rest of your application's code
 COPY frontend/ ./
 
+# Copy the Cypress configuration and folder
+COPY frontend/e-commerce/cypress.config.js .
+COPY frontend/e-commerce/cypress ./cypress
 
-# Run the Cypress tests
-CMD ["yarn", "test:e2e"]
+# Set environment variable to use the correct Cypress configuration file
+ENV CYPRESS_CONFIG_FILE=cypress.config.js
+
+# CMD ["yarn", "test:e2e"]
+
+# Open Cypress
+# CMD ["yarn", "cypress:open"]
+
+# Use start-server-and-test to start the frontend server and run Cypress tests
+CMD ["yarn", "start-server-and-test", "dev", "http://ecommerce-frontend:3001", "cypress:run"]
