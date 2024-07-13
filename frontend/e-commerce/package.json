@@ -8,8 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "cy:open": "cypress open",
-    "cy:run": "xvfb-run -a cypress run",
+    "cypress:open": "yarn run cypress open --e2e",
+    "cypress:run": "yarn run cypress run --e2e",
     "test:e2e": "start-server-and-test dev http://localhost:3001 cy:run"
   },
   "dependencies": {

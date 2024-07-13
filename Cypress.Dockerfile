@@ -20,8 +20,6 @@ RUN yarn global add start-server-and-test
 # Copy the rest of your application's code
 COPY frontend/ ./
 
-# Set environment variable to use the correct Cypress configuration file
-ENV CYPRESS_CONFIG_FILE=cypress.config.js
 
 # Run the Cypress tests
 CMD ["yarn", "test:e2e"]

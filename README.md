@@ -38,7 +38,7 @@
 This project uses Nginx with reverse proxy
 Redis as cache 
 ```
-**First time ? Run Docker compose Build**
+__First time ? Run Docker compose Build__
 
 ```shell
 docker compose up --build
