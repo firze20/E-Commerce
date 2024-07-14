@@ -98,9 +98,6 @@ const withLogger = async <T>(promise: AxiosPromise<T>) =>
   });
 
 // Main api function
-
-// Main api function
-// Main api function
 const api = (axios: AxiosInstance) => {
   return {
     get: <T>(url: string, config: ApiRequestConfig = {}) =>
