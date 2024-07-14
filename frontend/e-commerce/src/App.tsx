@@ -9,6 +9,7 @@ import Home from "./views/home/Home";
 import Login from "./views/auth/Login";
 import Register from "./views/auth/Register";
 import Shop from "./views/shop/Shop";
+import About from "./views/about/About";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route element={<AppLayout />}>
               <Route path="/" element={<Home />} />{" "}
               <Route path="/shop" element={<Shop />} />
+              <Route path="/about" element={<About />} />
             </Route>
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<Login />} />{" "}

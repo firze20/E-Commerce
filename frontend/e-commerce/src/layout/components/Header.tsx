@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [theme, setTheme] = useState("light");
@@ -12,7 +13,7 @@ const Header = () => {
   }, [theme]);
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-neutral text-neutral-content">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -33,16 +34,16 @@ const Header = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-neutral rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a>Homepage</a>
+              <Link to={"/"}>Homepage</Link>
             </li>
             <li>
-              <a>Products</a>
+              <Link to={"/shop"}>Shop</Link>
             </li>
             <li>
-              <a>About</a>
+              <Link to={"/about"}>About</Link>
             </li>
           </ul>
         </div>
