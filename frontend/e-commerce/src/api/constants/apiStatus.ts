@@ -1,3 +1,7 @@
+/**
+ * Represents the status of an API request.
+ * Possible values are "IDLE", "PENDING", "SUCCESS", and "ERROR".
+ */
 export type ApiStatus = "IDLE" | "PENDING" | "SUCCESS" | "ERROR";
 
 export const IDLE: ApiStatus = "IDLE";
@@ -12,8 +16,14 @@ export const defaultApiStatus: ApiStatus[] = [
     'ERROR',
 ]
 
+/**
+ * Represents the possible API statuses.
+ */
 export type ApiStatuses = Record<ApiStatus, ApiStatus>
 
+/**
+ * Represents the status of an API request.
+ */
 export const apiStatus: ApiStatuses = {
     IDLE,
     PENDING,
