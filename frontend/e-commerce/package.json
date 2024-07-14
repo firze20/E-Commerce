@@ -8,9 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "cy:open": "cypress open",
-    "cy:run": "xvfb-run -a cypress run",
-    "test:e2e": "start-server-and-test dev http://localhost:5173 cy:run"
+    "cypress:open": "yarn cypress open --e2e",
+    "cypress:run": "yarn run cypress run --e2e",
+    "test:e2e": "start-server-and-test dev http://localhost:3001 cy:run"
   },
   "dependencies": {
     "axios": "^1.7.2",
@@ -20,6 +20,7 @@
     "react-router-dom": "^6.24.1"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^10.0.2",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -27,13 +28,16 @@
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
+    "cypress": "^13.13.0",
+    "cypress-vite": "^1.5.0",
     "daisyui": "^4.12.10",
-    "eslint": "^8.57.0",
+    "eslint": "^9.7.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "postcss": "^8.4.39",
+    "start-server-and-test": "^2.0.4",
     "tailwindcss": "^3.4.4",
-    "typescript": "^5.2.2",
+    "typescript": "^5.5.3",
     "vite": "^5.3.1"
   }
 }

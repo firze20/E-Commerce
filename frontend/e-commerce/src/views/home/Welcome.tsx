@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1>{welcomeData}</h1>
+      <h1 data-test-id="e-commerce-title">{welcomeData}</h1>
       <button className="btn btn-primary">Shop Now</button>
     </div>
   );

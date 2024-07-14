@@ -13,7 +13,7 @@ services:
       - '3000'
     ports:
       - '3000:3000'
-    command: npm run dev
+    command: yarn dev
 
   react-frontend-docker:
     environment:
@@ -29,7 +29,17 @@ services:
       - '3001'
     ports:
       - '3001:3001'
-    command: npm run dev
+    command: yarn dev
+
+  cypress:
+    build:
+      context: .
+      dockerfile: Cypress.Dockerfile
+    depends_on:
+      - react-frontend-docker
+    environment:
+      - CYPRESS_BASE_URL=http://ecommerce-frontend:3001
+    # entrypoint: "/bin/sh -c 'yarn start-server-and-test dev http://react-frontend-docker:3001 cypress:run'"
 
   nginx:
     build:

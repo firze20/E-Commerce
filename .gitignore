@@ -140,3 +140,6 @@ dist
 # Ignore all .pnpm-store directories
 backend/.pnpm-store/*
 frontend/.pnpm-store/
+
+# Ignore cypress
+cypress/videos/
