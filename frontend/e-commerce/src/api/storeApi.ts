@@ -36,4 +36,5 @@ export type CategoriesData = {
 
 export const fetchCategories = () => {
     return api.get<CategoriesData>(URLS.fetchCategories);
-}
+};
+
