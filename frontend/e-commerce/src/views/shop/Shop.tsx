@@ -1,13 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchStore, StoreDataResponse } from "@/api/storeApi";
 import LazySpinner from "@/components/LazySpinner";
+import Product from "@/components/Product";
+import Pagination from "@/components/Pagination";
+import { useQueryStore } from "@/hooks/useQueryStore";
 
 const Shop = () => {
 
-  const { data, isLoading, isSuccess, isError } = useQuery<StoreDataResponse>({
-    queryKey: ["store"],
-    queryFn: fetchStore,
-  });
+  const { data, isLoading, isSuccess, isError } = useQueryStore();
 
   return (
     <div>
@@ -20,17 +18,22 @@ const Shop = () => {
       ) : null}
       { isSuccess ? (
         <div>
-          <h3>Products</h3>
-          <ul>
-            {data?.items.map((item) => (
-              <li key={item.id}>
-                <h4>{item.name}</h4>
-                <p>{item.description}</p>
-                <p>{item.price}</p>
-                <img src={item.image} alt={item.name} />
-              </li>
-            ))}
-          </ul>
+          <h3 className="text-xl font-semibold mb-4">Products</h3>
+          <Pagination totalPages={data?.totalPages || 1} currentPage={data?.currentPage || 1} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-9">
+          {
+            data?.items.map((item) => (
+              <Product
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                description={item.description}
+                price={item.price}
+                image={item.image}
+              />
+            ))
+          }
+          </div>
         </div>
       ): null}
     </div>
