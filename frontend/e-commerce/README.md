@@ -18,3 +18,11 @@ export default defineConfig({
 })
 ```
 
+__To Open Cypress__
+
+*Cypress has to be open locally, on Docker it will run headless browser for e2e (end-to-end) tests*
+
+```bash
+yarn cypress open
+```
+
