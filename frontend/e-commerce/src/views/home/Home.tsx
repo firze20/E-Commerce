@@ -1,5 +1,3 @@
-import api from "@/api/api";
-
 const Home = () => {
 
   return (
@@ -10,3 +8,5 @@ const Home = () => {
   );
 };
 export default Home;
+
+

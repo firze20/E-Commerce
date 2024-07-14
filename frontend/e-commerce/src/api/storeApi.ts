@@ -1,3 +1,4 @@
+import { ApiRequestConfig } from "./api.types";
 import api from "./api";
 
 const URLS = {
@@ -5,7 +6,7 @@ const URLS = {
     fetchCategories: "/store/categories",
 }
 
-type Item = {
+export type Item = {
     id: number,
     name: string,
     description: string,
@@ -13,28 +14,24 @@ type Item = {
     image: string,
 };
 
-export type StoreData = {
+export type StoreDataResponse = {
     items: Item[],
     totalPages: number,
     currentPage: number,
     perPage: number,
 };
 
-export const fetchStore = () => {
-    return api.get<StoreData>(URLS.fetchProducts);
-};
-
-type Category = {
+export type Category = {
     id: number,
     name: string,
-    description: string
-};
+    description: string,
+}
 
-export type CategoriesData = {
-    categories: Category[],
-};
+export type CategoryResponse = Category[];
 
-export const fetchCategories = () => {
-    return api.get<CategoriesData>(URLS.fetchCategories);
-};
+
+export const fetchStore = (config: ApiRequestConfig = {}) => api.get<StoreDataResponse>(URLS.fetchProducts, config).then((res) => res.data);
+
+export const fetchCategories = (config: ApiRequestConfig = {}) => api.get<CategoryResponse>(URLS.fetchCategories, config).then((res) => res.data);
+
 
