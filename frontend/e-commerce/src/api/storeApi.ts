@@ -4,6 +4,7 @@ import api from "./api";
 const URLS = {
   fetchProducts: "/store",
   fetchCategories: "/store/categories",
+  fetchSingleProduct: "/store/item/:id",
 };
 
 export type Item = {
@@ -29,6 +30,15 @@ export type Category = {
 
 export type CategoryResponse = Category[];
 
+type ItemDetails = Item & {
+  stock: number;
+  category: Category[];
+}
+
+export type ItemResponse = {
+  item: ItemDetails;
+};
+
 // Function to build query string
 const buildQueryString = (params: Record<string, any>) => {
   const queryString = new URLSearchParams(params).toString();
@@ -44,3 +54,8 @@ export const fetchCategories = (config: ApiRequestConfig = {}) =>
   api
     .get<CategoryResponse>(URLS.fetchCategories, config)
     .then((res) => res.data);
+
+export const fetchSingleProduct = (id: number, config: ApiRequestConfig = {}) =>
+    api
+      .get<ItemResponse>(URLS.fetchSingleProduct.replace(":id", id.toString()), config)
+      .then((res) => res.data);

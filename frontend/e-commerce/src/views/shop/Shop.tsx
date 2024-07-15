@@ -2,10 +2,14 @@ import LazySpinner from "@/components/LazySpinner";
 import Product from "@/components/Product";
 import Pagination from "@/components/Pagination";
 import { useQueryStore } from "@/hooks/useQueryStore";
+import { useNavigate } from "react-router-dom";
 
 const Shop = () => {
 
   const { data, isLoading, isSuccess, isError } = useQueryStore();
+
+ 
+
 
   return (
     <div>
