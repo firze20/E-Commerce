@@ -1,16 +1,8 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import useTheme from "@/hooks/useTheme";
 
 const Header = () => {
-  const [theme, setTheme] = useState("light");
-
-  const toggleTheme = () => {
-    setTheme((theme) => (theme === "light" ? "dark" : "light"));
-  };
-
-  useEffect(() => {
-    document.querySelector("html")?.setAttribute("data-theme", theme);
-  }, [theme]);
+  const [, toggleTheme] = useTheme();
 
   return (
     <div className="navbar bg-neutral text-neutral-content">
@@ -56,7 +48,7 @@ const Header = () => {
             value="synthwave"
           />
 
-          {/* sun icon */}
+          {/* sun icon</svg> */}
           <svg
             className="swap-off h-10 w-10 fill-current"
             xmlns="http://www.w3.org/2000/svg"
