@@ -1,12 +1,25 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, FormEventHandler } from 'react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-type FormProps = {
-    children: ReactNode;
-    className?: string;
+type FormProps<T extends FieldValues> = {
+  children: ReactNode;
+  className?: string;
+  onSubmit: SubmitHandler<T>;
 };
 
-const Form = ({ children, className }: FormProps) => {
-    return <form className={className}>{children}</form>;
+const Form = <T extends FieldValues>({ children, className, onSubmit }: FormProps<T>) => {
+  const methods = useForm<T>();
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    methods.handleSubmit(onSubmit)();
+  };
+
+  return (
+    <form className={className} onSubmit={handleSubmit}>
+      {children}
+    </form>
+  );
 };
 
 export default Form;

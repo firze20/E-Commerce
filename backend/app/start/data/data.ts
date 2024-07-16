@@ -97,7 +97,75 @@ const items = [
     description: "A tablet to play games",
     price: 150.0,
     image:
-      "https://e7.pngegg.com/pngimages/259/279/png-clipart-turned-on-tablet-computer-sony-xperia-z4-tablet-sony-xperia-tablet-z-sony-xperia-z2-tablet-sony-xperia-tablet-s-tablet-electronics-gadget-thumbnail.png",
+      "https://e7.pngegg.com/pngimages/506/453/png-clipart-tablet-tablet.png",
+  },
+  {
+    name: "Laptop",
+    description: "A laptop with Linux Pop Os, 16GB RAM, 512GB SSD, Nvidia RTX 3060, AMD Ryzen 7 4800H",
+    price: 1200.00,
+    image: "https://www.omen.com/content/dam/sites/omen/worldwide/laptops/2022-omen-16-amd/Hero%20Image%201.png",
+  },
+  {
+    name: "Headphones",
+    description: "A headphones to listen music",
+    price: 50.0,
+    image:
+      "https://www.pngkey.com/png/full/1-10922_headphone-png-image-headphone-png.png",
+  },
+  {
+    name: "Keyboard",
+    description: "A keyboard to write",
+    price: 30.0,
+    image:
+      "https://i.pinimg.com/originals/70/d7/d3/70d7d3fccc11ded2fd4c43c62027a60d.png",
+  },
+  {
+    name: "Mouse",
+    description: "A mouse to move the cursor",
+    price: 20.0,
+    image:
+      "https://purepng.com/public/uploads/large/purepng.com-rat-mousemouseanimalratmicerodent-981524651565fwflu.png",
+  },
+  {
+    name: "Monitor",
+    description: "A monitor to see the screen",
+    price: 150.0,
+    image:
+      "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c08410554.png",
+  },
+  {
+    name: "Smartphone",
+    description: "A smartphone to call and send messages",
+    price: 300.0,
+    image:
+      "https://pngimg.com/uploads/smartphone/smartphone_PNG8514.png",
+  },
+  {
+    name: "Table",
+    description: "A table to put things",
+    price: 50.0,
+    image:
+      "https://www.pinpng.com/pngs/m/329-3293879_modern-table-png-free-download-transparent-black-table.png",
+  },
+  {
+    name: "Chair",
+    description: "A chair to sit",
+    price: 30.0,
+    image:
+      "https://w7.pngwing.com/pngs/67/68/png-transparent-chair-plastic-chair-furniture-wood-chair-thumbnail.png",
+  },
+  {
+    name: "Desk",
+    description: "A desk to work",
+    price: 100.0,
+    image:
+      "https://w7.pngwing.com/pngs/125/780/png-transparent-black-and-silver-laptop-computer-office-desk-chairs-office-desk-chairs-office-supplies-office-desk-angle-furniture-rectangle.png",
+  },
+  {
+    name: "Book",
+    description: "A book to read",
+    price: "10.0",
+    image: "https://www.roadtoreact.com/twitter.png"
   },
 ];
 
