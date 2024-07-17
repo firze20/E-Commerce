@@ -3,13 +3,15 @@ import { Router } from "express";
 import {
   checkDuplicateEmail,
   checkDuplicateUsername,
-  verifyRefreshToken
+  verifyRefreshToken,
+  authenticateJwt
 } from "../../middlewares";
 
 import {
   signUpController,
   signInController,
-  refreshTokenController
+  refreshTokenController,
+  decodedTokenController
 } from "../../controllers/auth/auth.controller";
 
 const authRouter = Router();
@@ -245,5 +247,61 @@ authRouter.post("/signin", signInController);
  */
 authRouter.post("/refresh-token", [verifyRefreshToken], refreshTokenController);
 
+/**
+ * @openapi
+ * /whoami:
+ *   post:
+ *     summary: Identifies the user based on the provided JWT token.
+ *     description: This endpoint decodes the JWT token provided by the user to identify and return user information. It requires a valid JWT token to be sent in the authorization header.
+ *     tags:
+ *       - Authentication
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully identified the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: number
+ *                   description: The unique identifier of the user.
+ *                   example: 15
+ *                 name:
+ *                   type: string
+ *                   description: The name of the user.
+ *                   example: "Dimitri"
+ *                 roles:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   description: The roles assigned to the user.
+ *                   example:
+ *                     - "user"
+ *                     - "admin"
+ *       401:
+ *         description: Unauthorized. Token is invalid or expired.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Unauthorized. Invalid or expired token."
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Server error"
+ */
+authRouter.post("/whoami", [authenticateJwt], decodedTokenController);
 
 export default authRouter;

@@ -13,7 +13,7 @@ const { jwtSecret, refreshTokenSecret } = Config;
  * @returns {string} The generated JWT access token.
  */
 const generateToken = (user: User, roles: string[]): string => {
-    const token = jwt.sign({ id: user.id, roles}, jwtSecret, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user.id, name: user.name, roles}, jwtSecret, { expiresIn: "1h" });
     return token;
 };
 
@@ -29,7 +29,14 @@ const generateRefreshToken = (user: User, expires?: string): string => {
     return refreshToken;
 };
 
-
+/**
+ * Decodes a JSON Web Token (JWT) and returns the decoded payload.
+ * @param token - The JWT to decode.
+ * @returns The decoded payload if the JWT is valid, otherwise returns a string indicating an error.
+ */
+const decodeJwt = (token: string): string | jwt.JwtPayload => {
+    return jwt.verify(token, jwtSecret);
+};
 
 /**
  * Decodes and verifies a JWT refresh token.
@@ -53,6 +60,6 @@ const isJwtPayload = (decoded: string | jwt.JwtPayload): decoded is jwt.JwtPaylo
   };
 
 
-export { generateToken, generateRefreshToken, decodeJwtRefreshToken, isJwtPayload };
+export { generateToken, generateRefreshToken, decodeJwtRefreshToken, isJwtPayload, decodeJwt };
 
 
