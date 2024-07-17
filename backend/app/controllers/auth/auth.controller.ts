@@ -3,7 +3,7 @@ import User from "../../database/models/User";
 import RefreshToken from "../../database/models/RefreshToken";
 import logger from "../../utils/logger";
 import bcrypt from "bcrypt";
-import { generateToken } from "../../utils/jwt";
+import { generateToken, decodeJwt } from "../../utils/jwt";
 import Context from "../../config/context/context.config";
 import AuthConfig from "../../config/auth/auth.config";
 
@@ -195,8 +195,33 @@ const refreshToken = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * Decodes a JWT token and sends the decoded payload in the response.
+ *
+ * @param req - The request object.
+ * @param res - The response object.
+ */
+const decodedToken = async (req: Request, res: Response) => {
+  try {
+    const { jwt } = req.cookies;
+    const decoded = decodeJwt(jwt);
+
+    res.status(200).send({
+      user: decoded,
+    });
+  } catch (err: any) {
+    if (!res.headersSent) {
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+    logger.error(err);
+  }
+};
+
 export {
   signUp as signUpController,
   signIn as signInController,
   refreshToken as refreshTokenController,
+  decodedToken as decodedTokenController,
 };

@@ -110,7 +110,7 @@ const items = [
     description: "A headphones to listen music",
     price: 50.0,
     image:
-      "https://www.pngkey.com/png/full/1-10922_headphone-png-image-headphone-png.png",
+      "https://www.pngkey.com/png/full/1-10922_headphone-png-image-headphone-png",
   },
   {
     name: "Keyboard",
