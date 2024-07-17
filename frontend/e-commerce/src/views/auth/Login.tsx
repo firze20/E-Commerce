@@ -1,28 +1,22 @@
-import { SignInUser, signIn } from "@/api/authApi";
+import { SignInUser } from "@/api/authApi";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import Form from "@/components/common/form/Form";
 import { useState } from "react";
+import { useSignInMutation } from "@/hooks/auth/useSignInMutation";
 
 const Login = () => {
-  const { register } = useForm<SignInUser>();
+  const { register, handleSubmit } = useForm<SignInUser>();
   const [showPassword, setShowPassword] = useState(false);
 
+  const signInMutation = useSignInMutation();
+
   const onSubmit: SubmitHandler<SignInUser> = (data) => {
-    signIn(data)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    signInMutation.mutate(data);
   };
 
   return (
-    <>
-      <Form
+      <form
         className="mt-24 ml-auto mr-auto max-w-max max-h-96"
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <label className="input input-bordered flex items-center gap-2">
           <svg
@@ -56,14 +50,13 @@ const Login = () => {
           </svg>
           <input
             {...register("password", { required: true })}
-            type={showPassword ? "password" : "text"}
+            type={showPassword ? "text" : "password"}
             className="grow"
             placeholder="Password"
           />
         </label>
         <button className="btn">Login</button>
-      </Form>
-    </>
+      </form>
   );
 };
 export default Login;

@@ -1,4 +1,3 @@
-import { ApiRequestConfig } from "./api.types";
 import api from "./api";
 
 const URLS = {
@@ -15,16 +14,21 @@ export type SignUpUser = {
   age?: number;
 };
 
+type AuthResponse = {
+  message: string;
+}
+
 export type SignInUser = Pick<SignUpUser, "password"> &
   ({ username: string; email?: never } | { email: string; username?: never });
 
-export const signUp = (data: SignUpUser, config: ApiRequestConfig = {}) =>
-    api.post(URLS.signUp, data, config);
+export const signUp = (data: SignUpUser) =>
+    api.post<AuthResponse>(URLS.signUp, data)
 
-export const signIn = (data: SignInUser, config: ApiRequestConfig = {}) =>
-    api.post(URLS.signIn, data, config);
+export const signIn = (data: SignInUser) =>
+    api.post<AuthResponse>(URLS.signIn, data)
 
-export const refreshToken = (config: ApiRequestConfig = {}) =>
-    api.post(URLS.refreshToken, {}, config);
+export const refreshToken = () =>
+    api.post<AuthResponse>(URLS.refreshToken, null)
+      .then((res) => res.data);
 
 
