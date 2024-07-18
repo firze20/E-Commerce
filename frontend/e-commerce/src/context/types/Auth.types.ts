@@ -1,13 +1,18 @@
-export type JwtPayload = {
+enum Roles {
+    Admin = "Admin",
+    User = "User",
+    Manager = "Manager",
+}
+
+export type User = {
     id: number;
     name: string;
-    roles: string[];
+    roles: Roles[];
 }
 
 export type AuthState = {
     isAuthenticated: boolean;
-    user: JwtPayload | null;
-    roles: string[];
+    user: User | null;
 };
 
 

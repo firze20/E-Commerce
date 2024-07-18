@@ -1,9 +1,11 @@
 import api from "./api";
+import { User } from "@/context/types/Auth.types";
 
 const URLS = {
   signIn: "/auth/signin",
   signUp: "/auth/signup",
   refreshToken: "/auth/refresh-token",
+  whoami: "/auth/whoami",
 };
 
 export type SignUpUser = {
@@ -29,6 +31,8 @@ export const signIn = (data: SignInUser) =>
 
 export const refreshToken = () =>
     api.post<AuthResponse>(URLS.refreshToken, null)
-      .then((res) => res.data);
+
+export const whoami = () =>
+    api.post<User>(URLS.whoami, null, { withCredentials: true })
 
 

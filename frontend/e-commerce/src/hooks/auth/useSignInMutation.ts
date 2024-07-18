@@ -1,14 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "@/api/authApi";
-import { AuthContext } from "@/context/AuthContext";
-import { useContext } from "react";
+import { useWhoAmIMutation } from "./useWhoAmIMutation";
 
 export const useSignInMutation = () => {
+  const { mutate: fetchUserInfo } = useWhoAmIMutation();
     
   return useMutation({
     mutationFn: signIn,
-    onSuccess: (res) => {
-
+    onSuccess: () => {
+      fetchUserInfo();
     },
     onError: (err) => {
       console.log(err);
