@@ -5,7 +5,7 @@ import styles from "./authLayout.module.css";
 const AuthLayout = () => {
   return (
     <div className={styles.authLayout}>
-      <main className="col-span-1">
+      <main className="md:container md:mx-auto">
         <Outlet />
       </main>
     </div>

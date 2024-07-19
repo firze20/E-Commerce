@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { whoami } from "@/api/authApi";
+import { whoami } from "@/api/auth/authApi";
 import { AuthContext } from "@/context/AuthContext";
 import {useContext} from "react";
 

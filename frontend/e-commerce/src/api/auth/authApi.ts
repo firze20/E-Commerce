@@ -1,4 +1,4 @@
-import api from "./api";
+import api from "../api";
 import { User } from "@/context/types/Auth.types";
 
 const URLS = {

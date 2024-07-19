@@ -8,12 +8,8 @@ const Home = () => {
   const shopButtonHandler = () => {
     navigate("/shop");
   };
-
-  const { authState } = useContext(AuthContext);
-
-  const { isAuthenticated, user } = authState;
-
-  console.log("User: ", user);
+  
+  const { isAuthenticated, user } = useContext(AuthContext).authState;
   
   return (
     <div className="hero-content m-auto">

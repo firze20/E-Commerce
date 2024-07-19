@@ -1,5 +1,5 @@
-import { ApiRequestConfig } from "./api.types";
-import api from "./api";
+import { ApiRequestConfig } from "../api.types";
+import api from "../api";
 
 const URLS = {
   fetchProducts: "/store",
