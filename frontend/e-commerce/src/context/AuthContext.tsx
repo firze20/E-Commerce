@@ -1,6 +1,8 @@
 import React, { createContext, useState } from "react";
 import { AuthState } from "./types/Auth.types";
 import { useCookies } from "react-cookie";
+// import { useWhoAmIMutation } from "@/hooks/auth/useWhoAmIMutation";
+// import { useEffect } from "react";
 
 const initialAuthState: AuthState = {
   isAuthenticated: false,
@@ -28,6 +30,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
 }) => {
   const [cookies, setCookie] = useCookies(["auth"]);
   const [authState, setAuthState] = useState<AuthState>(cookies.auth || initialAuthState);
+
+
+  // const { mutate } = useWhoAmIMutation();
+
+  // useEffect(() => {
+  //   if (!cookies.auth ) {
+  //     //mutate();
+  //     console.log("No cookie found");
+  //   }
+  // }, []);
 
 
 

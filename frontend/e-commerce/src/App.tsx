@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { CookiesProvider } from "react-cookie";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 import "./App.css";
 
 import AuthLayout from "@/layout/AuthLayout";
@@ -15,6 +16,8 @@ import About from "./views/about/About";
 
 function App() {
   return (
+    <>
+    <ToastContainer />
     <CookiesProvider>
       {" "}
       {/* Cookie Provider from react-cookie */}
@@ -44,6 +47,7 @@ function App() {
         </BrowserRouter>
       </AuthProvider>
     </CookiesProvider>
+    </>
   );
 }
 
