@@ -1,5 +1,6 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { CookiesProvider } from "react-cookie";
 
 import "./App.css";
 
@@ -15,24 +16,26 @@ import About from "./views/about/About";
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <div className="min-h-screen flex flex-col">
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route path="/" element={<Home />} />{" "}
-              <Route path="/shop" element={<Shop />} />
-              <Route path="/shop/item/:id" element={<Item />} />
-              <Route path="/about" element={<About />} />
-            </Route>
-            <Route element={<AuthLayout />}>
-              <Route path="/login" element={<Login />} />{" "}
-              <Route path="/register" element={<Register />} />
-            </Route>{" "}
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </AuthProvider>
+    <CookiesProvider>  {/* Cookie Provider from react-cookie */}
+      <AuthProvider> {/* Auth Provider */}
+        <BrowserRouter> {/* Browser Router from react router */}
+          <div className="min-h-screen flex flex-col">
+            <Routes>
+              <Route element={<AppLayout />}> {/* App Layout */}
+                <Route path="/" element={<Home />} />{" "}
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/shop/item/:id" element={<Item />} />
+                <Route path="/about" element={<About />} />
+              </Route>
+              <Route element={<AuthLayout />}> {/* Auth Layout */}
+                <Route path="/login" element={<Login />} />{" "}
+                <Route path="/register" element={<Register />} />
+              </Route>{" "}
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </AuthProvider>
+    </CookiesProvider>
   );
 }
 

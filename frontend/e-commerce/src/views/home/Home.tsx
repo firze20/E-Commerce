@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "@/context/AuthContext";
+import { useContext } from "react";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -7,6 +9,12 @@ const Home = () => {
     navigate("/shop");
   };
 
+  const { authState } = useContext(AuthContext);
+
+  const { isAuthenticated, user } = authState;
+
+  console.log("User: ", user);
+  
   return (
     <div className="hero-content m-auto">
       <div className="hero-content text-center">
@@ -14,6 +22,8 @@ const Home = () => {
           <h1 className="text-5xl font-bold">E-Commerce</h1>
           <p className="py-6">
             E-Commerce store portfolio
+            <br />
+            {isAuthenticated && user ? `Welcome, ${user.name}` : "Please sign in to shop"}
             <br />
             <a className="link" href="https://github.com/firze20/E-Commerce">Github Project</a>
           </p>

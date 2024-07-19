@@ -1,59 +1,46 @@
-import React, { createContext, useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
-import { Cookies } from "react-cookie";
-import { AuthState, JwtPayload } from "./types/Auth.types";
+import React, { createContext, useState } from "react";
+import { AuthState } from "./types/Auth.types";
+import { useCookies } from "react-cookie";
 
 const initialAuthState: AuthState = {
-    isAuthenticated: false,
-    user: null,
-    roles: [],
+  isAuthenticated: false,
+  user: null,
 };
 
-export const AuthContext = createContext<AuthState>(initialAuthState);
-
+export const AuthContext = createContext<{
+  authState: AuthState;
+  updateAuthState: (newAuthState: AuthState) => void;
+}>({
+  authState: initialAuthState,
+  updateAuthState: () => {},
+});
 
 type AuthProviderProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 /**
  * Provides authentication context to the application.
  * @param children - The child components to be wrapped by the AuthProvider.
  */
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [authState, setAuthState] = useState<AuthState>(initialAuthState);
-    
-    const cookies = new Cookies();
-
-    // function getCookie(name: string) {
-    //     const value = `; ${document.cookie}`;
-    //     const parts = value.split(`; ${name}=`);
-    //     if(parts.length === 2) return parts.pop()?.split(";").shift();
-    // }
-
-    // const [{ jwt }] = useCookies(["jwt"]);
-
-    console.log(cookies.getAll());
-
-    cookies.set("random_value", "test");
+export const AuthProvider: React.FC<AuthProviderProps> = ({
+  children,
+}) => {
+  const [cookies, setCookie] = useCookies(["auth"]);
+  const [authState, setAuthState] = useState<AuthState>(cookies.auth || initialAuthState);
 
 
-    useEffect(() => {
-        const jwt = cookies.get("jwt");
-        console.log("Cookie value" + " " + jwt);
-        if(jwt) {
-            const decodedJwt = jwtDecode<JwtPayload>(jwt);
-            setAuthState({
-                isAuthenticated: true,
-                user: decodedJwt,
-                roles: decodedJwt.roles,
-            });
-        }
-    }, []); 
 
-    return (
-        <AuthContext.Provider value={authState}>
-            {children}
-        </AuthContext.Provider>
-    );
-}
+  const updateAuthState = (newAuthState: AuthState) => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + 1000 * 60 * 60 * 24 * 365); // 1 Hour
+    setAuthState(newAuthState);
+    setCookie("auth", newAuthState, { path: "/", expires });
+  };
+
+
+  
+  return (
+    <AuthContext.Provider value={{ authState, updateAuthState}}>{children}</AuthContext.Provider>
+  );
+};
