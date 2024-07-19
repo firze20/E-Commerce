@@ -1,4 +1,4 @@
-import { useQueryItem } from "@/hooks/useQueryItem";
+import { useQueryItem } from "@/hooks/shop/useQueryItem";
 import { useParams, useNavigate } from "react-router-dom";
 import LazySpinner from "@/components/LazySpinner";
 

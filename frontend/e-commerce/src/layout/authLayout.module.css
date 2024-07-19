@@ -1,6 +1,14 @@
 .authLayout {
-  display: grid;
-  grid-template-rows: 4rem 1fr 4rem;
-  grid-template-columns: 1fr;
-  min-height: 80vh;
+  min-height: 100vh; /* Ensures the div takes at least the full height of the viewport */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* These three lines center the content vertically and horizontally */
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+  .authLayout {
+    min-height: auto; /* Allows the div to shrink on smaller screens if necessary */
+    padding: 20px; /* Adds some padding on smaller screens for better readability */
+  }
 }
