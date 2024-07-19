@@ -9,9 +9,11 @@ const Home = () => {
     navigate("/shop");
   };
 
-  const { isAuthenticated, user } = useContext(AuthContext);
+  const { authState } = useContext(AuthContext);
 
-  console.log(isAuthenticated, user);
+  const { isAuthenticated, user } = authState;
+
+  console.log("User: ", user);
   
   return (
     <div className="hero-content m-auto">

@@ -1,13 +1,19 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { AuthState } from "./types/Auth.types";
-import { useWhoAmIMutation } from "@/hooks/auth/useWhoAmIMutation";
+import { useCookies } from "react-cookie";
 
 const initialAuthState: AuthState = {
   isAuthenticated: false,
   user: null,
 };
 
-export const AuthContext = createContext<AuthState>(initialAuthState);
+export const AuthContext = createContext<{
+  authState: AuthState;
+  updateAuthState: (newAuthState: AuthState) => void;
+}>({
+  authState: initialAuthState,
+  updateAuthState: () => {},
+});
 
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -20,37 +26,21 @@ type AuthProviderProps = {
 export const AuthProvider: React.FC<AuthProviderProps> = ({
   children,
 }) => {
-  const [authState, setAuthState] = useState<AuthState>(initialAuthState);
+  const [cookies, setCookie] = useCookies(["auth"]);
+  const [authState, setAuthState] = useState<AuthState>(cookies.auth || initialAuthState);
 
-  const { mutate, data: user, isSuccess, isError } = useWhoAmIMutation();
 
-  useEffect(() => {
-    // Trigger the mutation on component mount
 
-    if(authState.isAuthenticated!) {
-        mutate();
-    }   
- 
-    // This effect does not depend on `mutate`, `isSuccess`, or `isError` directly,
-    // so it's not included in the dependency array. It's a one-time call on mount.
-  }, []);
-  
-  useEffect(() => {
-    // This effect listens for changes in the mutation's success or error state
-    // and updates the authState accordingly.
-    if (isSuccess && user) {
-      setAuthState({
-        isAuthenticated: true,
-        user: user.data,
-      });
-    } else if (isError) {
-      setAuthState(initialAuthState);
-    }
-    // Depend on `isSuccess` and `isError` to reactively update the auth state
-  }, [isSuccess, isError, user]);
+  const updateAuthState = (newAuthState: AuthState) => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + 1000 * 60 * 60 * 24 * 365); // 1 Hour
+    setAuthState(newAuthState);
+    setCookie("auth", newAuthState, { path: "/", expires });
+  };
+
 
   
   return (
-    <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ authState, updateAuthState}}>{children}</AuthContext.Provider>
   );
 };

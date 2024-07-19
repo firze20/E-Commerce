@@ -20,6 +20,10 @@ type AuthResponse = {
   message: string;
 }
 
+type WhoAmIResponse = {
+  user: User;
+}
+
 export type SignInUser = Pick<SignUpUser, "password"> &
   ({ username: string; email?: never } | { email: string; username?: never });
 
@@ -33,6 +37,6 @@ export const refreshToken = () =>
     api.post<AuthResponse>(URLS.refreshToken, null)
 
 export const whoami = () =>
-    api.post<User>(URLS.whoami, null, { withCredentials: true })
+    api.post<WhoAmIResponse>(URLS.whoami, null, { withCredentials: true })
 
 
