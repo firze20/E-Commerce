@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosPromise, Cancel } from "axios";
+import axios, { AxiosInstance, AxiosPromise, Cancel, AxiosResponse, AxiosError } from "axios";
 import {
   ApiRequestConfig,
   WithAbortFn,
@@ -6,6 +6,8 @@ import {
   ApiExecutorArgs,
   ApiError,
 } from "./api.types";
+
+import { refreshToken } from "./auth/authApi";
 
 // Default config for the axios instance
 const axiosParams = {
@@ -15,8 +17,21 @@ const axiosParams = {
       : "/api/e-commerce",
 };
 
+
 // Create the axios instance
 const axiosInstance = axios.create(axiosParams);
+
+axiosInstance.interceptors.response.use((response: AxiosResponse) => response,
+    async (error: AxiosError) => {
+      if (error.response?.status === 401) {
+        // Handle 401 error
+        try {
+          await refreshToken();
+        } catch (refreshError) {
+          return Promise.reject(refreshError);
+        }
+      }
+    })
 
 /**
  * Checks if the provided error is an instance of `Cancel` and has the `aborted` property.
