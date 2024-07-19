@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "@/api/auth/authApi";
 import { useWhoAmIMutation } from "./useWhoAmIMutation";
+import { toast } from "react-toastify";
 
 export const useSignInMutation = () => {
   const { mutate: fetchUserInfo } = useWhoAmIMutation();
@@ -8,10 +9,13 @@ export const useSignInMutation = () => {
   return useMutation({
     mutationFn: signIn,
     onSuccess: () => {
+      // Show a success toast
+      toast.success("User signed in successfully");
       fetchUserInfo();
     },
     onError: (err) => {
-      console.log(err);
+      // Show an error toast
+      toast.error(`Error signing in: ${err}`);
     },
   });
 }

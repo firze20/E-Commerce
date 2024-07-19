@@ -1,14 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "@/api/auth/authApi";
+import { toast } from "react-toastify";
 
 export const useSignUpMutation = () => {
     return useMutation({
         mutationFn: signUp,
         onSuccess: () => {
-            console.log("User signed up");
+            // Show a success toast 
+            toast.success("User created successfully");
         },
         onError: (err) => {
-            console.log(err);
+            toast.error(`Error creating user: ${err}`);
         },
     });
 }
