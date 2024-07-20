@@ -28,8 +28,6 @@ yarn cypress open
 
 ## Project Libraries
 
-## Project Libraries
-
 Below is a table of the main libraries used in this React e-commerce project:
 
 | Library      | Purpose                                                  |
