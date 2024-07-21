@@ -4,10 +4,10 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 
-export const useQueryStore = () => {
+export const useQueryStore = (page: number) => {
   const { data, isLoading, isSuccess, isError } = useQuery<StoreDataResponse>({
-    queryKey: ["store"],
-    queryFn: fetchStore,
+    queryKey: ["store", page],
+    queryFn: () => fetchStore(page),
   });
 
   useEffect(() => {

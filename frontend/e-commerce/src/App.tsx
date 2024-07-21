@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthProvider";
+import { PaginationProvider } from "./context/shop/PaginationProvider";
 import { CookiesProvider } from "react-cookie";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 import AuthLayout from "@/layout/AuthLayout";
@@ -17,36 +18,43 @@ import About from "./views/about/About";
 function App() {
   return (
     <>
-    <ToastContainer />
-    <CookiesProvider>
-      {" "}
-      {/* Cookie Provider from react-cookie */}
-      <AuthProvider>
+      <ToastContainer />
+      <CookiesProvider>
         {" "}
-        {/* Auth Provider */}
-        <BrowserRouter>
+        {/* Cookie Provider from react-cookie */}
+        <AuthProvider>
           {" "}
-          {/* Browser Router from react router */}
-          <div className="min-h-screen flex flex-col">
-            <Routes>
-              <Route element={<AppLayout />}>
-                {" "}
-                {/* App Layout */}
-                <Route path="/" element={<Home />} />{" "}
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/shop/item/:id" element={<Item />} />
-                <Route path="/about" element={<About />} />
-              </Route>
-              <Route element={<AuthLayout />}>
-                {" "}
-                {/* Auth Layout */}
-                <Route path="/authentication" element={<Auth />} />{" "}
-              </Route>{" "}
-            </Routes>
-          </div>
-        </BrowserRouter>
-      </AuthProvider>
-    </CookiesProvider>
+          {/* Auth Provider */}
+          <BrowserRouter>
+            {" "}
+            {/* Browser Router from react router */}
+            <div className="min-h-screen flex flex-col">
+            <PaginationProvider>
+              <Routes>
+                <Route element={<AppLayout />}>
+                  {" "}
+                  {/* App Layout */}
+                  <Route path="/" element={<Home />} />{" "}
+                  <Route
+                    path="/shop"
+                    element={
+                        <Shop />    
+                    }
+                  />
+                  <Route path="/shop/item/:id" element={<Item />} />
+                  <Route path="/about" element={<About />} />
+                </Route>
+                <Route element={<AuthLayout />}>
+                  {" "}
+                  {/* Auth Layout */}
+                  <Route path="/authentication" element={<Auth />} />{" "}
+                </Route>{" "}
+              </Routes>
+              </PaginationProvider>
+            </div>
+          </BrowserRouter>
+        </AuthProvider>
+      </CookiesProvider>
     </>
   );
 }
