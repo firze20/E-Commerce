@@ -7,14 +7,22 @@ import {
   ApiError,
 } from "./api.types";
 
-import { refreshToken } from "./auth/authApi";
-
 // Default config for the axios instance
 const axiosParams = {
   baseURL:
     process.env.NODE_ENV === "development"
       ? "http://localhost/api/e-commerce"
       : "/api/e-commerce",
+};
+
+const refreshTokenAxiosInstance: AxiosInstance = axios.create(axiosParams);
+
+const URLS = {
+  REFRESH_TOKEN: "/auth/refresh-token",
+};
+
+const refreshToken = async () => {
+  await refreshTokenAxiosInstance.post(URLS.REFRESH_TOKEN, { withCredentials: true });
 };
 
 
@@ -27,6 +35,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse) => response,
         // Handle 401 error
         try {
           await refreshToken();
+          window.location.reload(); // Refresh the page upon succesfull 
         } catch (refreshError) {
           return Promise.reject(refreshError);
         }

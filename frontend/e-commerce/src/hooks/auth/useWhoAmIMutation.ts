@@ -11,14 +11,18 @@ export const useWhoAmIMutation = () => {
     return useMutation({
         mutationFn: whoami,
         onSuccess: (res) => {
-            toast.success("User info sucessfully fetched");
+            toast.success("User info sucessfully fetched", {
+                toastId: "who-am-i"
+            });
             updateAuthState({
                 isAuthenticated: true,
                 user: res.data.user,
             });
         },
-        onError: (err) => {
-            toast.error(`Error signing in: ${err}`);
+        onError: () => {
+            toast.info(`Register or Log In to start shopping! 🛒`, {
+                toastId: "who-am-i"
+            });
             updateAuthState({
                 isAuthenticated: false,
                 user: null,
