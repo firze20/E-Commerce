@@ -19,6 +19,7 @@ const Register = () => {
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  
 
   const signUpMutation = useSignUpMutation();
 

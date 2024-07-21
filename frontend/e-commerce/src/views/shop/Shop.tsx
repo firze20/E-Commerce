@@ -1,12 +1,12 @@
 import LazySpinner from "@/components/LazySpinner";
 import Product from "@/components/Product";
-import Pagination from "@/components/Pagination";
+import Pagination from "./components/Pagination";
+import Drawer from "./components/Drawer";
 import { useQueryStore } from "@/hooks/shop/useQueryStore";
 import { usePagination } from "@/context/shop/PaginationProvider";
 
 const Shop = () => {
   const { currentPage, setCurrentPage } = usePagination();
-
   const { data, isLoading, isSuccess, isError } = useQueryStore(currentPage);
 
   const handlePageChange = (page: number) => {
@@ -15,12 +15,12 @@ const Shop = () => {
 
   return (
     <div>
-      <h2>Store Products!</h2>
       {isError ? <p className="text-red-900">There was a problem</p> : null}
       {isLoading ? <LazySpinner show /> : null}
       {isSuccess ? (
         <div>
           <h3 className="text-xl font-semibold mb-4">Products</h3>
+          <Drawer />
           <Pagination
             totalPages={data?.totalPages || 1}
             currentPage={currentPage}
