@@ -45,10 +45,12 @@ const buildQueryString = (params: Record<string, any>) => {
   return queryString ? `?${queryString}` : "";
 };
 
-export const fetchStore = (config: ApiRequestConfig = {}) =>
-  api
-    .get<StoreDataResponse>(URLS.fetchProducts, config)
+export const fetchStore = (page: number = 1, config: ApiRequestConfig = {}) => {
+  const queryString = buildQueryString({ page });
+  return api
+    .get<StoreDataResponse>(`${URLS.fetchProducts}${queryString}`, config)
     .then((res) => res.data);
+};
 
 export const fetchCategories = (config: ApiRequestConfig = {}) =>
   api

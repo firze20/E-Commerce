@@ -15,7 +15,7 @@ WORKDIR /usr/app
 COPY frontend/e-commerce/package*.json ./
 
 # Install dependencies.
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 # Copy local code to the container image.
 COPY frontend/e-commerce/ ./
