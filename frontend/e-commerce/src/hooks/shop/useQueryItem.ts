@@ -3,6 +3,11 @@ import { fetchSingleProduct, ItemResponse } from "@/api/shop/storeApi";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
+/**
+ * Custom hook for querying a single item.
+ * @param id - The ID of the item to query.
+ * @returns An object containing the item data, loading state, success state, and error state.
+ */
 export const useQueryItem = (id: number) => {
   const { data, isLoading, isSuccess, isError } = useQuery<ItemResponse>({
     queryKey: ["item", id],

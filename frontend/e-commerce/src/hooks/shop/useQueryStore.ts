@@ -4,15 +4,16 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 
-export const useQueryStore = (page: number) => {
+export const useQueryStore = (page: number, filters: Record<string, any>) => {
+  const params = { page, ...filters };
   const { data, isLoading, isSuccess, isError } = useQuery<StoreDataResponse>({
     queryKey: ["store", page],
-    queryFn: () => fetchStore(page),
+    queryFn: () => fetchStore(page, params),
   });
 
   useEffect(() => {
     if(isSuccess) {
-      toast.success("Store data fetched successfully", {
+      toast.success("Store data fetched successfully 🏪", {
         toastId: "store-data-toast",
       });
     } else if(isError) {

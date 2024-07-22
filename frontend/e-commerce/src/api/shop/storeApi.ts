@@ -45,8 +45,8 @@ const buildQueryString = (params: Record<string, any>) => {
   return queryString ? `?${queryString}` : "";
 };
 
-export const fetchStore = (page: number = 1, config: ApiRequestConfig = {}) => {
-  const queryString = buildQueryString({ page });
+export const fetchStore = (page: number = 1, filters: Record<string, any>, config: ApiRequestConfig = {}) => {
+  const queryString = buildQueryString({ page, ...filters });
   return api
     .get<StoreDataResponse>(`${URLS.fetchProducts}${queryString}`, config)
     .then((res) => res.data);
