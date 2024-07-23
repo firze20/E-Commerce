@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 export const useQueryStore = (page: number, filters: Record<string, any>) => {
   const params = { page, ...filters };
   const { data, isLoading, isSuccess, isError } = useQuery<StoreDataResponse>({
-    queryKey: ["store", page],
-    queryFn: () => fetchStore(page, params),
+    queryKey: ["store", params],
+    queryFn: () => fetchStore(params),
   });
 
   useEffect(() => {
