@@ -37,8 +37,7 @@ const getItemsFromStore = async (req: Request, res: Response) => {
 
 
   const whereClause: any = {
-    ...(name && { name: { [Op.like]: `%${name}%` } }),
-    ...(category && { categories: { [Op.contains]: [category] } }),
+    ...(name && { name: { [Op.iLike]: `%${name}%` } }),
   };
   
   if (parsedMinimumPrice) {
@@ -63,6 +62,12 @@ const getItemsFromStore = async (req: Request, res: Response) => {
     const { count: totalItems, rows: items } = await Item.findAndCountAll({
       where: whereClause,
       limit: parsedLimit,
+      include: category ? [{
+        model: Category,
+        where: { name: category },
+        attributes: [],
+        through: { attributes: [] },
+      }] : [],
       offset,
       attributes: ["id", "name", "description", "price", "image"],
       order: [["id", "DESC"]],
