@@ -103,6 +103,7 @@ const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
               <span>100$</span>
             </div>
           </li>
+         
           <li>
             <button className="btn btn-active btn-secondary" onClick={() => handleApplyFilters()}>Apply Filters</button>
           </li>

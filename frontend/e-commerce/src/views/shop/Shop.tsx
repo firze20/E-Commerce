@@ -39,18 +39,22 @@ const Shop = () => {
             currentPage={currentPage}
             onPageChange={handlePageChange}
           />
-          <div className="flex flex-wrap justify-center gap-6 mb-9">
-            {data?.items.map((item) => (
-              <Product
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                description={item.description}
-                price={item.price}
-                image={item.image}
-              />
-            ))}
-          </div>
+          {data?.items.length === 0 ? (
+            <p>No results</p>
+          ) : (
+            <div className="flex flex-wrap justify-center gap-6 mb-9">
+              {data?.items.map((item) => (
+                <Product
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  description={item.description}
+                  price={item.price}
+                  image={item.image}
+                />
+              ))}
+            </div>
+          )}
         </div>
       ) : null}
     </div>
