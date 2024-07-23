@@ -27,7 +27,6 @@ const Product = (props: ProductProps) => {
         <p>{description}</p>
         <p>Price: {price}$</p>
         <div className="card-actions justify-center">
-          <button className="btn btn-primary">Add to Cart</button>
           <button className="btn btn-accent" onClick={onItemClick}>View more details</button>
         </div>
       </div>

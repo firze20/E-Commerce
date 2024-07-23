@@ -32,7 +32,7 @@ export type CategoryResponse = Category[];
 
 type ItemDetails = Item & {
   stock: number;
-  category: Category[];
+  categories: string[];
 }
 
 export type ItemResponse = {

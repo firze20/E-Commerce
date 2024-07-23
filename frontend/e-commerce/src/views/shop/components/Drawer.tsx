@@ -23,6 +23,14 @@ const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
     onFiltersChange(filters);
   };
 
+  const emptyFilters = () => {
+    setName(null);
+    setCategory(null);
+    setMinimumPrice(null);
+    setMaximumPrice(null);
+    onFiltersChange({});
+  };
+
   return (
     <div className="drawer z-10">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -97,6 +105,9 @@ const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
           </li>
           <li>
             <button className="btn btn-active btn-secondary" onClick={() => handleApplyFilters()}>Apply Filters</button>
+          </li>
+          <li>
+            <button className="btn btn-active btn-primary" onClick={emptyFilters}>Empty Filters</button>
           </li>
         </ul>
       </div>
