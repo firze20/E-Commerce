@@ -9,18 +9,26 @@ type DrawerProps = {
 const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
   const [name, setName] = useState<string | null>(null);
   const [category, setCategory] = useState<string | null>(null);
-  const [minPrice, setMinPrice] = useState<string | null>(null);
-  const [maxPrice, setMaxPrice] = useState<string | null>(null);
+  const [minimumPrice, setMinimumPrice] = useState<string | null>(null);
+  const [maximumPrice, setMaximumPrice] = useState<string | null>(null);
 
   const handleApplyFilters = () => {
     const filters: Record<string, any> = {};
     
-    // if (name) filters.name = name;
-    // if (category) filters.category = category;
-    // if (minPrice) filters.minPrice = Number(minPrice);
-    // if (maxPrice) filters.maxPrice = Number(maxPrice);
+    if (name) filters.name = name;
+    if (category) filters.category = category;
+    if (minimumPrice) filters.minimumPrice = Number(minimumPrice);
+    if (maximumPrice) filters.maximumPrice = Number(maximumPrice);
     
-    // onFiltersChange(filters);
+    onFiltersChange(filters);
+  };
+
+  const emptyFilters = () => {
+    setName(null);
+    setCategory(null);
+    setMinimumPrice(null);
+    setMaximumPrice(null);
+    onFiltersChange({});
   };
 
   return (
@@ -63,10 +71,10 @@ const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
               type="range"
               min={0}
               max="100"
-              value={minPrice! || 0}
+              value={minimumPrice! || 0}
               className="range range-primary"
               step="25"
-              onChange={(e) => setMinPrice(e.target.value)}
+              onChange={(e) => setMinimumPrice(e.target.value)}
             />
             <div className="flex w-full justify-between px-2 text-xs">
               <span>0$</span>
@@ -82,10 +90,10 @@ const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
               type="range"
               min={0}
               max="100"
-              value={maxPrice! || 100}
+              value={maximumPrice! || 100}
               className="range range-secondary"
               step="25"
-              onChange={(e) => setMaxPrice(e.target.value)}
+              onChange={(e) => setMaximumPrice(e.target.value)}
             />
             <div className="flex w-full justify-between px-2 text-xs">
               <span>0$</span>
@@ -95,8 +103,12 @@ const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
               <span>100$</span>
             </div>
           </li>
+         
           <li>
             <button className="btn btn-active btn-secondary" onClick={() => handleApplyFilters()}>Apply Filters</button>
+          </li>
+          <li>
+            <button className="btn btn-active btn-primary" onClick={emptyFilters}>Empty Filters</button>
           </li>
         </ul>
       </div>

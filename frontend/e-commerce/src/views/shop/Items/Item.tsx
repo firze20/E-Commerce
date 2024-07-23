@@ -14,33 +14,41 @@ const Item = () => {
   };
 
   return (
-    <div className="card glass w-96 m-auto">
-        { isError ? (
-            <p className="text-red-900">There was a problem</p>
-        ) : null}
-        {isLoading ? (
-            <LazySpinner show />
-        ) : null}
-        { isSuccess ? (
+    <div className="card glass w-96 m-auto text-left">
+      {isError ? <p className="text-red-900">There was a problem</p> : null}
+      {isLoading ? <LazySpinner show /> : null}
+      {isSuccess ? (
+        <div>
+          <figure>
+            <img src={data?.item.image} alt={data?.item.name} />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title text-secondary">{data?.item.name}</h2>
             <div>
-                <figure>
-                    <img
-                        src={data?.item.image}
-                        alt={data?.item.name}
-                    />
-                </figure>
-                <div className="card-body">
-                    <h2 className="card-title">{data?.item.name}</h2>
-                    <p>{data?.item.description}</p>
-                    <p>Price: {data?.item.price}</p>
-                    <p>We have <span className="text-green-600">{data?.item.stock}</span> left in stock!</p>
-                    <div className="card-actions justify-end">
-                        <button className="btn btn-primary" onClick={navigateToShop}>Back to shop</button>
-                    </div>
-                </div>
+              <p className="text-info-content">{data?.item.description}</p>
+              <span>Categories: </span>
+              <ul className="text-info">
+                {data?.item.categories.map((category) => (
+                    <li key={category}>{category}</li>
+                ))}
+              </ul>
             </div>
-        ): null }
+
+            <span>Price: <p className="text-primary">{data?.item.price}$</p></span>
+            <p>
+              We have <span className="text-green-600">{data?.item.stock}</span>{" "}
+              left in stock!
+            </p>
+            <div className="card-actions justify-end">
+              <button className="btn btn-primary" onClick={navigateToShop}>
+                Back to shop
+              </button>
+              <button className="btn btn-accent">Add to Cart</button>
+            </div>
+          </div>
         </div>
+      ) : null}
+    </div>
   );
 };
 
