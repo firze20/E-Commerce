@@ -1,5 +1,5 @@
 import { CategoryResponse } from "@/api/shop/storeApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type DrawerProps = {
   categories: CategoryResponse;
@@ -12,7 +12,7 @@ const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
   const [minimumPrice, setMinimumPrice] = useState<string | null>(null);
   const [maximumPrice, setMaximumPrice] = useState<string | null>(null);
 
-  const handleApplyFilters = () => {
+  useEffect(() => {
     const filters: Record<string, any> = {};
     
     if (name) filters.name = name;
@@ -21,7 +21,7 @@ const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
     if (maximumPrice) filters.maximumPrice = Number(maximumPrice);
     
     onFiltersChange(filters);
-  };
+  }, [name, category, minimumPrice, maximumPrice]); // Dependencies array
 
   const emptyFilters = () => {
     setName(null);
@@ -102,10 +102,6 @@ const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
               <span>75$</span>
               <span>100$</span>
             </div>
-          </li>
-         
-          <li>
-            <button className="btn btn-active btn-secondary" onClick={() => handleApplyFilters()}>Apply Filters</button>
           </li>
           <li>
             <button className="btn btn-active btn-primary" onClick={emptyFilters}>Empty Filters</button>
