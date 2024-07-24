@@ -31,15 +31,15 @@ services:
       - '3001:3001'
     command: yarn dev
 
-  cypress:
-    build:
-      context: .
-      dockerfile: Cypress.Dockerfile
-    depends_on:
-      - react-frontend-docker
-    environment:
-      - CYPRESS_BASE_URL=http://ecommerce-frontend:3001
-    # entrypoint: "/bin/sh -c 'yarn start-server-and-test dev http://react-frontend-docker:3001 cypress:run'"
+  # cypress:
+  #   build:
+  #     context: .
+  #     dockerfile: Cypress.Dockerfile
+  #   depends_on:
+  #     - react-frontend-docker
+  #   environment:
+  #     - CYPRESS_BASE_URL=http://ecommerce-frontend:3001
+  #   # entrypoint: "/bin/sh -c 'yarn start-server-and-test dev http://react-frontend-docker:3001 cypress:run'"
 
   nginx:
     build:
