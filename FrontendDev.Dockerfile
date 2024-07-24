@@ -1,33 +1,33 @@
-# Use the official Node.js image.
-FROM node:lts-alpine
+    # Use the official Node.js image.
+    FROM node:lts-alpine
 
-# Install yarn
-RUN apk add --no-cache bash curl && curl -o- -L https://yarnpkg.com/install.sh | bash
-ENV PATH="/root/.yarn/bin:/root/.config/yarn/global/node_modules/.bin:$PATH"
+    # Install yarn
+    RUN apk add --no-cache bash curl && curl -o- -L https://yarnpkg.com/install.sh | bash
+    ENV PATH="/root/.yarn/bin:/root/.config/yarn/global/node_modules/.bin:$PATH"
 
-# # Install necessary development tools
-# RUN apk add --no-cache bash vim git
+    # # Install necessary development tools
+    # RUN apk add --no-cache bash vim git
 
-# Create and change to the app directory.
-WORKDIR /usr/app
+    # Create and change to the app directory.
+    WORKDIR /usr/app
 
-# Copy application dependency manifests to the container image.
-COPY frontend/e-commerce/package*.json ./
+    # Copy application dependency manifests to the container image.
+    COPY frontend/e-commerce/package*.json ./
 
-# Install dependencies.
-RUN yarn install --frozen-lockfile
+    # Install dependencies.
+    RUN yarn install --frozen-lockfile
 
-# Copy local code to the container image.
-COPY frontend/e-commerce/ ./
+    # Copy local code to the container image.
+    COPY frontend/e-commerce/ ./
 
-# Set correct ownership of the app directory
-RUN chown -R node:node /usr/app
+    # Set correct ownership of the app directory
+    RUN chown -R node:node /usr/app
 
-# Switch to the node user
-USER node
+    # Switch to the node user
+    USER node
 
-# Expose the port the app runs on
-EXPOSE 3001
+    # Expose the port the app runs on
+    EXPOSE 3001
 
-# Run the web service on container startup.
-CMD ["yarn", "dev"]
+    # Run the web service on container startup.
+    CMD ["yarn", "dev"]
