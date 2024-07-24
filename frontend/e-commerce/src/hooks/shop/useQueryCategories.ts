@@ -10,11 +10,13 @@ export const useQueryCategories = () => {
   const { data, isLoading, isSuccess, isError } = useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategories,
+    refetchOnWindowFocus: false, // Prevents refetching when the window regains focus
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Categories fetched successfully 🛍️", {
+      toast.success("Categories fetched successfully", {
         toastId: "categories-toast",
       });
     } else if (isError) {

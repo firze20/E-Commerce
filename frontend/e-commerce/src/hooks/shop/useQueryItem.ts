@@ -12,6 +12,8 @@ export const useQueryItem = (id: number) => {
   const { data, isLoading, isSuccess, isError } = useQuery<ItemResponse>({
     queryKey: ["item", id],
     queryFn: () => fetchSingleProduct(id),
+    refetchOnWindowFocus: false, // Prevents refetching when the window regains focus
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   useEffect(() => {
