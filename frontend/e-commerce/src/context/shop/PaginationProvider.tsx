@@ -17,6 +17,11 @@ export const PaginationProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+/**
+ * Custom hook that provides access to the pagination context.
+ * @returns The pagination context.
+ * @throws {Error} If used outside of a PaginationProvider.
+ */
 export const usePagination = () => {
   const context = useContext(PaginationContext);
   if (context === undefined) {

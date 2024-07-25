@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.51.1",
+    "@types/lodash.debounce": "^4.0.9",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "jwt-decode": "^4.0.0",
