@@ -1,13 +1,27 @@
 import { useQueryItem } from "@/hooks/shop/useQueryItem";
+import { useAddItemMutation } from "@/hooks/cart/useAddItemMutation";
+import { AuthContext } from "@/context/AuthProvider";
 import { useParams, useNavigate } from "react-router-dom";
 import LazySpinner from "@/components/LazySpinner";
+import { useContext } from "react";
+import { toast } from "react-toastify";
 
 const Item = () => {
   const { id } = useParams();
 
+  const { isAuthenticated } = useContext(AuthContext).authState;
+
   const navigage = useNavigate();
 
   const { data, isLoading, isSuccess, isError } = useQueryItem(Number(id));
+
+  const { mutate } = useAddItemMutation();
+
+  const handleAddToCart = () => {
+    if (isAuthenticated) {
+      mutate(Number(id));
+    } else toast.error("You need to be logged in to add items to the cart");
+  };
 
   const navigateToShop = () => {
     navigage(-1);
@@ -43,7 +57,7 @@ const Item = () => {
               <button className="btn btn-primary" onClick={navigateToShop}>
                 Back to shop
               </button>
-              <button className="btn btn-accent">Add to Cart</button>
+              <button className="btn btn-accent" onClick={handleAddToCart}>Add to Cart</button>
             </div>
           </div>
         </div>

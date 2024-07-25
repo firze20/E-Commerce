@@ -24,7 +24,7 @@ export const getMyCart = () =>
   api.get<Cart>(URLS.myCart, { withCredentials: true }).then((res) => res.data);
 
 export const addToCart = (id: number, quantity?: number) =>
-  api.post<CartActions>(URLS.myCart.replace(":id", id.toString()), quantity, { withCredentials: true });
+  api.post<CartActions>(URLS.modifyMyCart.replace(":id", id.toString()), quantity, { withCredentials: true });
 
 export const removeFromCart = (id: number) =>
     api.delete<CartActions>(URLS.modifyMyCart.replace(":id", id.toString()), { withCredentials: true });
