@@ -2,21 +2,40 @@ import Drawer from "./components/Drawer";
 import { useQueryCategories } from "@/hooks/shop/useQueryCategories";
 import ListItems from "./components/ListItems";
 import { usePagination } from "@/context/shop/PaginationProvider";
-import { useState } from "react";
+import { useFilters } from "@/context/shop/FilterProvider";
+import { useCallback, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const Shop = () => {
   const { currentPage, setCurrentPage } = usePagination();
-  const [filters, setFilters] = useState<Record<string, any>>({});
+  const {filters, setFilters} = useFilters();
   const { data: categories } = useQueryCategories();
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleFiltersChange = (newFilters: Record<string, any>) => {
-    setCurrentPage(1);
-    setFilters(newFilters);
-  };
+   // Initialize state from URL search params
+   useEffect(() => {
+    const page = searchParams.get('page');
+    const filterParams = searchParams.get('filters');
+    
+    if (page) setCurrentPage(Number(page));
+    if (filterParams) setFilters(JSON.parse(filterParams));
+  }, [searchParams, setCurrentPage, setFilters]);
+
+
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+    setSearchParams({ page: page.toString(), filters: JSON.stringify(filters) });
+  }, [setCurrentPage, setSearchParams, filters]);
+
+  const handleFiltersChange = useCallback((newFilters: Record<string, any>) => {
+    // Only update filters and reset page if filters have changed
+    if (JSON.stringify(newFilters) !== JSON.stringify(filters)) {
+      setFilters(newFilters);
+      setCurrentPage(1);
+      setSearchParams({ page: '1', filters: JSON.stringify(newFilters) });
+    }
+  }, [filters, setCurrentPage, setFilters, setSearchParams]);
 
   return (
     <div>

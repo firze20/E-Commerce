@@ -1,5 +1,7 @@
 import { CategoryResponse } from "@/api/shop/storeApi";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useFilters } from "@/context/shop/FilterProvider";
+import debounce from "lodash/debounce";
 
 type DrawerProps = {
   categories: CategoryResponse;
@@ -7,21 +9,25 @@ type DrawerProps = {
 };
 
 const Drawer = ({ categories, onFiltersChange }: DrawerProps) => {
-  const [name, setName] = useState<string | null>(null);
-  const [category, setCategory] = useState<string | null>(null);
-  const [minimumPrice, setMinimumPrice] = useState<string | null>(null);
-  const [maximumPrice, setMaximumPrice] = useState<string | null>(null);
+  const { filters } = useFilters();
+  
+  const [name, setName] = useState<string | null>(filters.name || null);
+  const [category, setCategory] = useState<string | null>(filters.category || null);
+  const [minimumPrice, setMinimumPrice] = useState<string | null>(filters.minimumPrice || null);
+  const [maximumPrice, setMaximumPrice] = useState<string | null>(filters.maximumPrice || null);
+
+  const debouncedOnFiltersChange = useCallback(debounce(onFiltersChange, 300), [onFiltersChange]);
 
   useEffect(() => {
-    const filters: Record<string, any> = {};
+    const newFilters = {
+      ...(name && { name }),
+      ...(category && { category }),
+      ...(minimumPrice && { minimumPrice: minimumPrice }),
+      ...(maximumPrice && { maximumPrice: maximumPrice }),
+    };
     
-    if (name) filters.name = name;
-    if (category) filters.category = category;
-    if (minimumPrice) filters.minimumPrice = Number(minimumPrice);
-    if (maximumPrice) filters.maximumPrice = Number(maximumPrice);
-    
-    onFiltersChange(filters);
-  }, [name, category, minimumPrice, maximumPrice]); // Dependencies array
+    debouncedOnFiltersChange(newFilters);
+  }, [name, category, minimumPrice, maximumPrice, debouncedOnFiltersChange]);
 
   const emptyFilters = () => {
     setName(null);

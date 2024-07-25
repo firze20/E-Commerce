@@ -10,7 +10,7 @@ const Item = () => {
   const { data, isLoading, isSuccess, isError } = useQueryItem(Number(id));
 
   const navigateToShop = () => {
-    navigage("/shop");
+    navigage(-1);
   };
 
   return (
