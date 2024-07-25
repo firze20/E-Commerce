@@ -1,5 +1,5 @@
 # Use the official Node.js image.
-FROM node:lts-alpine
+FROM node:20.10.0-alpine
 
 # Install yarn
 RUN apk add --no-cache bash curl && curl -o- -L https://yarnpkg.com/install.sh | bash
