@@ -15,7 +15,7 @@
     COPY frontend/e-commerce/package*.json ./
 
     # Install dependencies.
-    RUN yarn install --frozen-lockfile
+    RUN yarn install
 
     # Copy local code to the container image.
     COPY frontend/e-commerce/ ./
