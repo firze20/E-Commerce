@@ -42,7 +42,7 @@ const getMyCart = async (req: Request, res: Response) => {
 
     const response = formatCartItems(cartItems);
 
-    await setAsync(cacheKey, JSON.stringify(response), 60); // Cache the response for 60 seconds
+    await setAsync(cacheKey, JSON.stringify(response), 600); // Cache the response for 10 minutes
 
     return res.status(200).send(response);
   } catch (error) {
