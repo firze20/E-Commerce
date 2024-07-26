@@ -9,13 +9,16 @@ export const useRemoveItemMutation = () => {
         mutationFn: removeFromCart,
         onSuccess: () => {
             // Show a success toast 
-            toast.success("Item removed from cart");
-
+            toast.success("Item removed from cart", {
+                position: "bottom-center"
+            });
             // Invalidate the cart query to trigger a refetch
             queryClient.invalidateQueries({ queryKey: ["my-cart"] });
         },
         onError: (err) => {
-            toast.error(`Error removing item from cart: ${err}`);
+            toast.error(`Error removing item from cart: ${err}`, {
+                position: "bottom-center"
+            });
         },
     });
 }

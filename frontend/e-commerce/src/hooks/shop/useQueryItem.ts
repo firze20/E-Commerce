@@ -20,10 +20,12 @@ export const useQueryItem = (id: number) => {
     if (isSuccess) {
       toast.success("Item data fetched successfully", {
         toastId: "item-data-toast",
+        position: "top-center"
       });
     } else if (isError) {
       toast.error("Error fetching item data", {
         toastId: "item-data-toast",
+        position: "top-center"
       });
     }
   }, [isSuccess, isError]);
