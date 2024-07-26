@@ -15,7 +15,7 @@ const Item = () => {
 
   const { data, isLoading, isSuccess, isError } = useQueryItem(Number(id));
 
-  const { mutate } = useAddItemMutation();
+  const { mutate, isPending } = useAddItemMutation();
 
   const handleAddToCart = () => {
     if (isAuthenticated) {
@@ -57,7 +57,11 @@ const Item = () => {
               <button className="btn btn-primary" onClick={navigateToShop}>
                 Back to shop
               </button>
-              <button className="btn btn-accent" onClick={handleAddToCart}>Add to Cart</button>
+              <button className="btn btn-accent" onClick={handleAddToCart} disabled={isPending}>
+                {isPending ? (
+                  <span className="loading loading-spinner bg-success"></span>
+                ) :  "Add to cart"}
+                </button>
             </div>
           </div>
         </div>

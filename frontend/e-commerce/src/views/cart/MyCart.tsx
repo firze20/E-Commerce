@@ -1,7 +1,11 @@
 import { useQueryCart } from "@/hooks/cart/useQueryCart";
 import { useClearCartMutation } from "@/hooks/cart/useClearCartMutation";
 import { useRemoveItemMutation } from "@/hooks/cart/useRemoveItemMutation";
+import { useUpdateQuantityMutation } from "@/hooks/cart/useUpdateQuantityMutation";
 import LazySpinner from "@/components/LazySpinner";
+import { useState } from "react";
+import CartModal from "./components/CartModal";
+import type { Quantity } from "@/api/cart/cartApi";
 
 const MyCart = () => {
   const { data, isLoading, isSuccess, isError } = useQueryCart();
@@ -11,12 +15,22 @@ const MyCart = () => {
   const { mutate: removeItem, isPending: removingItem } =
     useRemoveItemMutation();
 
-  const shouldButtonsBeDisabled = () => {
-    return data?.totalItems === 0 || clearingCart || removingItem;
-  };
+  const { mutate: updateQuantity, isPending: updatingQuantity } = useUpdateQuantityMutation();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalClose = () => setIsModalOpen(false);
+
+  const shouldButtonsBeDisabled = data?.totalItems === 0 || clearingCart || removingItem || updatingQuantity;
+
+  const isPending = clearingCart || removingItem || updatingQuantity;
 
   const handleOnEmptyCart = () => {
     emptyCart();
+  };
+
+  const handleModifyQuantity = (id: number, quantity: Quantity) => {
+    updateQuantity({id, quantity});
   };
 
   const handlePurchase = () => {};
@@ -38,9 +52,11 @@ const MyCart = () => {
                 <button
                   className="btn btn-primary"
                   onClick={handleOnEmptyCart}
-                  disabled={shouldButtonsBeDisabled()}
+                  disabled={shouldButtonsBeDisabled}
                 >
-                  Empty Cart{" "}
+                  {isPending ? (
+                    <span className="loading loading-spinner bg-success"></span>
+                  ): "Empty Cart"}
                 </button>
               </div>
             </div>
@@ -50,9 +66,11 @@ const MyCart = () => {
               <div className="stat-actions">
                 <button
                   className="btn btn-success"
-                  disabled={shouldButtonsBeDisabled()}
+                  disabled={shouldButtonsBeDisabled}
                 >
-                  Checkout
+                  {isPending ? (
+                    <span className="loading loading-spinner bg-success"></span>
+                  ) : "Checkout"}
                 </button>
               </div>
             </div>
@@ -92,16 +110,33 @@ const MyCart = () => {
                   <div className="card-actions justify-end">
                     <button
                       className="btn btn-primary"
-                      onClick={() => removeItem(item.id)}
-                      disabled={shouldButtonsBeDisabled()}
+                      onClick={() => handleRemoveItem(item.id)}
+                      disabled={shouldButtonsBeDisabled}
                     >
-                      Remove from cart
+                      {isPending ? (
+                        <span className="loading loading-spinner bg-success"></span>
+                      ): "Remove from cart"}
                     </button>
-                    <button className="btn btn-secondary">
-                      Change Quantity
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => setIsModalOpen(true)}
+                      disabled={shouldButtonsBeDisabled}
+                    >
+                      {isPending ? (
+                        <span className="loading loading-spinner"></span>
+                      ): "Change Quantity"}
                     </button>
                   </div>
                 </div>
+                <CartModal
+                  isOpen={isModalOpen}
+                  isUpdating={updatingQuantity}
+                  onClose={handleModalClose}
+                  quantity={item.quantity}
+                  itemId={item.id}
+                  itemName={item.name}
+                  handleSaveChanges={handleModifyQuantity}
+                />
               </div>
             );
           })
@@ -110,20 +145,6 @@ const MyCart = () => {
         )}
       </div>
     </div>
-
-    // <div className="mockup-window border-base-300 border">
-    //   <div className="border-base-300 flex justify-center border-t px-4 py-16">
-    //     {isLoading && <p>Loading...</p>}
-    //     {isSuccess && (
-    //       <div>
-    //         <h1>My Cart</h1>
-    //         <p>Items in cart: {data?.cart?.length}</p>
-    //         <p>Total price: {data?.totalPrice}</p>
-    //       </div>
-    //     )}
-    //     {isError && <p className="text-error">Something went wrong</p>}
-    //   </div>
-    // </div>
   );
 };
 
