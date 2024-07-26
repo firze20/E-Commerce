@@ -15,6 +15,7 @@ import Auth from "./views/auth/Auth";
 import Shop from "./views/shop/Shop";
 import Item from "./views/shop/Items/Item";
 import About from "./views/about/About";
+import NotFound from "./views/notfound/NotFound";
 
 function App() {
   return (
@@ -40,6 +41,8 @@ function App() {
                       <Route path="/shop" element={<Shop />} />
                       <Route path="/shop/item/:id" element={<Item />} />
                       <Route path="/about" element={<About />} />
+                      {/* Catch-all route for unknown paths */}
+                      <Route path="*" element={<NotFound />} />
                     </Route>
                     <Route element={<AuthLayout />}>
                       {" "}
