@@ -18,10 +18,12 @@ export const useQueryCategories = () => {
     if (isSuccess) {
       toast.success("Categories fetched successfully", {
         toastId: "categories-toast",
+        position: "bottom-left"
       });
     } else if (isError) {
       toast.error("Error fetching categories", {
         toastId: "categories-toast",
+        position: "bottom-left"
       });
     }
   }, [isSuccess, isError]);

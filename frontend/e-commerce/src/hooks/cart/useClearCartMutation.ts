@@ -9,13 +9,17 @@ export const useClearCartMutation = () => {
         mutationFn: clearCart,
         onSuccess: () => {
             // Show a success toast 
-            toast.success("Cart cleared");
+            toast.success("Cart cleared", {
+                position: "bottom-center"
+            });
 
             // Invalidate the cart query to trigger a refetch
             queryClient.invalidateQueries({ queryKey: ["my-cart"] });
         },
         onError: (err) => {
-            toast.error(`Error clearing cart: ${err}`);
+            toast.error(`Error clearing cart: ${err}`, {
+                position: "bottom-center"
+            });
         },
     });
 }

@@ -23,10 +23,12 @@ export const useQueryStore = (page: number, filters: Record<string, any>) => {
     if (isSuccess) {
       toast.success("Store data fetched successfully", {
         toastId: "store-data-toast",
+        position: "bottom-center"
       });
     } else if (isError) {
       toast.error("Error fetching store data", {
         toastId: "store-data-toast",
+        position: "bottom-center"
       });
     }
   }, [isSuccess, isError]);

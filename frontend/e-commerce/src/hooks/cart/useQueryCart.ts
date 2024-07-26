@@ -19,10 +19,12 @@ export const useQueryCart = () => {
         if (isSuccess) {
         toast.success("Cart data fetched successfully", {
             toastId: "cart-data-toast",
+            position: "top-left"
         });
         } else if (isError) {
         toast.error("Error fetching cart data", {
             toastId: "cart-data-toast",
+            position: "top-left"
         });
         }
     }, [isSuccess, isError]);

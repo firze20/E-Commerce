@@ -4,6 +4,7 @@ import { AuthContext } from "@/context/AuthProvider";
 import { useContext } from "react";
 import { useQueryCart } from "@/hooks/cart/useQueryCart";
 
+
 const Header = () => {
   const [theme, toggleTheme] = useTheme();
   const { isAuthenticated } = useContext(AuthContext).authState;
@@ -151,12 +152,8 @@ const Header = () => {
               tabIndex={0}
               className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
             >
-              <div className="card-body text-neutral">
-                <span className="text-lg font-bold"></span>
-                <span className="text-info">Subtotal: 0$</span>
-                <div className="card-actions">
-                  <span className="text-secondary">Sign In to Shop</span>
-                </div>
+              <div className="card-body">
+                <span className="text-lg font-bold">Sign In To Shop</span>
               </div>
             </div>
           </div>
@@ -171,7 +168,7 @@ const Header = () => {
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  src="src/assets/user_avatar.svg"
                 />
               </div>
             </div>
@@ -196,7 +193,7 @@ const Header = () => {
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  src="/src/assets/notauthenticated.svg"
                 />
               </div>
             </div>
