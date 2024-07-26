@@ -9,12 +9,29 @@ const initialAuthState: AuthState = {
   user: null,
 };
 
+/**
+ * Context for managing authentication state.
+ */
 export const AuthContext = createContext<{
+  /**
+   * The current authentication state.
+   */
   authState: AuthState;
+
+  /**
+   * Function to update the authentication state.
+   * @param newAuthState - The new authentication state.
+   */
   updateAuthState: (newAuthState: AuthState) => void;
+
+  /**
+   * Function to delete cookies related to authentication.
+   */
+  deleteCookies: () => void;
 }>({
   authState: initialAuthState,
   updateAuthState: () => {},
+  deleteCookies: () => {},
 });
 
 type AuthProviderProps = {
@@ -26,7 +43,7 @@ type AuthProviderProps = {
  * @param children - The child components to be wrapped by the AuthProvider.
  */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [cookies, setCookie] = useCookies(["auth"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["auth"]);
 
   const { mutate, data: user } = useWhoAmIMutation();
 
@@ -34,7 +51,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!cookies.auth) {
       mutate();
     }
-  }, []);
+  }, [cookies.auth, mutate]);
 
   useEffect(() => {
     if (user) {
@@ -56,8 +73,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setCookie("auth", newAuthState, { path: "/", expires });
   };
 
+  const deleteCookies = () => {
+    setAuthState(initialAuthState);
+    removeCookie("auth", { path: "/" })
+  };
+
   return (
-    <AuthContext.Provider value={{ authState, updateAuthState }}>
+    <AuthContext.Provider value={{ authState, updateAuthState, deleteCookies }}>
       {children}
     </AuthContext.Provider>
   );

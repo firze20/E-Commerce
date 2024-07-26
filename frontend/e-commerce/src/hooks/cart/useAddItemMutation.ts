@@ -16,8 +16,8 @@ export const useAddItemMutation = () => {
             queryClient.invalidateQueries({ queryKey: ["my-cart"] });
 
         },
-        onError: (err) => {
-            toast.error(`Error adding item to cart: ${err}`, {
+        onError: () => {
+            toast.error(`Error adding item to cart, try to sign in`, {
                 position: "bottom-center"
             }
             );

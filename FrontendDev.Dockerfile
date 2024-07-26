@@ -2,7 +2,7 @@
     FROM node:20.10.0-alpine
 
     # Install yarn
-    RUN apk add --no-cache bash curl && curl -o- -L https://yarnpkg.com/install.sh | bash
+    RUN apk add bash curl && curl -o- -L https://yarnpkg.com/install.sh | bash
     ENV PATH="/root/.yarn/bin:/root/.config/yarn/global/node_modules/.bin:$PATH"
 
     # # Install necessary development tools
