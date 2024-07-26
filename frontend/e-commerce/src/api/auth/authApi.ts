@@ -5,6 +5,7 @@ const URLS = {
   signIn: "/auth/signin",
   signUp: "/auth/signup",
   whoami: "/auth/whoami",
+  logout: "/auth/logout",
 };
 
 export type SignUpUser = {
@@ -35,5 +36,8 @@ export const signIn = (data: SignInUser) =>
 
 export const whoami = () =>
     api.post<WhoAmIResponse>(URLS.whoami, null, { withCredentials: true })
+
+export const logout = () =>
+    api.post<AuthResponse>(URLS.logout, null, { withCredentials: true })
 
 

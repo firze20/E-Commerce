@@ -77,7 +77,7 @@ const Header = () => {
         <a className="btn btn-ghost text-xl">E-Commerce</a>
       </div>
       <div className="navbar-end">
-        {cartData ? (
+        {isAuthenticated && cartData ? (
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
