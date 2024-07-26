@@ -3,12 +3,15 @@ import useTheme from "@/hooks/useTheme";
 import { AuthContext } from "@/context/AuthProvider";
 import { useContext } from "react";
 import { useQueryCart } from "@/hooks/cart/useQueryCart";
-
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [theme, toggleTheme] = useTheme();
+  const navigate = useNavigate();
   const { isAuthenticated } = useContext(AuthContext).authState;
   const { data: cartData } = useQueryCart();
+
+  const handleCartClick = () => navigate("/cart");
 
   return (
     <div className="navbar bg-base-300">
@@ -116,7 +119,10 @@ const Header = () => {
                   Subtotal: {cartData.totalPrice} $
                 </span>
                 <div className="card-actions">
-                  <button className="btn btn-primary btn-block">
+                  <button
+                    className="btn btn-primary btn-block"
+                    onClick={handleCartClick}
+                  >
                     View cart
                   </button>
                 </div>
