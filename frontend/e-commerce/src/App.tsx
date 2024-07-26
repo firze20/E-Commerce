@@ -17,6 +17,7 @@ import Item from "./views/shop/Items/Item";
 import About from "./views/about/About";
 import NotFound from "./views/notfound/NotFound";
 import LogOut from "./views/auth/LogOut";
+import MyCart from "./views/cart/MyCart";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
                       <Route path="/" element={<Home />} />{" "}
                       <Route path="/shop" element={<Shop />} />
                       <Route path="/shop/item/:id" element={<Item />} />
+                      <Route path="/cart" element={<MyCart />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/logout" element={<LogOut />} />
                       {/* Catch-all route for unknown paths */}
