@@ -201,7 +201,7 @@ const refreshToken = async (req: Request, res: Response) => {
  * @param req - The request object.
  * @param res - The response object.
  */
-const decodedToken = async (req: Request, res: Response) => {
+const decodedToken = (req: Request, res: Response) => {
   try {
     const { jwt } = req.cookies;
     const decoded = decodeJwt(jwt);
@@ -219,9 +219,35 @@ const decodedToken = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * Logs out the user by clearing the JWT and refreshToken cookies.
+ *
+ * @param req - The Express request object.
+ * @param res - The Express response object.
+ */
+const logout = (req: Request, res: Response) => {
+  try {
+    res.clearCookie("jwt");
+    res.clearCookie("refreshToken");
+
+    res.status(200).send({
+      message: "User logged out",
+    });
+  } catch (err: any) {
+    if (!res.headersSent) {
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+    logger.error(err);
+  }
+};
+
+
 export {
   signUp as signUpController,
   signIn as signInController,
   refreshToken as refreshTokenController,
   decodedToken as decodedTokenController,
+  logout as logoutController,
 };

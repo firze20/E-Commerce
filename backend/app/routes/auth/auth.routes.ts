@@ -11,7 +11,8 @@ import {
   signUpController,
   signInController,
   refreshTokenController,
-  decodedTokenController
+  decodedTokenController,
+  logoutController
 } from "../../controllers/auth/auth.controller";
 
 const authRouter = Router();
@@ -249,7 +250,7 @@ authRouter.post("/refresh-token", [verifyRefreshToken], refreshTokenController);
 
 /**
  * @openapi
- * /whoami:
+ * /api/e-commerce/auth/whoami:
  *   post:
  *     summary: Identifies the user based on the provided JWT token.
  *     description: This endpoint decodes the JWT token provided by the user to identify and return user information. It requires a valid JWT token to be sent in the authorization header.
@@ -303,5 +304,35 @@ authRouter.post("/refresh-token", [verifyRefreshToken], refreshTokenController);
  *                   example: "Server error"
  */
 authRouter.post("/whoami", [authenticateJwt], decodedTokenController);
+/**
+ * @openapi
+ * /api/e-commerce/auth/logout:
+ *   post:
+ *     summary: Logs out the user
+ *     tags: 
+ *       - Authentication
+ *     responses:
+ *       200:
+ *         description: User successfully logged out
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User logged out
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: error
+ */
+authRouter.post("/logout", logoutController);
 
 export default authRouter;
