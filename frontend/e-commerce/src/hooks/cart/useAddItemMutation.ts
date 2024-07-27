@@ -2,6 +2,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "@/api/shop/cartApi";
 import { toast } from "react-toastify";
 
+/**
+ * Custom hook for adding an item to the cart.
+ * Uses `useMutation` from `react-query` to handle the mutation.
+ * 
+ * @returns {MutationResult} The result of the mutation.
+ */
 export const useAddItemMutation = () => {
     const queryClient = useQueryClient();
 

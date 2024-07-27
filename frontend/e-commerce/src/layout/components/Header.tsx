@@ -4,11 +4,12 @@ import { AuthContext } from "@/context/AuthProvider";
 import { useContext } from "react";
 import { useQueryCart } from "@/hooks/cart/useQueryCart";
 import { useNavigate } from "react-router-dom";
+import { Roles } from "@/context/types/Auth.types";
 
 const Header = () => {
   const [theme, toggleTheme] = useTheme();
   const navigate = useNavigate();
-  const { isAuthenticated } = useContext(AuthContext).authState;
+  const { isAuthenticated, user } = useContext(AuthContext).authState;
   const { data: cartData } = useQueryCart();
 
   const handleCartClick = () => navigate("/cart");
@@ -164,7 +165,7 @@ const Header = () => {
             </div>
           </div>
         )}
-        {isAuthenticated ? (
+        {isAuthenticated && user ? (
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -182,11 +183,31 @@ const Header = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
+               <Link to={"/purchases"}>
+                <li>
+                  <p>My purchases</p>
+                </li>
+              </Link>
+              {user.roles.includes(Roles.Manager) || user.roles.includes(Roles.Admin) && (
+                <Link to={"/manager"}>
+                  <li>
+                    <p>Manager Panel</p>
+                  </li>
+                </Link>
+              )}
+              {user.roles.includes(Roles.Admin) && (
+                <Link to={"/admin"}>
+                  <li>
+                    <p>Admin Panel</p>
+                  </li>
+                </Link>
+              )}
               <Link to={"/logout"}>
                 <li>
                   <p>Logout</p>
                 </li>
               </Link>
+             
             </ul>
           </div>
         ) : (
