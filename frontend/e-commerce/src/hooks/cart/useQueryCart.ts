@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Cart, getMyCart } from "@/api/cart/cartApi";
+import { Cart, getMyCart } from "@/api/shop/cartApi";
 import { useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { AuthContext } from "@/context/AuthProvider";

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Quantity } from "@/api/cart/cartApi";
-import { updateCartQuantity } from "@/api/cart/cartApi";
+import type { Quantity } from "@/api/shop/cartApi";
+import { updateCartQuantity } from "@/api/shop/cartApi";
 import { toast } from "react-toastify";
 
 export const useUpdateQuantityMutation = () => {

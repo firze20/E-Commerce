@@ -5,7 +5,7 @@ import { useUpdateQuantityMutation } from "@/hooks/cart/useUpdateQuantityMutatio
 import LazySpinner from "@/components/LazySpinner";
 import { useState } from "react";
 import CartModal from "./components/CartModal";
-import type { Quantity } from "@/api/cart/cartApi";
+import type { Quantity } from "@/api/shop/cartApi";
 
 const MyCart = () => {
   const { data, isLoading, isSuccess, isError } = useQueryCart();

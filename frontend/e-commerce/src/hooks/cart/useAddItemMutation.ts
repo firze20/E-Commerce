@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addToCart } from "@/api/cart/cartApi";
+import { addToCart } from "@/api/shop/cartApi";
 import { toast } from "react-toastify";
 
 export const useAddItemMutation = () => {

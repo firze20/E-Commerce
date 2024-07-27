@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "@/components/common/modal/Modal";
-import type { Quantity } from "@/api/cart/cartApi";
+import type { Quantity } from "@/api/shop/cartApi";
 
 type CartModalProps = {
   isOpen: boolean;
