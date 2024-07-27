@@ -105,13 +105,13 @@ class Cart extends Model {
     }
   }
 
+
   /**
    * Removes an item from the cart.
-   * @param {Item} item - The ID of the item to remove.
-   * @param {number} [quantity=1] - The quantity of the item to remove.
-   * @returns {Promise<Cart>} - The updated Cart.
+   * @param item - The item to be removed from the cart.
+   * @returns A promise that resolves to void.
    */
-  async removeItemFromCart(item: Item, quantity: number = 1): Promise<void> {
+  async removeItemFromCart(item: Item): Promise<void> {
     // Begin a transaction
     const transaction = await sequelize.transaction();
     try {
@@ -120,23 +120,14 @@ class Cart extends Model {
         where: { cartId: this.id, itemId: item.id },
         transaction,
       });
-
+  
       if (!cartItem) {
         throw new Error("CartItem not found");
       }
-
-      // Calculate new quantity
-      const newQuantity = cartItem.quantity - quantity;
-
-      if (newQuantity <= 0) {
-        // Delete CartItem if quantity is 0 or less
-        await cartItem.destroy({ transaction });
-      } else {
-        // Update CartItem quantity
-        cartItem.quantity = newQuantity;
-        await cartItem.save({ transaction });
-      }
-
+  
+      // Delete CartItem
+      await cartItem.destroy({ transaction });
+  
       // Commit transaction
       await transaction.commit();
     } catch (error: any) {
