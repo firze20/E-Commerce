@@ -27,7 +27,7 @@
     USER node
 
     # Expose the port the app runs on
-    EXPOSE 3001
+    # EXPOSE 3001
 
     # Run the web service on container startup.
     CMD ["yarn", "dev"]
