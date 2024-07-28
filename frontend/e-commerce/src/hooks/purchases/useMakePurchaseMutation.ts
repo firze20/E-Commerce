@@ -17,11 +17,8 @@ export const useMakePurchaseMutation = () => {
             toast.success("Purchase successful", {
                 position: "bottom-center"
             });
-            // Invalidate the purchases query to trigger a refetch
-            queryClient.invalidateQueries({ queryKey: ["cart"] });
-            queryClient.invalidateQueries({ queryKey: ["my-purchases"] });
-            queryClient.invalidateQueries({ queryKey: ["item"] });
-
+            const queryKeysToInvalidate = ["my-purchases", "my-cart", "store", "item"];
+            queryKeysToInvalidate.forEach(key => queryClient.invalidateQueries({ queryKey: [key] }));
         },
         onError: () => {
             toast.error(`Error making purchase, try again later`, {
