@@ -18,7 +18,9 @@ export const useMakePurchaseMutation = () => {
                 position: "bottom-center"
             });
             // Invalidate the purchases query to trigger a refetch
-            queryClient.invalidateQueries({ queryKey: ["my-purchases", "my-cart"] });
+            queryClient.invalidateQueries({ queryKey: ["cart"] });
+            queryClient.invalidateQueries({ queryKey: ["my-purchases"] });
+            queryClient.invalidateQueries({ queryKey: ["item"] });
 
         },
         onError: () => {
