@@ -11,8 +11,6 @@ services:
     container_name: ecommerce-api
     expose:
       - '3000'
-    ports:
-      - '3000:3000'
     command: yarn dev
 
   react-frontend-docker:
@@ -26,8 +24,6 @@ services:
       - /usr/app/node_modules
     container_name: ecommerce-frontend
     expose:
-      - '3001'
-    ports:
       - '3001:3001'
     command: yarn dev
 
@@ -53,5 +49,5 @@ services:
     
   redis:
     image: redis:alpine
-    ports:
+    expose:
       - "6379:6379"

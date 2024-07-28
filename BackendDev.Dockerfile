@@ -24,7 +24,7 @@ RUN chown -R node:node /usr/app
 USER node
 
 # Expose the port the app runs on
-EXPOSE 3000
+# EXPOSE 3000
 
 # Run the web service on container startup.
 CMD ["yarn", "dev"]
