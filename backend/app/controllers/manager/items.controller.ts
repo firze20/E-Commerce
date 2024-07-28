@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import Item from "../../database/models/Item";
 
-import { setAsync, deleteKeysByPattern, delAsync } from "../../utils/redis";
+import { setAsync, deleteKeysByPattern } from "../../utils/redis";
 
 import { itemKeys } from "../../config/cache/store.redis";
 
