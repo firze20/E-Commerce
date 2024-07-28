@@ -1,9 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { Cart, getMyCart } from "@/api/cart/cartApi";
+import { Cart, getMyCart } from "@/api/shop/cartApi";
 import { useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { AuthContext } from "@/context/AuthProvider";
 
+/**
+ * Custom hook for querying cart data.
+ * @returns An object containing the cart data, loading state, success state, and error state.
+ */
 export const useQueryCart = () => {
     const { isAuthenticated } = useContext(AuthContext).authState;
 

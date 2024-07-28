@@ -1,4 +1,4 @@
-import type { Item } from "../shop/storeApi";
+import type { Item } from "./storeApi";
 import api from "../api";
 
 const URLS = {
@@ -24,18 +24,46 @@ export type Quantity = {
   quantity: number;
 }
 
+/**
+ * Retrieves the user's cart from the server.
+ * @returns A promise that resolves to the user's cart.
+ */
 export const getMyCart = () =>
   api.get<Cart>(URLS.myCart, { withCredentials: true }).then((res) => res.data);
 
+/**
+ * Adds an item to the shopping cart.
+ * 
+ * @param id - The ID of the item to add.
+ * @param quantity - The quantity of the item to add (optional).
+ * @returns A Promise that resolves to the modified cart actions.
+ */
 export const addToCart = (id: number, quantity?: number) =>
   api.post<CartActions>(URLS.modifyMyCart.replace(":id", id.toString()), quantity, { withCredentials: true }).then((res) => res.data);
 
+/**
+ * Removes an item from the cart.
+ * 
+ * @param id - The ID of the item to be removed.
+ * @returns A Promise that resolves to the updated cart actions.
+ */
 export const removeFromCart = (id: number) =>
     api.delete<CartActions>(URLS.modifyMyCart.replace(":id", id.toString()), { withCredentials: true }).then((res) => res.data);
 
+/**
+ * Updates the quantity of an item in the cart.
+ * 
+ * @param id - The ID of the item to update.
+ * @param quantity - The new quantity of the item.
+ * @returns A promise that resolves to the updated cart actions.
+ */
 export const updateCartQuantity = (id: number, quantity: Quantity) =>
     api.put<CartActions>(URLS.modifyMyCart.replace(":id", id.toString()), quantity, { withCredentials: true }).then((res) => res.data);
 
+/**
+ * Clears the cart by making a DELETE request to the specified URL.
+ * @returns A Promise that resolves to the data returned by the server.
+ */
 export const clearCart = () =>
     api.delete<CartActions>(URLS.myCart, { withCredentials: true }).then((res) => res.data);
 

@@ -1,5 +1,6 @@
 import { ApiRequestConfig } from "../api.types";
 import api from "../api";
+import { buildQueryString } from "@/helpers/buildQueryString";
 
 const URLS = {
   fetchProducts: "/store",
@@ -37,12 +38,6 @@ type ItemDetails = Item & {
 
 export type ItemResponse = {
   item: ItemDetails;
-};
-
-// Function to build query string
-const buildQueryString = (params: Record<string, any>) => {
-  const queryString = new URLSearchParams(params).toString();
-  return queryString ? `?${queryString}` : "";
 };
 
 /**

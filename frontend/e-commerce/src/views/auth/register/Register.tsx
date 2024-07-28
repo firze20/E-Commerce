@@ -118,7 +118,9 @@ const Register = () => {
       </div>
       <div className="form-control mt-6">
         <button className="btn btn-primary" type="submit" disabled={!isValid || signUpMutation.isPending}>
-          Sign Up
+          {signUpMutation.isPending ? (
+            <span className="loading loading-spinner"></span>
+          ): "Sign Up"}
         </button>
       </div>
     </form>

@@ -2,42 +2,71 @@ import { useQueryCart } from "@/hooks/cart/useQueryCart";
 import { useClearCartMutation } from "@/hooks/cart/useClearCartMutation";
 import { useRemoveItemMutation } from "@/hooks/cart/useRemoveItemMutation";
 import { useUpdateQuantityMutation } from "@/hooks/cart/useUpdateQuantityMutation";
+import { useMakePurchaseMutation } from "@/hooks/purchases/useMakePurchaseMutation";
 import LazySpinner from "@/components/LazySpinner";
 import { useState } from "react";
 import CartModal from "./components/CartModal";
-import type { Quantity } from "@/api/cart/cartApi";
+import MakePurchase from "./components/MakePurchase";
+import type { Quantity } from "@/api/shop/cartApi";
 
 const MyCart = () => {
+  // Query Cart data
   const { data, isLoading, isSuccess, isError } = useQueryCart();
 
+  // Emtpy the Cart Mutation
   const { mutate: emptyCart, isPending: clearingCart } = useClearCartMutation();
 
+  const handleOnEmptyCart = () => emptyCart();
+
+  // Remove Item from Cart Mutation
   const { mutate: removeItem, isPending: removingItem } =
     useRemoveItemMutation();
 
-  const { mutate: updateQuantity, isPending: updatingQuantity } = useUpdateQuantityMutation();
+  const handleRemoveItem = (id: number) => removeItem(id);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleModalClose = () => setIsModalOpen(false);
-
-  const shouldButtonsBeDisabled = data?.totalItems === 0 || clearingCart || removingItem || updatingQuantity;
-
-  const isPending = clearingCart || removingItem || updatingQuantity;
-
-  const handleOnEmptyCart = () => {
-    emptyCart();
-  };
+  // Update Cart Item Qauntity Mutation
+  const { mutate: updateQuantity, isPending: updatingQuantity } =
+    useUpdateQuantityMutation();
 
   const handleModifyQuantity = (id: number, quantity: Quantity) => {
-    updateQuantity({id, quantity});
+    updateQuantity({ id, quantity });
   };
 
-  const handlePurchase = () => {};
+  // Make Purchase Mutation
+  const {
+    mutate: makePurchase,
+    data: purchaseResult,
+    isPending: processingPurchase,
+    isError: purchaseError,
+    isSuccess: successPurchase,
+  } = useMakePurchaseMutation();
 
-  const handleRemoveItem = (id: number) => {
-    removeItem(id);
-  };
+  const handlePurchase = () => {
+    setIsPurchaseModalOpen(true);
+    makePurchase();
+  }
+
+  // State Modals
+
+  // Quantity Update Modal
+  const [isQuantityModalOpen, setIsQuantityModalOpen] = useState(false);
+
+  const handleCloseQuantityModal = () => setIsQuantityModalOpen(false);
+
+  // Purchase Modal
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+
+  const handleClosePurchaseModal = () => setIsPurchaseModalOpen(false);
+
+  const shouldButtonsBeDisabled =
+    data?.totalItems === 0 ||
+    clearingCart ||
+    removingItem ||
+    updatingQuantity ||
+    processingPurchase;
+
+  const isPending =
+    clearingCart || removingItem || updatingQuantity || processingPurchase;
 
   return (
     <div className="flex w-full flex-col border-opacity-50 mt-9">
@@ -45,6 +74,14 @@ const MyCart = () => {
         <LazySpinner show={isLoading} />
         {isSuccess && data ? (
           <div className="stats stats-vertical lg:stats-horizontal shadow">
+            <MakePurchase
+              isOpen={isPurchaseModalOpen}
+              onClose={handleClosePurchaseModal}
+              isPending={processingPurchase}
+              isError={purchaseError}
+              isSuccess={successPurchase}
+              result={purchaseResult ? purchaseResult.message : ""}
+            />
             <div className="stat">
               <div className="stat-title">Total Items</div>
               <div className="stat-value">{data.totalItems}</div>
@@ -56,7 +93,9 @@ const MyCart = () => {
                 >
                   {isPending ? (
                     <span className="loading loading-spinner bg-success"></span>
-                  ): "Empty Cart"}
+                  ) : (
+                    "Empty Cart"
+                  )}
                 </button>
               </div>
             </div>
@@ -67,10 +106,13 @@ const MyCart = () => {
                 <button
                   className="btn btn-success"
                   disabled={shouldButtonsBeDisabled}
+                  onClick={handlePurchase}
                 >
                   {isPending ? (
                     <span className="loading loading-spinner bg-success"></span>
-                  ) : "Checkout"}
+                  ) : (
+                    "Checkout"
+                  )}
                 </button>
               </div>
             </div>
@@ -115,23 +157,27 @@ const MyCart = () => {
                     >
                       {isPending ? (
                         <span className="loading loading-spinner bg-success"></span>
-                      ): "Remove from cart"}
+                      ) : (
+                        "Remove from cart"
+                      )}
                     </button>
                     <button
                       className="btn btn-secondary"
-                      onClick={() => setIsModalOpen(true)}
+                      onClick={() => setIsQuantityModalOpen(true)}
                       disabled={shouldButtonsBeDisabled}
                     >
                       {isPending ? (
                         <span className="loading loading-spinner"></span>
-                      ): "Change Quantity"}
+                      ) : (
+                        "Change Quantity"
+                      )}
                     </button>
                   </div>
                 </div>
                 <CartModal
-                  isOpen={isModalOpen}
+                  isOpen={isQuantityModalOpen}
                   isUpdating={updatingQuantity}
-                  onClose={handleModalClose}
+                  onClose={handleCloseQuantityModal}
                   quantity={item.quantity}
                   itemId={item.id}
                   itemName={item.name}

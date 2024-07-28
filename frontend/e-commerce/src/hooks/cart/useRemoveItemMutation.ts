@@ -1,7 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeFromCart } from "@/api/cart/cartApi";
+import { removeFromCart } from "@/api/shop/cartApi";
 import { toast } from "react-toastify";
 
+/**
+ * Custom hook for removing an item from the cart.
+ * @returns {Mutation} The mutation object with the remove item functionality.
+ */
 export const useRemoveItemMutation = () => {
     const queryClient = useQueryClient();
 

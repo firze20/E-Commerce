@@ -1,7 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { clearCart } from "@/api/cart/cartApi";
+import { clearCart } from "@/api/shop/cartApi";
 import { toast } from "react-toastify";
 
+/**
+ * Custom hook for clearing the cart mutation.
+ * Uses `useMutation` from `react-query` to handle the mutation.
+ * @returns The clear cart mutation function.
+ */
 export const useClearCartMutation = () => {
     const queryClient = useQueryClient();
 
