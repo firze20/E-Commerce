@@ -7,23 +7,24 @@ type MakePurchaseProps = {
   isError: boolean;
   isSuccess: boolean;
   result: string;
+  error: string | null;
 };
 
-const MakePurchase = ({ isOpen, onClose, isPending, isError, isSuccess, result }: MakePurchaseProps) => {
+const MakePurchase = ({ isOpen, onClose, isPending, isError, isSuccess, result, error }: MakePurchaseProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div>
+      <div className="text-center">
         {isPending ? (
-          <span className="">Processing Purchase</span>
+          <span className="loading loading-spinner text-primary">Processing Purchase</span>
         ): null}
         {
-          isError ? (
-            <span>Error making purchase</span>
+          isError || error ? (
+            <span className="text-error">Error making purchase {error}</span>
           ) : null
         }
         {
           isSuccess ? (
-            <span>Purchase successful {result}</span>
+            <span className="text-success">Purchase successful: {result}</span>
           ) : null
         }
       </div>
