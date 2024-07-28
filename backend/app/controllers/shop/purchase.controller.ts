@@ -6,10 +6,10 @@ import Purchase from "../../database/models/Purchase";
 import Cart from "../../database/models/Cart";
 import Item from "../../database/models/Item";
 
-import { delAsync, getAsync, setAsync } from "../../utils/redis";
+import { delAsync, getAsync, setAsync, deleteKeysByPattern } from "../../utils/redis";
 import logger from "../../utils/logger";
 
-import { purchaseKeys } from "../../config/cache/store.redis";
+import { purchaseKeys, cartKeys, itemKeys } from "../../config/cache/store.redis";
 
 const { formatPurchases } = formatResponses;
 
@@ -27,10 +27,15 @@ const makePurchase = async (req: Request, res: Response) => {
 
     await Purchase.createPurchase(cart);
 
-    // Clear the cache
+    // Clear the user purchase cache
+    const cacheKeyPurchase = `store/purchase:${req.user!.id}:*`;
+    await deleteKeysByPattern(cacheKeyPurchase);
+    // Clear cache Cart
+    const cacheKeyCart = cartKeys.userCart(req.user!.id);
+    await delAsync(cacheKeyCart);
+    // Clear Item cache
+    await deleteKeysByPattern("store/item:*");
 
-    const casheKey = `store/purchase:${req.user!.id}`;
-    await delAsync(casheKey);
 
     return res.status(201).send({ message: "Purchase completed" });
   } catch (error: any) {
