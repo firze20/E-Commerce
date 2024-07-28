@@ -36,6 +36,7 @@ const MyCart = () => {
   const {
     mutate: makePurchase,
     data: purchaseResult,
+    error: purchaseErrorMessage,
     isPending: processingPurchase,
     isError: purchaseError,
     isSuccess: successPurchase,
@@ -80,6 +81,7 @@ const MyCart = () => {
               isPending={processingPurchase}
               isError={purchaseError}
               isSuccess={successPurchase}
+              error={purchaseErrorMessage ? purchaseErrorMessage.message : null}
               result={purchaseResult ? purchaseResult.message : ""}
             />
             <div className="stat">
