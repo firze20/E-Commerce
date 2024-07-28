@@ -55,12 +55,19 @@ const Register = () => {
           <span className="label-text">Your email:</span>
         </label>
         <input
-          {...register("email", { required: true })}
+          {...register("email", { 
+            required: true,
+            pattern: {
+              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+              message: "Invalid email address",
+            },
+          })}
           type="text"
           id="email"
           className="input input-bordered"
           placeholder="Email"
         />
+        {errors.email && <span className="text-red-500">{errors.email.message}</span>}
         <label htmlFor="name">
           <span className="label-text">Your name:</span>
         </label>
