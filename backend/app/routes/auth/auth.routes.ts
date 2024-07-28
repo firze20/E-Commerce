@@ -4,7 +4,8 @@ import {
   checkDuplicateEmail,
   checkDuplicateUsername,
   verifyRefreshToken,
-  authenticateJwt
+  authenticateJwt,
+  isValidEmail
 } from "../../middlewares";
 
 import {
@@ -87,7 +88,7 @@ const authRouter = Router();
  */
 authRouter.post(
   "/signup", // Route
-  [checkDuplicateUsername, checkDuplicateEmail], // Middlewares
+  [isValidEmail, checkDuplicateUsername, checkDuplicateEmail], // Middlewares
   signUpController // Controller
 );
 /**
@@ -247,7 +248,6 @@ authRouter.post("/signin", signInController);
  *                  example: "Server error"
  */
 authRouter.post("/refresh-token", [verifyRefreshToken], refreshTokenController);
-
 /**
  * @openapi
  * /api/e-commerce/auth/whoami:
