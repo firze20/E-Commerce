@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import Item from "../../database/models/Item";
 
-import { setAsync, deleteKeysByPattern } from "../../utils/redis";
+import { setAsync, deleteKeysByPattern, delAsync } from "../../utils/redis";
 
 import { itemKeys } from "../../config/cache/store.redis";
 
@@ -83,8 +83,11 @@ const deleteItem = async (req: Request, res: Response) => {
     }
     await item.destroy();
 
-    // Clear the cache
-    await deleteKeysByPattern("store:*"); // Clear all cache keys
+    // Clear the shop cache
+    await deleteKeysByPattern("store:*");
+    // Clear the item from cache
+    await delAsync(itemKeys.singleItem(item.id));
+
     res.status(200).send({
       message: "Item deleted!",
     });
@@ -103,6 +106,7 @@ const updateItem = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, description, price, image, categories } = req.body;
 
+
   try {
     const item = await Item.findByPk(id);
     if (!item) {
@@ -120,8 +124,11 @@ const updateItem = async (req: Request, res: Response) => {
       await item.addCategory(categories);
     }
 
-    // Clear the cache
-    await deleteKeysByPattern("store:*"); // Clear all cache keys for store
+    // Clear the shop list cache
+    await deleteKeysByPattern("store:*");
+    // Clear the item from cache
+    await delAsync(itemKeys.singleItem(item.id));
+
 
     // Query the newly created item with necessary includes
     const include = [

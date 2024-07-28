@@ -2,6 +2,10 @@ import { Request, Response } from "express";
 import logger from "../../utils/logger";
 import Item from "../../database/models/Item";
 
+import { itemKeys } from "../../config/cache/store.redis";
+
+import { delAsync } from "../../utils/redis";
+
 import formatResponses from "../../helpers/format";
 
 const { formatItem } = formatResponses;
@@ -28,7 +32,8 @@ const addStock = async (req: Request, res: Response) => {
         .send({ message: "An error occurred while adding stock" });
     }
 
-    logger.info(updateItemStock);
+    // Clear cache for the item
+    await delAsync(itemKeys.singleItem(updateItemStock.id));
 
     return res
       .status(200)
@@ -65,6 +70,9 @@ const removeStock = async (req: Request, res: Response) => {
         .status(500)
         .send({ message: "An error occurred while removing stock" });
     }
+
+    // Clear cache for the item
+    await delAsync(itemKeys.singleItem(updateItemStock.id));
 
     return res
       .status(200)

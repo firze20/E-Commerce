@@ -27,11 +27,15 @@ const makePurchase = async (req: Request, res: Response) => {
 
     await Purchase.createPurchase(cart);
 
-    // Clear the cache
+    // Clear the user purchase cache
     const cacheKeyPurchase = `store/purchase:${req.user!.id}:*`;
     await deleteKeysByPattern(cacheKeyPurchase);
+    // Clear cache Cart
     const cacheKeyCart = cartKeys.userCart(req.user!.id);
     await delAsync(cacheKeyCart);
+    // Clear Item cache
+    await deleteKeysByPattern("store/item:*");
+
 
     return res.status(201).send({ message: "Purchase completed" });
   } catch (error: any) {
