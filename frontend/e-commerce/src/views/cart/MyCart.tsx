@@ -2,6 +2,7 @@ import { useQueryCart } from "@/hooks/cart/useQueryCart";
 import { useClearCartMutation } from "@/hooks/cart/useClearCartMutation";
 import { useRemoveItemMutation } from "@/hooks/cart/useRemoveItemMutation";
 import { useUpdateQuantityMutation } from "@/hooks/cart/useUpdateQuantityMutation";
+import { useMakePurchaseMutation } from "@/hooks/purchases/useMakePurchaseMutation";
 import LazySpinner from "@/components/LazySpinner";
 import { useState } from "react";
 import CartModal from "./components/CartModal";
