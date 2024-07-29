@@ -105,3 +105,12 @@ To start unit tests, run the command `npm run test` or `yarn tests`, the tests s
 ├── package.json                   (the packages used by the project)
 └── tsconfig.json                  (typescript configuration)
 ```
+
+# Swagger UI
+
+__Swagger UI__ `http://localhost:3000/api-docs`
+
+![image](https://github.com/user-attachments/assets/5c974c21-6594-41d0-823c-30a4edfa8177)
+
+
+
