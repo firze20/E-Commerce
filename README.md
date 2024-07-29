@@ -9,11 +9,7 @@
 - [﻿Project libraries](#project-libraries)  
 - [﻿Useful Links](#usefull-links) 
 ## This is a back-end nodejs project for an e-commerce website.
- 
-
-![image.png](/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___Nyf0bPS2X07CjHShoYeMP.png "image.png")
-
-
+![Figure 1](/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___---figure---I2EUnaRitzTlID5F3XSRB---figure---fogVtw8y7E_-MndAoD-pDg.png "Figure 1")
 
 ### Current stage
 - [ ] **To Do**:
@@ -38,7 +34,7 @@
 This project uses Nginx with reverse proxy
 Redis as cache 
 
-__First time ? Run Docker compose Build__
+**First time ? Run Docker compose Build**
 
 ```shell
 docker compose up --build
@@ -239,7 +235,7 @@ ALTER TABLE "purchase_items" ADD FOREIGN KEY ("purchase_id") REFERENCES "purchas
 
 ALTER TABLE "purchase_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
 ```
-_Note you should store your _`__.env__`_ file in the root of the backend project_
+_Note you should store your _`___.env___`_ file in the root of the backend project_
 
 **Enviroment Setup Template**
 
@@ -301,15 +297,13 @@ _Note I'm defining 2 passport strategies, passport local for signin and register
 # Usefull Links
 - [﻿Passport JWT and Session Authentication Tutorial](https://www.fullstackfoundations.com/blog/passport-jwt)  
 - [﻿Express Caching](https://medium.com/@muhammadtaifkhan/cache-your-express-nodejs-api-1e9f80b87c88) 
-# Things to rework
-- [x] Adding redis cache on the backend 
 
 
 
 <!-- eraser-additional-content -->
 ## Diagrams
 <!-- eraser-additional-files -->
-<a href="/README-Docker Compose Application Architecture-1.eraserdiagram" data-element-id="uQ7xQp_Mm-dc4JgBlDClt"><img src="/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___---diagram----7e8e6a4cf8705b1a3ceab28955a9c8c6-Docker-Compose-Application-Architecture.png" alt="" data-element-id="uQ7xQp_Mm-dc4JgBlDClt" /></a>
+<a href="/README-Docker Compose Application Architecture-1.eraserdiagram" data-element-id="uQ7xQp_Mm-dc4JgBlDClt"><img src="/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___---diagram----ae6ea8e768c6e4525d1b4cdbb7ddf1f5-Docker-Compose-Application-Architecture.png" alt="" data-element-id="uQ7xQp_Mm-dc4JgBlDClt" /></a>
 <!-- end-eraser-additional-files -->
 <!-- end-eraser-additional-content -->
 <!--- Eraser file: https://app.eraser.io/workspace/rf7uOfOOuweqmoum2hVB --->

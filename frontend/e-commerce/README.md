@@ -40,3 +40,36 @@ Below is a table of the main libraries used in this React e-commerce project:
 | Axios        | Promise based HTTP client for the browser and node.js.   |
 | Cypress      | End-to-end testing framework.                            |
 | react-forms  | Building forms in React, cool hooks for form validation. |
+
+# Project Structure
+
+```
+├── index.html                  (The html file)
+├── package.json                (The packages the project uses)
+├── postcss.config.js           (For tailwind)
+├── public                      (SVG folder)
+│   └── vite.svg
+├── src                         (src folder)
+│   ├── App.css                 (Main App CSS)
+│   ├── App.tsx                 (Main App Component)
+│   ├── api                     (Api folder, contains all the endpoints seperated by files, axios logic, cancellers interceptors)
+│   ├── assets                  (Assets folder)
+│   ├── components              (Global Components folder)
+│   ├── config                  (Configuration folder)
+│   ├── constants               (If you need to store constants)
+│   ├── context                 (For Context Provider, Global State Management)
+│   ├── helpers                 (Reusable functions or modules that assist with specific tasks or operations)
+│   ├── hooks                   (For Reusable Logic)
+│   ├── index.css               
+│   ├── intl                    (Internationalization, support multiple language)
+│   ├── layout                  (Encapsulate folder for layout-related logic,)
+│   ├── main.tsx  
+│   ├── services                (For external API's)
+│   ├── views                   (Folder for Different Pages, Like Shop, Authentication, Item [id])
+│   └── vite-env.d.ts
+├── tailwind.config.js
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts
+```

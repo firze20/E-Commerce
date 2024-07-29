@@ -4,8 +4,8 @@ title Docker Compose Application Architecture
 
 // Nodes and groups
 Docker Compose [icon: docker] {
-  Express API [icon: nodejs] // entry point
-  NGinx [icon: nginx]
+  NGinx [icon: nginx] // entry point
+  Express API [icon: nodejs]
   Redis [icon: redis]
   Frontend [icon: react]
 }
@@ -14,7 +14,8 @@ Cloud Postgres Database [icon: postgresql]
 
 // Connections
 NGinx > Express API
+NGinx > Frontend
+Frontend > Express API: API calls
 Express API > Redis
 Express API > Cloud Postgres Database
-Frontend > NGinx
 
