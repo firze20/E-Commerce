@@ -34,6 +34,8 @@ To start the backend server, run the command `npm run dev` or `yarn dev` . This 
 
 To start unit tests, run the command `npm run test` or `yarn tests`, the tests should all pass.
 
+![image](https://github.com/user-attachments/assets/d9d7263e-5bb1-4627-b41d-843dbc3d7399)
+
 # Project Structure
 
 ```
