@@ -9,7 +9,7 @@
 - [﻿Project libraries](#project-libraries)  
 - [﻿Useful Links](#usefull-links) 
 ## This is a back-end nodejs project for an e-commerce website.
-![Figure 1](/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___---figure---8sX-aJoWL4jtwZ3dVSi47---figure---fogVtw8y7E_-MndAoD-pDg.png "Figure 1")
+![Figure 1](/.eraser/rf7uOfOOuweqmoum2hVB___LyST7E2z5nO6B2aolD8AuoXp2gt2___---figure---I2EUnaRitzTlID5F3XSRB---figure---fogVtw8y7E_-MndAoD-pDg.png "Figure 1")
 
 ### Current stage
 - [ ] **To Do**:
@@ -297,8 +297,6 @@ _Note I'm defining 2 passport strategies, passport local for signin and register
 # Usefull Links
 - [﻿Passport JWT and Session Authentication Tutorial](https://www.fullstackfoundations.com/blog/passport-jwt)  
 - [﻿Express Caching](https://medium.com/@muhammadtaifkhan/cache-your-express-nodejs-api-1e9f80b87c88) 
-# Things to rework
-- [x] Adding redis cache on the backend
 
 
 
