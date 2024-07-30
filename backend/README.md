@@ -70,7 +70,7 @@ To start unit tests, run the command `npm run test` or `yarn tests`, the tests s
 │   ├── routes                      (contains all the endpoint definitions, routes)
 │   │   ├── admin                   (admin endpoints)
 │   │   ├── auth                    (authentication endpoints)
-│   │   ├── index.ts                (exports main route file)
+│   │   ├── index.ts                (exports main route file - the others are nested inside this route)
 │   │   ├── main.routes.ts          (main routes)
 │   │   ├── manager                 (manager endpoints)
 │   │   ├── shop                    (shop endpoints)
