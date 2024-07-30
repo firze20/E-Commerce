@@ -18,6 +18,8 @@ import sequelize from "../db.config";
 import logger from "../../utils/logger";
 import Stock from "./Stock";
 import CartItem from "./CartItem";
+import OutOfStockError from "../../errors/OutOfStockError";
+
 
 /**
  * Represents an Purchase in the database.
@@ -123,7 +125,7 @@ class Purchase extends Model {
         });
 
         if (!stock || stock.quantity < cartItem.quantity) {
-          throw new Error(`Not enough stock for item: ${cartItem.item.name}`);
+          throw new OutOfStockError(`Not enough stock for item: ${cartItem.item.name}`);
         }
 
         await PurchaseItem.create(
