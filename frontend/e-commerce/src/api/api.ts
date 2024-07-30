@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosPromise, Cancel, AxiosResponse, AxiosError } from "axios";
+
 import {
   ApiRequestConfig,
   WithAbortFn,
@@ -21,9 +22,8 @@ const URLS = {
   REFRESH_TOKEN: "/auth/refresh-token",
 };
 
-const refreshToken = async () => {
-  await refreshTokenAxiosInstance.post(URLS.REFRESH_TOKEN, { withCredentials: true });
-};
+const refreshToken = async () => await refreshTokenAxiosInstance.post(URLS.REFRESH_TOKEN, { withCredentials: true });
+
 
 
 // Create the axios instance

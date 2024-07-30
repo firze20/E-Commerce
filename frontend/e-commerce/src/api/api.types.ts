@@ -58,6 +58,8 @@ export type ApiRequestConfig = AxiosRequestConfig & {
 
 /**
  * Represents an API error.
- * This type is an alias for AxiosError.
+ * Extends the AxiosError type and includes an optional 'aborted' property.
  */
-export type ApiError = AxiosError;
+export type ApiError = AxiosError & {
+  aborted?: boolean
+}
