@@ -24,7 +24,6 @@ type WhoAmIResponse = {
   user: User;
 }
 
-
 export type SignInUser = Pick<SignUpUser, "password"> &
   ({ username: string; email?: never } | { email: string; username?: never });
 
