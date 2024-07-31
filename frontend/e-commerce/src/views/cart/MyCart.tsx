@@ -45,7 +45,7 @@ const MyCart = () => {
   const handlePurchase = () => {
     setIsPurchaseModalOpen(true);
     makePurchase();
-  }
+  };
 
   // State Modals
 
@@ -81,7 +81,11 @@ const MyCart = () => {
               isPending={processingPurchase}
               isError={purchaseError}
               isSuccess={successPurchase}
-              error={purchaseErrorMessage ? purchaseErrorMessage.message : null}
+              error={
+                purchaseErrorMessage
+                  ? purchaseErrorMessage.response.data!.message!
+                  : null
+              }
               result={purchaseResult ? purchaseResult.message : ""}
             />
             <div className="stat">

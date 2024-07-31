@@ -3,6 +3,7 @@ import { signIn } from "@/api/auth/authApi";
 import { useWhoAmIMutation } from "./useWhoAmIMutation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { ErrorApiResponse } from "@/types/error/ErrorResponse";
 
 export const useSignInMutation = () => {
   const { mutate: fetchUserInfo } = useWhoAmIMutation();
@@ -18,8 +19,11 @@ export const useSignInMutation = () => {
       fetchUserInfo();
       navigate("/shop");
     },
-    onError: () => {
-      toast.error("User doesn't exist, or invalid credentials 🙁")
+    onError: (error: ErrorApiResponse) => {
+      // Show an error toast
+      if(error.response.data) {
+        toast.error(`Error: ${error.response.data.message}`);
+      } else toast.error(`Error signing in`);
     },
   });
 }

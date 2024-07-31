@@ -19,7 +19,7 @@ const MakePurchase = ({ isOpen, onClose, isPending, isError, isSuccess, result, 
         ): null}
         {
           isError || error ? (
-            <span className="text-warn">Not enough stock for this item</span>
+            <span className="text-warn">{error}</span>
           ) : null
         }
         {

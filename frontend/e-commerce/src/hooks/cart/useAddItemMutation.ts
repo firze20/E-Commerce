@@ -1,12 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "@/api/shop/cartApi";
 import { toast } from "react-toastify";
+import { ErrorApiResponse } from "@/types/error/ErrorResponse";
 
 /**
  * Custom hook for adding an item to the cart.
  * Uses `useMutation` from `react-query` to handle the mutation.
  * 
- * @returns {MutationResult} The result of the mutation.
+ * @returns The result of the mutation.
  */
 export const useAddItemMutation = () => {
     const queryClient = useQueryClient();
@@ -22,11 +23,12 @@ export const useAddItemMutation = () => {
             queryClient.invalidateQueries({ queryKey: ["my-cart"] });
 
         },
-        onError: () => {
-            toast.error(`Error adding item to cart, try to sign in`, {
-                position: "bottom-center"
-            }
-            );
+        onError: (err: ErrorApiResponse) => {
+            if (err.response.data) {
+                toast.error(`Error adding item to cart: ${err.response.data.message}`, {
+                    position: "bottom-center"
+                });
+            } else toast.error(`Error adding item to cart`)
         },
     });
 }
