@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { clearCart } from "@/api/shop/cartApi";
 import { toast } from "react-toastify";
+import { ErrorApiResponse } from "@/types/error/ErrorResponse";
 
 /**
  * Custom hook for clearing the cart mutation.
@@ -21,8 +22,12 @@ export const useClearCartMutation = () => {
             // Invalidate the cart query to trigger a refetch
             queryClient.invalidateQueries({ queryKey: ["my-cart"] });
         },
-        onError: (err) => {
-            toast.error(`Error clearing cart: ${err}`, {
+        onError: (err: ErrorApiResponse) => {
+            if (err.response.data) {
+                toast.error(`Error clearing cart: ${err.response.data.message}`, {
+                    position: "bottom-center"
+                });
+            } else toast.error(`Error clearing cart`, {
                 position: "bottom-center"
             });
         },

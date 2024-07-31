@@ -11,6 +11,8 @@ import logger from "../../utils/logger";
 
 import { purchaseKeys, cartKeys, itemKeys } from "../../config/cache/store.redis";
 
+import OutOfStockError from "../../errors/OutOfStockError";
+
 const { formatPurchases } = formatResponses;
 
 const makePurchase = async (req: Request, res: Response) => {
@@ -39,6 +41,9 @@ const makePurchase = async (req: Request, res: Response) => {
 
     return res.status(201).send({ message: "Purchase completed" });
   } catch (error: any) {
+    if (error instanceof OutOfStockError) {
+      return res.status(409).send({ message: error.message });
+    }
     res.status(500).send({ message: error.message });
   }
 };

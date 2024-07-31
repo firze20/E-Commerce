@@ -1,4 +1,11 @@
-import axios, { AxiosInstance, AxiosPromise, Cancel, AxiosResponse, AxiosError } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosPromise,
+  Cancel,
+  AxiosResponse,
+  AxiosError,
+} from "axios";
+
 import {
   ApiRequestConfig,
   WithAbortFn,
@@ -10,7 +17,7 @@ import {
 // Default config for the axios instance
 const axiosParams = {
   baseURL:
-    process.env.NODE_ENV === "development"
+    import.meta.env.MODE === "development"
       ? "http://localhost/api/e-commerce"
       : "/api/e-commerce",
 };
@@ -21,26 +28,51 @@ const URLS = {
   REFRESH_TOKEN: "/auth/refresh-token",
 };
 
-const refreshToken = async () => {
-  await refreshTokenAxiosInstance.post(URLS.REFRESH_TOKEN, { withCredentials: true });
-};
-
+const refreshToken = async () =>
+  await refreshTokenAxiosInstance.post(URLS.REFRESH_TOKEN, {
+    withCredentials: true,
+  });
 
 // Create the axios instance
 const axiosInstance = axios.create(axiosParams);
 
-axiosInstance.interceptors.response.use((response: AxiosResponse) => response,
-    async (error: AxiosError) => {
-      if (error.response?.status === 401) {
-        // Handle 401 error
-        try {
-          await refreshToken();
-          window.location.reload(); // Refresh the page upon succesfull 
-        } catch (refreshError) {
-          return Promise.reject(refreshError);
-        }
+// Refresh Token interceptor
+// Response interceptor to handle and log errors
+axiosInstance.interceptors.response.use(
+  (response: AxiosResponse) => response,
+  async (error: AxiosError) => {
+    // Log the error
+    console.log("Entering error interceptor");
+    const shouldLog = import.meta.env.VITE_DEBUG_API === "true";
+
+    if (shouldLog) {
+      console.log("VITE_DEBUG_API is true");
+      if (error.response) {
+        console.log("Error Response Data:", error.response.data);
+        console.log("Error Response Status:", error.response.status);
+        console.log("Error Response Headers:", error.response.headers);
+      } else if (error.request) {
+        console.log("Error Request:", error.request);
+      } else {
+        console.log("Error Message:", error.message);
       }
-    })
+      console.log("Error Config:", error.config);
+    }
+
+    if (error.response?.status === 401) {
+      // Handle token refresh logic
+      try {
+        await refreshToken();
+        window.location.reload(); // Refresh the page upon successful token refresh
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 
 /**
  * Checks if the provided error is an instance of `Cancel` and has the `aborted` property.
@@ -99,7 +131,7 @@ const withLogger = async <T>(promise: AxiosPromise<T>) =>
     if (process.env.NODE_ENV !== 'development') throw error      
   */
     // Log error only if VUE_APP_DEBUG_API env is set to true
-    if (!process.env.REACT_APP_DEBUG_API) throw error;
+    if (import.meta.env.VITE_DEBUG_API !== "true") throw error;
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx

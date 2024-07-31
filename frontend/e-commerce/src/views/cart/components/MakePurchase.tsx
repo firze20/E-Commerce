@@ -19,7 +19,7 @@ const MakePurchase = ({ isOpen, onClose, isPending, isError, isSuccess, result, 
         ): null}
         {
           isError || error ? (
-            <span className="text-error">Error making purchase {error}</span>
+            <span className="text-warn">{error}</span>
           ) : null
         }
         {
