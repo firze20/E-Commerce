@@ -2,7 +2,7 @@ import { useQueryItem } from "@/hooks/shop/useQueryItem";
 import { useAddItemMutation } from "@/hooks/cart/useAddItemMutation";
 import { AuthContext } from "@/context/AuthProvider";
 import { useParams, useNavigate } from "react-router-dom";
-import LazySpinner from "@/components/LazySpinner";
+import Skeleton from "@/components/common/loading/Skeleton";
 import { useContext } from "react";
 import { toast } from "react-toastify";
 
@@ -13,7 +13,7 @@ const Item = () => {
 
   const navigage = useNavigate();
 
-  const { data, isLoading, isSuccess, isError } = useQueryItem(Number(id));
+  const { data, isLoading, isSuccess, isError, error } = useQueryItem(Number(id));
 
   const { mutate, isPending } = useAddItemMutation();
 
@@ -29,8 +29,8 @@ const Item = () => {
 
   return (
     <div className="card glass w-96 m-auto text-left">
-      {isError ? <p className="text-red-900">There was a problem</p> : null}
-      {isLoading ? <LazySpinner show /> : null}
+      {isError || error ? <p className="text-red-900">{error?.name}</p> : null}
+      {isLoading ? <Skeleton show /> : null}
       {isSuccess ? (
         <div>
           <figure>
@@ -43,12 +43,14 @@ const Item = () => {
               <span>Categories: </span>
               <ul className="text-info">
                 {data?.item.categories.map((category) => (
-                    <li key={category}>{category}</li>
+                  <li key={category}>{category}</li>
                 ))}
               </ul>
             </div>
 
-            <span>Price: <p className="text-primary">{data?.item.price}$</p></span>
+            <span>
+              Price: <p className="text-primary">{data?.item.price}$</p>
+            </span>
             <p>
               We have <span className="text-green-600">{data?.item.stock}</span>{" "}
               left in stock!
@@ -57,11 +59,17 @@ const Item = () => {
               <button className="btn btn-primary" onClick={navigateToShop}>
                 Back to shop
               </button>
-              <button className="btn btn-accent" onClick={handleAddToCart} disabled={isPending}>
+              <button
+                className="btn btn-accent"
+                onClick={handleAddToCart}
+                disabled={isPending}
+              >
                 {isPending ? (
                   <span className="loading loading-spinner bg-success"></span>
-                ) :  "Add to cart"}
-                </button>
+                ) : (
+                  "Add to cart"
+                )}
+              </button>
             </div>
           </div>
         </div>
