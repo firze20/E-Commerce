@@ -18,6 +18,8 @@ import About from "./views/about/About";
 import NotFound from "./views/notfound/NotFound";
 import LogOut from "./views/auth/LogOut";
 import MyCart from "./views/cart/MyCart";
+import MyPurchases from "./views/purchases/MyPurchases";
+
 
 function App() {
   return (
@@ -45,6 +47,7 @@ function App() {
                       <Route path="/cart" element={<MyCart />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/logout" element={<LogOut />} />
+                      <Route path="/purchases" element={<MyPurchases />} />
                       {/* Catch-all route for unknown paths */}
                       <Route path="*" element={<NotFound />} />
                     </Route>
