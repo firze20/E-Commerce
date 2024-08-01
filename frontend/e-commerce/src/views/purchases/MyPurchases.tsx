@@ -19,7 +19,7 @@ const MyPurchases = () => {
               <div key={index}>
                 <p className="text-info">Purchased on: {formatDate(purchase.createdAt)}</p>
                 <p className="text-pretty">Cost: {purchase.totalPrice}$</p>
-                <ItemsTable data={purchase.items} />
+                <ItemsTable data={purchase.items} className="table-zebra table-xs table-fixed w-full" />
               </div>
             ))}
           </div>
