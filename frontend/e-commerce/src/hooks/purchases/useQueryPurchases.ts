@@ -8,12 +8,15 @@ import { toast } from "react-toastify";
  * Custom hook to query purchases data.
  * @returns An object containing the purchases data and loading/error states.
  */
-export const useQueryPurchases = () => {
+export const useQueryPurchases = (page?: number) => {
+
+    const params = { page };
+
     const { isAuthenticated } = useContext(AuthContext).authState;
 
     const { data, isLoading, isSuccess, isError } = useQuery({
-        queryKey: ["my-purchases"],
-        queryFn: getMyPurchases,
+        queryKey: ["my-purchases", params],
+        queryFn: ({ signal }) => getMyPurchases(params, { signal }),
         enabled: isAuthenticated,
         refetchOnWindowFocus: false,
         staleTime: 1000 * 60 * 5,

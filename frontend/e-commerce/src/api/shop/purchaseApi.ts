@@ -1,4 +1,5 @@
 import api from "../api";
+import { ApiRequestConfig } from "../api.types";
 import type { Item } from "./storeApi";
 import { buildQueryString } from "@/helpers/buildQueryString";
 
@@ -42,11 +43,12 @@ export const makePurchase = () =>
  * @param params - The parameters for the API request.
  * @returns A Promise that resolves to the response data containing the user's purchases.
  */
-export const getMyPurchases = (params: Record<string, any>) => {
+export const getMyPurchases = (params: Record<string, any>, config: ApiRequestConfig) => {
   const queryString = buildQueryString(params);
   return api
-    .get<PurchaseResponse>(`${URLS.myCart}`, {
+    .get<PurchaseResponse>(`${URLS.myCart}${queryString}`, {
       withCredentials: true,
+      ...config,
     })
     .then((res) => res.data);
 };

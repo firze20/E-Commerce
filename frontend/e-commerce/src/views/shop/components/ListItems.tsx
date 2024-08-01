@@ -1,7 +1,7 @@
 import { useQueryStore } from "@/hooks/shop/useQueryStore";
 import LazySpinner from "@/components/common/loading/LazySpinner";
 import Product from "@/components/Product";
-import Pagination from "./Pagination";
+import Pagination from "../../../components/common/pagination/Pagination";
 
 type ListItemsProps = {
   currentPage: number;
