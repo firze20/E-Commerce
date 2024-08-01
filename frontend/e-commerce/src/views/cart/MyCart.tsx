@@ -3,7 +3,7 @@ import { useClearCartMutation } from "@/hooks/cart/useClearCartMutation";
 import { useRemoveItemMutation } from "@/hooks/cart/useRemoveItemMutation";
 import { useUpdateQuantityMutation } from "@/hooks/cart/useUpdateQuantityMutation";
 import { useMakePurchaseMutation } from "@/hooks/purchases/useMakePurchaseMutation";
-import LazySpinner from "@/components/LazySpinner";
+import LazySpinner from "@/components/common/loading/LazySpinner";
 import { useState } from "react";
 import CartModal from "./components/CartModal";
 import MakePurchase from "./components/MakePurchase";

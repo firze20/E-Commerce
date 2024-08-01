@@ -4,9 +4,10 @@ type ModalProps = {
   children: ReactNode;
   isOpen: boolean;
   onClose: () => void;
+  className?: string;
 };
 
-const Modal = ({ children, isOpen, onClose }: ModalProps) => {
+const Modal = ({ children, isOpen, onClose, className }: ModalProps) => {
   const modalRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const Modal = ({ children, isOpen, onClose }: ModalProps) => {
   const handleClose = () => onClose();
 
   return (
-    <dialog ref={modalRef} className="modal" onClose={handleClose}>
+    <dialog ref={modalRef} className={`modal ${className}`} onClose={handleClose}>
       <div className="modal-box h-auto">
         {children}
         <div className="modal-action">

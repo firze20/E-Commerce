@@ -19,7 +19,7 @@ type Purchase = {
   items: ItemPurchase[];
 };
 
-type PurchaseResponse = {
+export type PurchaseResponse = {
   purchases: Purchase[];
   totalPages: number;
   currentPage: number;
@@ -45,7 +45,7 @@ export const makePurchase = () =>
 export const getMyPurchases = (params: Record<string, any>) => {
   const queryString = buildQueryString(params);
   return api
-    .get<PurchaseResponse>(`${URLS.myCart}${queryString}`, {
+    .get<PurchaseResponse>(`${URLS.myCart}`, {
       withCredentials: true,
     })
     .then((res) => res.data);
