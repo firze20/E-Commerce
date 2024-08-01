@@ -1,21 +1,28 @@
 import { useQueryPurchases } from "@/hooks/purchases/useQueryPurchases";
-import Table from "@/components/common/table/Table";
+import ItemsTable from "./components/ItemsTable";
 import LazySpinner from "@/components/common/loading/LazySpinner";
+import { formatDate } from "@/utils/formatDate";
 
 const MyPurchases = () => {
   const { data, isLoading, isSuccess, isError } = useQueryPurchases();
 
   return (
-    <div>
+    <div className="overflow-x-auto">
       <LazySpinner show={isLoading} />
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error fetching data</p>}
       {isSuccess && data ? (
         data.purchases.length > 0 ? (
-          <>
-            <h2>Your purchase history</h2>
-            <Table data={data.purchases} />
-          </>
+          <div>
+            <h2 className="text-secondary font-mono text-lg">Your purchase history</h2>
+            {data.purchases.map((purchase, index) => (
+              <div key={index}>
+                <p className="text-info">Purchased on: {formatDate(purchase.createdAt)}</p>
+                <p className="text-pretty">Cost: {purchase.totalPrice}$</p>
+                <ItemsTable data={purchase.items} />
+              </div>
+            ))}
+          </div>
         ) : (
           <p>Nothing to see here</p>
         )

@@ -1,46 +1,41 @@
-import type { PurchaseResponse } from "@/api/shop/purchaseApi";
+type TableProps<T> = {
+    columns: (keyof T)[];
+    data: T[];
+    className?: string;
+}
 
-type TableProps = {
-  className?: string;
-  data: PurchaseResponse["purchases"];
-};
-
-const Table = ({ data, className }: TableProps) => {
-  // If data is not empty, get columns from the keys of the first item
-  const columns = data.length > 0 ? Object.keys(data[0]) : [];
-
+/**
+ * A reusable table component.
+ *
+ * @template T - The type of data in the table rows.
+ * @param {TableProps<T>} props - The props for the Table component.
+ * @returns {JSX.Element} - The rendered table.
+ */
+const Table = <T,>({columns, data, className}: TableProps<T>): JSX.Element => {
   return (
-    <div className="overflow-x-auto">
-      <table className={`table ${className}`}>
+    <table className={`table ${className}`}>
         {/* Table Head */}
         <thead>
-          <tr>
-            {/* Table Headers */}
-            <th></th>
-            {columns.map((column, index) => (
-              <th key={index}>{column}</th>
-            ))}
-          </tr>
+            <tr>
+                <th></th>
+                {columns.map((column, index) => (
+                    <th key={index}>{String(column)}</th>
+                ))}
+            </tr>
         </thead>
         {/* Table Body */}
         <tbody>
-          {/* Table Rows */}
-          {/* Table Cells */}
-          {/* {data.map((row, index) => (
-            <tr>
-              <th>{row.id}</th>
-                <td>{row.createdAt}</td>
-                <td>{row.items.map((item) => item.name).join(", ")}</td>
-            </tr>
-          ))} */}
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
+            {data.map((item, index) => (
+                <tr key={index}>
+                    <td>{index + 1}</td>
+                    {columns.map((column, index) => (
+                        <td key={index}>{String(item[column])}</td>
+                    ))}
+                </tr>
+            ))}
         </tbody>
-      </table>
-    </div>
-  );
-};
+    </table>
+  )
+}
 
-export default Table;
+export default Table
