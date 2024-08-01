@@ -13,13 +13,13 @@ const MyPurchases = () => {
       {isError && <p>Error fetching data</p>}
       {isSuccess && data ? (
         data.purchases.length > 0 ? (
-          <div>
+          <div className="mt-4">
             <h2 className="text-secondary font-mono text-lg">Your purchase history</h2>
             {data.purchases.map((purchase, index) => (
-              <div key={index}>
-                <p className="text-info">Purchased on: {formatDate(purchase.createdAt)}</p>
-                <p className="text-pretty">Cost: {purchase.totalPrice}$</p>
-                <ItemsTable data={purchase.items} className="table-zebra table-xs table-fixed w-full" />
+              <div key={index} className="mt-5">
+                <p className="text-info">{formatDate(purchase.createdAt)}</p>
+                <p className="bg-neutral-600 text-neutral-50 rounded-lg">Spent: {purchase.totalPrice}$</p>
+                <ItemsTable data={purchase.items} className="table-zebra table-xs table-fixed w-full mt-5" />
               </div>
             ))}
           </div>
