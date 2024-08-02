@@ -13,13 +13,17 @@ const Item = () => {
 
   const navigage = useNavigate();
 
-  const { data, isLoading, isSuccess, isError, error } = useQueryItem(Number(id));
+  const { data, isLoading, isSuccess, isError, error } = useQueryItem(
+    Number(id)
+  );
 
   const { mutate, isPending } = useAddItemMutation();
 
   const handleAddToCart = () => {
     if (isAuthenticated) {
-      mutate(Number(id));
+      mutate({
+        id: Number(id),
+      });
     } else toast.error("You need to be logged in to add items to the cart");
   };
 
@@ -29,7 +33,15 @@ const Item = () => {
 
   return (
     <div className="card glass w-96 m-auto text-left">
-      {isError || error ? <p className="text-red-900">{error?.name}</p> : null}
+      {isError || error ? (
+        <p
+          className={
+            error?.response?.status === 404 ? "text-warning" : "text-error"
+          }
+        >
+          {error?.response?.data?.message! || "An error occurred"}
+        </p>
+      ) : null}
       {isLoading ? <Skeleton show /> : null}
       {isSuccess ? (
         <div>

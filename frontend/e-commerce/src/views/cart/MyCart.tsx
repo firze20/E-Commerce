@@ -7,7 +7,6 @@ import LazySpinner from "@/components/common/loading/LazySpinner";
 import { useState } from "react";
 import CartModal from "./components/CartModal";
 import MakePurchase from "./components/MakePurchase";
-import type { Quantity } from "@/api/shop/cartApi";
 
 const MyCart = () => {
   // Query Cart data
@@ -22,13 +21,13 @@ const MyCart = () => {
   const { mutate: removeItem, isPending: removingItem } =
     useRemoveItemMutation();
 
-  const handleRemoveItem = (id: number) => removeItem(id);
+  const handleRemoveItem = (id: number) => removeItem({ id });
 
   // Update Cart Item Qauntity Mutation
   const { mutate: updateQuantity, isPending: updatingQuantity } =
     useUpdateQuantityMutation();
 
-  const handleModifyQuantity = (id: number, quantity: Quantity) => {
+  const handleModifyQuantity = (id: number, quantity: number) => {
     updateQuantity({ id, quantity });
   };
 
@@ -82,7 +81,7 @@ const MyCart = () => {
               isError={purchaseError}
               isSuccess={successPurchase}
               error={
-                purchaseErrorMessage
+                purchaseErrorMessage?.response
                   ? purchaseErrorMessage.response.data!.message!
                   : null
               }

@@ -1,13 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
-import { whoami } from "@/api/auth/authApi";
+import { whoami, WhoAmIResponse } from "@/api/auth/authApi";
 import { AuthContext } from "@/context/AuthProvider";
 import { useContext } from "react";
 import { toast } from "react-toastify";
+import type { ApiError } from "@/api/api.types";
 
 export const useWhoAmIMutation = () => {
   const { updateAuthState } = useContext(AuthContext);
 
-  return useMutation({
+  return useMutation<WhoAmIResponse, ApiError>({
     mutationFn: whoami,
     onSuccess: (res) => {
       toast.success("User info sucessfully fetched", {
@@ -15,7 +16,7 @@ export const useWhoAmIMutation = () => {
       });
       updateAuthState({
         isAuthenticated: true,
-        user: res.data.user,
+        user: res.user,
       });
     },
     onError: () => {

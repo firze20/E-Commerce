@@ -20,7 +20,7 @@ export type AuthResponse = {
   message: string;
 }
 
-type WhoAmIResponse = {
+export type WhoAmIResponse = {
   user: User;
 }
 
@@ -29,14 +29,18 @@ export type SignInUser = Pick<SignUpUser, "password"> &
 
 export const signUp = (data: SignUpUser) =>
     api.post<AuthResponse>(URLS.signUp, data)
+      .then((res) => res.data)
 
 export const signIn = (data: SignInUser) =>
     api.post<AuthResponse>(URLS.signIn, data)
+      .then((res) => res.data)
 
 export const whoami = () =>
     api.post<WhoAmIResponse>(URLS.whoami, null, { withCredentials: true })
+      .then((res) => res.data)
 
 export const logout = () =>
     api.post<AuthResponse>(URLS.logout, null, { withCredentials: true })
+      .then((res) => res.data)
 
 

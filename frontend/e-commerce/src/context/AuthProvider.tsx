@@ -45,7 +45,7 @@ type AuthProviderProps = {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["auth"]);
 
-  const { mutate, data: user } = useWhoAmIMutation();
+  const { mutate, data } = useWhoAmIMutation();
 
   useEffect(() => {
     if (!cookies.auth) {
@@ -54,13 +54,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [cookies.auth, mutate]);
 
   useEffect(() => {
-    if (user) {
+    if (data && data.user) {
       updateAuthState({
         isAuthenticated: true,
-        user: user.data.user,
+        user: data.user,
       });
     }
-  }, [user]);
+  }, [data]);
 
   const [authState, setAuthState] = useState<AuthState>(
     cookies.auth || initialAuthState

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Modal from "@/components/common/modal/Modal";
-import type { Quantity } from "@/api/shop/cartApi";
 
 type CartModalProps = {
   isOpen: boolean;
@@ -9,7 +8,7 @@ type CartModalProps = {
   itemId: number;
   itemName: string;
   quantity: number;
-  handleSaveChanges: (id: number, quantity: Quantity) => void;
+  handleSaveChanges: (id: number, quantity: number) => void;
 };
 
 const CartModal = ({
@@ -52,7 +51,7 @@ const CartModal = ({
         <button
           className="btn btn-primary"
           disabled={newQuantity === quantity || isUpdating}
-          onClick={() => handleSaveChanges(itemId, { quantity: newQuantity})}
+          onClick={() => handleSaveChanges(itemId, newQuantity)}
         >
             {isUpdating ? (
                 <span className="loading loading-spinner bg-accent"></span>
