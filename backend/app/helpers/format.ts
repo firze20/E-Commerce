@@ -98,12 +98,14 @@ const formatResponses = {
         id: purchase.id,
         totalPrice: purchase.totalPrice,
         createdAt: purchase.createdAt,
-        items: map(purchase.items, (item) => {
+        items: map(purchase.purchaseItems, (purchaseItem) => {
           return {
-            name: item.name,
-            price: item.price,
-            description: item.description,
-            image: item.image,
+            id: purchaseItem.item.id,
+            name: purchaseItem.item.name,
+            price: purchaseItem.item.price,
+            description: purchaseItem.item.description,
+            image: purchaseItem.item.image,
+            quantity: purchaseItem.quantity,
           };
         }),
       };
