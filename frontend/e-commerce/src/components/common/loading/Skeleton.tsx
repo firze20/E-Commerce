@@ -32,9 +32,7 @@ const Skeleton = (props: Props): JSX.Element | null => {
       }, delay);
     }
 
-    return () => {
-      clearTimeout(timeout);
-    };
+    return () => clearTimeout(timeout);
   }, [show, delay]);
 
   return showSkeleton ? (

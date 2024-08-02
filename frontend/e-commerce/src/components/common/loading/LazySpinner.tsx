@@ -33,6 +33,8 @@ const LazySpinner = (props: Props): JSX.Element | null => {
                 setShowSpinner(true);
             }, delay);
         }
+
+        return () => clearTimeout(timeout);
     }, [show, delay]);
 
     return showSpinner ? (
