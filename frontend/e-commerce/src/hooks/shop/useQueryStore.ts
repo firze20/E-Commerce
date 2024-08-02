@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchStore, StoreDataResponse } from "@/api/shop/storeApi";
 import { useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
+import type { ApiError } from "@/api/api.types";
 
 /**
  * Custom hook for querying store data.
@@ -10,9 +11,11 @@ import { toast } from "react-toastify";
  * @returns An object containing the queried store data and loading state.
  */
 export const useQueryStore = (page: number, filters: Record<string, any>) => {
-
   const params = useMemo(() => ({ page, ...filters }), [page, filters]);
-  const { data, isLoading, isSuccess, isError } = useQuery<StoreDataResponse>({
+  const { data, isLoading, isSuccess, isError } = useQuery<
+    StoreDataResponse,
+    ApiError
+  >({
     queryKey: ["store", params],
     queryFn: ({ signal }) => fetchStore(params, { signal }),
     refetchOnWindowFocus: false, // Prevents refetching when the window regains focus
@@ -23,12 +26,12 @@ export const useQueryStore = (page: number, filters: Record<string, any>) => {
     if (isSuccess) {
       toast.success("Store data fetched successfully", {
         toastId: "store-data-toast",
-        position: "bottom-center"
+        position: "bottom-center",
       });
     } else if (isError) {
       toast.error("Error fetching store data", {
         toastId: "store-data-toast",
-        position: "bottom-center"
+        position: "bottom-center",
       });
     }
   }, [isSuccess, isError]);

@@ -3,6 +3,7 @@ import { Cart, getMyCart } from "@/api/shop/cartApi";
 import { useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { AuthContext } from "@/context/AuthProvider";
+import type { ApiError } from "@/api/api.types";
 
 /**
  * Custom hook for querying cart data.
@@ -11,7 +12,7 @@ import { AuthContext } from "@/context/AuthProvider";
 export const useQueryCart = () => {
     const { isAuthenticated } = useContext(AuthContext).authState;
 
-    const { data, isLoading, isSuccess, isError } = useQuery<Cart>({
+    const { data, isLoading, isSuccess, isError } = useQuery<Cart, ApiError>({
         queryKey: ["my-cart"],
         queryFn: getMyCart,
         enabled: isAuthenticated, // Only enable the query if the user is authenticated

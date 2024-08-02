@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Quantity } from "@/api/shop/cartApi";
+import type { CartActions, UpdateCartQuantityParams } from "@/api/shop/cartApi";
 import { updateCartQuantity } from "@/api/shop/cartApi";
 import { toast } from "react-toastify";
-import { ErrorApiResponse } from "@/types/error/ErrorResponse";
+import type { ApiError } from "@/api/api.types";
 
 /**
  * Custom hook for updating the quantity of an item in the cart.
@@ -11,8 +11,8 @@ import { ErrorApiResponse } from "@/types/error/ErrorResponse";
 export const useUpdateQuantityMutation = () => {
     const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: ({ id, quantity }: { id: number, quantity: Quantity }) => updateCartQuantity(id, quantity),
+    return useMutation<CartActions, ApiError, UpdateCartQuantityParams>({
+        mutationFn: updateCartQuantity,
         onSuccess: () => {
             // Show a success toast 
             toast.success("Item quantity updated", {
@@ -22,9 +22,9 @@ export const useUpdateQuantityMutation = () => {
             // Invalidate the cart query to trigger a refetch
             queryClient.invalidateQueries({ queryKey: ["my-cart"] });
         },
-        onError: (err: ErrorApiResponse) => {
-            if(err.response.data) {
-                toast.error(`Error updating item quantity: ${err.response.data.message}`, {
+        onError: (error) => {
+            if(error.response && error.response?.data.message) {
+                toast.error(`Error updating item quantity: ${error.response.data.message}`, {
                     position: "top-center"
                 });
             } else toast.error(`Error updating item quantity`, {

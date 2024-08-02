@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeFromCart } from "@/api/shop/cartApi";
+import { removeFromCart, CartActions, RemoveFromCartParams } from "@/api/shop/cartApi";
 import { toast } from "react-toastify";
-import { ErrorApiResponse } from "@/types/error/ErrorResponse";
+import type { ApiError } from "@/api/api.types";
 
 /**
  * Custom hook for removing an item from the cart.
@@ -10,7 +10,7 @@ import { ErrorApiResponse } from "@/types/error/ErrorResponse";
 export const useRemoveItemMutation = () => {
     const queryClient = useQueryClient();
 
-    return useMutation({
+    return useMutation<CartActions, ApiError, RemoveFromCartParams>({
         mutationFn: removeFromCart,
         onSuccess: () => {
             // Show a success toast 
@@ -20,9 +20,9 @@ export const useRemoveItemMutation = () => {
             // Invalidate the cart query to trigger a refetch
             queryClient.invalidateQueries({ queryKey: ["my-cart"] });
         },
-        onError: (err: ErrorApiResponse) => {
-            if (err.response.data) {
-                toast.error(`Error removing item from cart: ${err.response.data.message}`, {
+        onError: (error) => {
+            if (error.response && error.response?.data.message) {
+                toast.error(`Error removing item from cart: ${error.response.data.message}`, {
                     position: "bottom-center"
                 });
             } else toast.error(`Error removing item from cart`, {

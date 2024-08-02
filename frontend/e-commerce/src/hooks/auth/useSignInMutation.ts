@@ -1,9 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import { signIn } from "@/api/auth/authApi";
+import { signIn, AuthResponse, SignInUser } from "@/api/auth/authApi";
 import { useWhoAmIMutation } from "./useWhoAmIMutation";
 import { toast } from "react-toastify";
+import type { ApiError } from "@/api/api.types";
 import { useNavigate } from "react-router-dom";
-import { ErrorApiResponse } from "@/types/error/ErrorResponse";
+
 
 export const useSignInMutation = () => {
   const { mutate: fetchUserInfo } = useWhoAmIMutation();
@@ -11,7 +12,7 @@ export const useSignInMutation = () => {
 
   const navigate = useNavigate();
     
-  return useMutation({
+  return useMutation<AuthResponse, ApiError, SignInUser>({
     mutationFn: signIn,
     onSuccess: () => {
       // Show a success toast
@@ -19,9 +20,9 @@ export const useSignInMutation = () => {
       fetchUserInfo();
       navigate("/shop");
     },
-    onError: (error: ErrorApiResponse) => {
+    onError: (error) => {
       // Show an error toast
-      if(error.response.data) {
+      if(error.response && error.response.data.message) {
         toast.error(`Error: ${error.response.data.message}`);
       } else toast.error(`Error signing in`);
     },

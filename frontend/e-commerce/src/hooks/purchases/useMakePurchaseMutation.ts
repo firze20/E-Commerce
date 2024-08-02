@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { makePurchase } from "@/api/shop/purchaseApi";
+import { makePurchase, PurchaseActionResponse } from "@/api/shop/purchaseApi";
 import { toast } from "react-toastify";
-import type { ErrorApiResponse } from "@/types/error/ErrorResponse";
+import type { ApiError } from "@/api/api.types";
 
 /**
  * Custom hook for making a purchase mutation.
@@ -11,7 +11,7 @@ import type { ErrorApiResponse } from "@/types/error/ErrorResponse";
 export const useMakePurchaseMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  return useMutation<PurchaseActionResponse, ApiError>({
     mutationFn: makePurchase,
     onSuccess: () => {
       // Show a success toast
@@ -28,9 +28,9 @@ export const useMakePurchaseMutation = () => {
         queryClient.invalidateQueries({ queryKey: [key] })
       );
     },
-    onError: (error: ErrorApiResponse) => {
-      if (error.response.status === 409) {
-        toast.warn(`${error.response.data!.message}`, {
+    onError: (error) => {
+      if (error.response && error.response?.status === 409) {
+        toast.warn(`${error.response?.data.message}`, {
           position: "bottom-center",
         });
       } else {
