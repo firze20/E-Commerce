@@ -1,7 +1,7 @@
 import type { PurchaseResponse } from "@/api/shop/purchaseApi";
 import { TableColumn } from "@/components/common/table/Table";
 import Table from "@/components/common/table/Table";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 // A type alias for the nested items property
@@ -19,7 +19,7 @@ const ItemsTable = ({ data, className }: TableProps) => {
     navigate(`/shop/item/${id}`); 
   }, [navigate]);
 
-  const columns: TableColumn<PurchaseItem>[] = [
+  const columns: TableColumn<PurchaseItem>[] = useMemo(() => [
     { 
       key: "name", 
       header: "Name", 
@@ -50,10 +50,10 @@ const ItemsTable = ({ data, className }: TableProps) => {
       header: "Image",
       className: "text-accent",
       render: (value) => (
-        <img src={value} alt="item" className="w-16 h-16 object-fit m-auto" />
+        <img src={value} alt="Item" className="w-16 h-16 object-fill m-auto" />
       ),
     },
-  ];
+  ], [handleNameClick]);
 
   return <Table columns={columns} data={data} className={className} />;
 };
