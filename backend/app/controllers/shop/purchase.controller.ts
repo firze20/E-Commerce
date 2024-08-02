@@ -124,7 +124,7 @@ const getMyPurchases = async (req: Request, res: Response) => {
       perPage: parsedLimit,
     };
 
-    await setAsync(cacheKey, JSON.stringify(response), 60); // Cache the response for 60 seconds
+    await setAsync(cacheKey, JSON.stringify(response), 3600); // Cache the response for 1 hour
     
     return res.status(200).send(response);
   } catch (error: any) {
