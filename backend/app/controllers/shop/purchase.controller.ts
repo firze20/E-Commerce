@@ -9,7 +9,7 @@ import Item from "../../database/models/Item";
 import { delAsync, getAsync, setAsync, deleteKeysByPattern } from "../../utils/redis";
 import logger from "../../utils/logger";
 
-import { purchaseKeys, cartKeys, itemKeys } from "../../config/cache/store.redis";
+import { purchaseKeys, cartKeys } from "../../config/cache/store.redis";
 
 import OutOfStockError from "../../errors/OutOfStockError";
 
@@ -87,6 +87,8 @@ const getMyPurchases = async (req: Request, res: Response) => {
       ...(maximumDate && { createdAt: { [Op.lte]: new Date(maximumDate) } })
   };
 
+  const offset = (Number(page) - 1) * Number(limit);
+
   try {
     // Check if the response is in the cache
     const cacheData = await getAsync(cacheKey);
@@ -107,6 +109,7 @@ const getMyPurchases = async (req: Request, res: Response) => {
           attributes: ["name", "price", "description", "image"],
         },
       ],
+    offset,
     order: [["createdAt", "DESC"]],
     });
 
