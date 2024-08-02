@@ -19,7 +19,16 @@ export const useLogoutMutation = () => {
         toastId: "logout",
       });
       deleteCookies();
-      queryClient.invalidateQueries({ queryKey: ["who-am-i", 'my-cart'] });
+
+      const queryKeysToInvalidate = [
+        "who-am-i",
+        "my-cart",
+        "my-purchases"
+      ];
+      
+      queryKeysToInvalidate.forEach((key) =>
+        queryClient.invalidateQueries({ queryKey: [key] })
+      );
       navigate("/");
     },
     onError: () => {
