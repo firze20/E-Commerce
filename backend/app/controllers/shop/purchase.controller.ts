@@ -5,11 +5,12 @@ import formatResponses from "../../helpers/format";
 import Purchase from "../../database/models/Purchase";
 import Cart from "../../database/models/Cart";
 import Item from "../../database/models/Item";
+import PurchaseItem from "../../database/models/PurchaseItem";
 
 import { delAsync, getAsync, setAsync, deleteKeysByPattern } from "../../utils/redis";
 import logger from "../../utils/logger";
 
-import { purchaseKeys, cartKeys, itemKeys } from "../../config/cache/store.redis";
+import { purchaseKeys, cartKeys } from "../../config/cache/store.redis";
 
 import OutOfStockError from "../../errors/OutOfStockError";
 
@@ -87,6 +88,8 @@ const getMyPurchases = async (req: Request, res: Response) => {
       ...(maximumDate && { createdAt: { [Op.lte]: new Date(maximumDate) } })
   };
 
+  const offset = (Number(page) - 1) * Number(limit);
+
   try {
     // Check if the response is in the cache
     const cacheData = await getAsync(cacheKey);
@@ -102,15 +105,25 @@ const getMyPurchases = async (req: Request, res: Response) => {
       attributes: ["id", "totalPrice", "createdAt"],
       include: [
         {
-          model: Item,
-          as: "items",
-          attributes: ["name", "price", "description", "image"],
+          model: PurchaseItem,
+          as: "purchaseItems",
+          attributes: ["quantity"],
+          include: [
+            {
+              model: Item,
+              as: "item",
+              attributes: ["id", "name", "price", "image"],
+            },
+          ],
         },
       ],
-    order: [["createdAt", "DESC"]],
+      offset,
+      order: [["createdAt", "DESC"]],
     });
 
     const totalPages = Math.ceil(totalPurchases / parsedLimit);
+
+    logger.info(purchases);
 
     const formatResponse = formatPurchases(purchases);
 
@@ -121,7 +134,7 @@ const getMyPurchases = async (req: Request, res: Response) => {
       perPage: parsedLimit,
     };
 
-    await setAsync(cacheKey, JSON.stringify(response), 60); // Cache the response for 60 seconds
+    await setAsync(cacheKey, JSON.stringify(response), 3600); // Cache the response for 1 hour 3600
     
     return res.status(200).send(response);
   } catch (error: any) {

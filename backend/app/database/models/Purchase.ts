@@ -9,6 +9,7 @@ import {
   BelongsToMany,
   PrimaryKey,
   BelongsTo,
+  HasMany,
 } from "sequelize-typescript";
 import User from "./User";
 import Item from "./Item";
@@ -54,6 +55,13 @@ class Purchase extends Model {
    */
   @BelongsToMany(() => Item, () => PurchaseItem)
   items!: Item[];
+
+  /**
+   * The items purchased in this purchase.
+   * @type {PurchaseItem[]}
+   */
+  @HasMany(() => PurchaseItem)
+  purchaseItems!: PurchaseItem[];
 
   /**
    * The foreign key for the user who made the purchase.

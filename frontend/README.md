@@ -66,6 +66,8 @@ Below is a table of the main libraries used in this React e-commerce project:
 │   ├── main.tsx  
 │   ├── services                (For external API's)
 │   ├── views                   (Folder for Different Pages, Like Shop, Authentication, Item [id])
+│   ├── types                   (Folder for Global types to be used accross the application)
+│   ├── utils                   (Folder for util functions to be used accross the application)  
 │   └── vite-env.d.ts
 ├── tailwind.config.js
 ├── tsconfig.app.json
