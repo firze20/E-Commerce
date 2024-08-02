@@ -36,7 +36,7 @@ const LazySpinner = (props: Props): JSX.Element | null => {
     }, [show, delay]);
 
     return showSpinner ? (
-        <span className="loading loading-spinner text-primary loading-lg"></span>
+        <span className="loading loading-spinner text-primary loading-lg">Loading</span>
     ) : null
 };
 
