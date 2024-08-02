@@ -103,7 +103,6 @@ const formatResponses = {
             id: purchaseItem.item.id,
             name: purchaseItem.item.name,
             price: purchaseItem.item.price,
-            description: purchaseItem.item.description,
             image: purchaseItem.item.image,
             quantity: purchaseItem.quantity,
           };

@@ -112,7 +112,7 @@ const getMyPurchases = async (req: Request, res: Response) => {
             {
               model: Item,
               as: "item",
-              attributes: ["id", "name", "price", "description", "image"],
+              attributes: ["id", "name", "price", "image"],
             },
           ],
         },

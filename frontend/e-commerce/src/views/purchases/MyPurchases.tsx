@@ -101,7 +101,7 @@ const MyPurchases = () => {
                 </p>
                 <ItemsTable
                   data={purchase.items}
-                  className="table-zebra table-xs table-fixed w-full mt-5"
+                  className="table-zebra table-xs table-fixed w-full mt-5 text-center"
                 />
               </div>
             ))}

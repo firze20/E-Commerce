@@ -7,7 +7,9 @@ const URLS = {
   myCart: "/store/purchase",
 };
 
-type ItemPurchase = Omit<Item, "id">;
+type ItemPurchase = Omit<Item, 'description'> & {
+  quantity: number;
+};
 
 export type PurchaseActionResponse = {
   message: string;
