@@ -1,21 +1,14 @@
 import Login from "./login/Login";
 import Register from "./register/Register";
-import { Link } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "@/context/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Auth = () => {
 
-  const navigate = useNavigate();
-
   const { isAuthenticated } = useContext(AuthContext).authState;
 
-  useEffect(() => {
-    if(isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated]);
+  if(isAuthenticated) return <Navigate to="/" />;
 
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
 
