@@ -188,7 +188,7 @@ const Header = () => {
                   <p>My purchases</p>
                 </li>
               </Link>
-              {user.roles.includes(Roles.Manager) || user.roles.includes(Roles.Admin) && (
+              {(user.roles.includes(Roles.Manager) || user.roles.includes(Roles.Admin)) && (
                 <Link to={"/manager"}>
                   <li>
                     <p>Manager Panel</p>
