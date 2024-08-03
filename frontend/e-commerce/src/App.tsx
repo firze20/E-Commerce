@@ -9,6 +9,7 @@ import "./App.css";
 
 import AuthLayout from "@/layout/AuthLayout";
 import AppLayout from "@/layout/AppLayout";
+import ManagerLayout from "@/layout/ManagerLayout";
 
 import Home from "./views/home/Home";
 import Auth from "./views/auth/Auth";
@@ -19,6 +20,8 @@ import NotFound from "./views/notfound/NotFound";
 import LogOut from "./views/auth/LogOut";
 import MyCart from "./views/cart/MyCart";
 import MyPurchases from "./views/purchases/MyPurchases";
+
+import Manager from "./views/manager/Manager";
 
 
 function App() {
@@ -56,6 +59,10 @@ function App() {
                       {/* Auth Layout */}
                       <Route path="/authentication" element={<Auth />} />{" "}
                     </Route>{" "}
+                    {/* Manager Layout */}
+                    <Route element={<ManagerLayout />}>
+                      <Route path="/manager" element={<Manager />} />
+                    </Route>
                   </Routes>
                 </FilterProvider>
               </PaginationProvider>
