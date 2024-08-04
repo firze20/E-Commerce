@@ -1,6 +1,6 @@
 import api from "../api";
 import { ApiRequestConfig } from "../api.types";
-import type { Item } from "./storeApi";
+import { Item } from "../types";
 import { buildQueryString } from "@/helpers/buildQueryString";
 
 const URLS = {
@@ -53,4 +53,6 @@ export const getMyPurchases = (params: Record<string, any>, config: ApiRequestCo
       ...config,
     })
     .then((res) => res.data);
+
+    
 };

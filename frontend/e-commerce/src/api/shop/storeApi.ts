@@ -1,19 +1,12 @@
 import { ApiRequestConfig } from "../api.types";
 import api from "../api";
 import { buildQueryString } from "@/helpers/buildQueryString";
+import { Item, Category } from "../types";
 
 const URLS = {
   fetchProducts: "/store",
   fetchCategories: "/store/categories",
   fetchSingleProduct: "/store/item/:id",
-};
-
-export type Item = {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  image: string;
 };
 
 export type StoreDataResponse = {
@@ -23,18 +16,12 @@ export type StoreDataResponse = {
   perPage: number;
 };
 
-export type Category = {
-  id: number;
-  name: string;
-  description: string;
-};
-
 export type CategoryResponse = Category[];
 
 type ItemDetails = Item & {
   stock: number;
   categories: string[];
-}
+};
 
 export type ItemResponse = {
   item: ItemDetails;
@@ -47,7 +34,10 @@ export type ItemResponse = {
  * @param config - The configuration for the API request.
  * @returns A promise that resolves to the store data response.
  */
-export const fetchStore = (params: Record<string, any>, config: ApiRequestConfig = {}) => {
+export const fetchStore = (
+  params: Record<string, any>,
+  config: ApiRequestConfig = {}
+) => {
   const queryString = buildQueryString(params);
   return api
     .get<StoreDataResponse>(`${URLS.fetchProducts}${queryString}`, config)
@@ -73,6 +63,9 @@ export const fetchCategories = (config: ApiRequestConfig = {}) =>
  * @returns A Promise that resolves to the fetched product.
  */
 export const fetchSingleProduct = (id: number, config: ApiRequestConfig = {}) =>
-    api
-      .get<ItemResponse>(URLS.fetchSingleProduct.replace(":id", id.toString()), config)
-      .then((res) => res.data);
+  api
+    .get<ItemResponse>(
+      URLS.fetchSingleProduct.replace(":id", id.toString()),
+      config
+    )
+    .then((res) => res.data);
