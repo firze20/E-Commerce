@@ -48,13 +48,19 @@ export type CategoryCreationParams = Omit<Category, "id">;
 // Partial makes all properties optional
 export type CategoryModificationParams = Partial<CategoryCreationParams>;
 
+export type UpdateCategoryParams = {
+    id: number;
+    body: CategoryModificationParams;
+};
+
 export type CategoryApiResponse = {
     message: string;
     category: Category;
 };
 
 // Stock
-export type StockApiParams = {
+export type StockParams = {
+  id: number;
   quantity: number;
 };
 
@@ -94,9 +100,9 @@ export const createCategory = (params: CategoryCreationParams) =>
         .post<CategoryApiResponse>(URLS.category.newCategory, params, { withCredentials: true })
         .then((res) => res.data);
 
-export const updateCategory = (id: number, params: CategoryModificationParams) =>
+export const updateCategory = (params: UpdateCategoryParams) =>
     api
-        .put<CategoryApiResponse>(URLS.category.modifyOrDeleteCategory(id), params, { withCredentials: true })
+        .put<CategoryApiResponse>(URLS.category.modifyOrDeleteCategory(params.id), params, { withCredentials: true })
         .then((res) => res.data);
 
 export const deleteCategory = (id: number) =>
@@ -106,13 +112,13 @@ export const deleteCategory = (id: number) =>
 
 // Stock API calls
 
-export const addStock = (id: number, params: StockApiParams) =>
+export const addStock = (params: StockParams) =>
     api
-        .post<StockApiResponse>(URLS.stocks.addStock(id), params, { withCredentials: true })
+        .post<StockApiResponse>(URLS.stocks.addStock(params.id), params, { withCredentials: true })
         .then((res) => res.data);
 
-export const removeStock = (id: number, params: StockApiParams) =>
+export const removeStock = (params: StockParams) =>
     api
-        .post<StockApiResponse>(URLS.stocks.removeStock(id), params, { withCredentials: true })
+        .post<StockApiResponse>(URLS.stocks.removeStock(params.id), params, { withCredentials: true })
         .then((res) => res.data);
 

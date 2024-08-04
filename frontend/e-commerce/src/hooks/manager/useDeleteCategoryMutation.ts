@@ -1,22 +1,22 @@
-import { createCategory, CategoryCreationParams, CategoryApiResponse } from "@/api/manager/managerApi";
+import { deleteCategory, DeletedResponse } from "@/api/manager/managerApi";
 import { ApiError } from "@/api/api.types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-export const useCreateCategoryMutation = () => {
+export const useDeleteCategoryMutation = () => {
     const queryClient = useQueryClient();
 
-    return useMutation<CategoryApiResponse, ApiError, CategoryCreationParams>({
-        mutationFn: createCategory,
+    return useMutation<DeletedResponse, ApiError, number>({
+        mutationFn: deleteCategory,
         onSuccess: (data) => {
-            toast.success(data.message, { toastId: "create-category" });
+            toast.success(data.message, { toastId: "delete-category" });
             const queryKeysToInvalidate = ["categories"];
             queryKeysToInvalidate.forEach((key) =>
                 queryClient.invalidateQueries({ queryKey: [key] })
             );
         },
         onError: (error) => {
-            toast.error(error.message, { toastId: "create-category" });
+            toast.error(error.message, { toastId: "delete-category" });
         },
     });
 };
