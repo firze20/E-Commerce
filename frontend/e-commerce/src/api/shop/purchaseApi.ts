@@ -53,6 +53,4 @@ export const getMyPurchases = (params: Record<string, any>, config: ApiRequestCo
       ...config,
     })
     .then((res) => res.data);
-
-    
 };

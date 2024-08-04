@@ -6,7 +6,7 @@ import { Item, Category } from "../types";
 const URLS = {
   fetchProducts: "/store",
   fetchCategories: "/store/categories",
-  fetchSingleProduct: "/store/item/:id",
+  fetchSingleProduct: (id: number) => `/store/item/${id}`,
 };
 
 export type StoreDataResponse = {
@@ -65,7 +65,7 @@ export const fetchCategories = (config: ApiRequestConfig = {}) =>
 export const fetchSingleProduct = (id: number, config: ApiRequestConfig = {}) =>
   api
     .get<ItemResponse>(
-      URLS.fetchSingleProduct.replace(":id", id.toString()),
+      URLS.fetchSingleProduct(id),
       config
     )
     .then((res) => res.data);

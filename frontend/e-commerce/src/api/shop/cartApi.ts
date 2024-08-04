@@ -3,7 +3,7 @@ import api from "../api";
 
 const URLS = {
   myCart: "/store/my-cart",
-  modifyMyCart: (id: string) => `/store/my-cart/${id}`,
+  modifyMyCart: (id: number) => `/store/my-cart/${id}`,
 };
 
 export type CartItem = Item & {
@@ -55,7 +55,7 @@ export const getMyCart = () =>
 export const addToCart = ({ id, quantity }: AddToCartParams) =>
   api
     .post<CartActions>(
-      URLS.modifyMyCart(id.toString()),
+      URLS.modifyMyCart(id),
       { quantity: quantity },
       { withCredentials: true }
     )
@@ -69,7 +69,7 @@ export const addToCart = ({ id, quantity }: AddToCartParams) =>
  */
 export const removeFromCart = ({ id }: RemoveFromCartParams) =>
   api
-    .delete<CartActions>(URLS.modifyMyCart(id.toString()), {
+    .delete<CartActions>(URLS.modifyMyCart(id), {
       withCredentials: true,
     })
     .then((res) => res.data);
@@ -87,7 +87,7 @@ export const updateCartQuantity = ({
 }: UpdateCartQuantityParams) =>
   api
     .put<CartActions>(
-      URLS.modifyMyCart(id.toString()),
+      URLS.modifyMyCart(id),
       { quantity: quantity },
       { withCredentials: true }
     )
