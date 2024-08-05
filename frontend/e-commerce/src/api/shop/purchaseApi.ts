@@ -11,7 +11,7 @@ type ItemPurchase = Omit<Item, 'description'> & {
   quantity: number;
 };
 
-export type PurchaseActionResponse = {
+export type PurchaseApiResponse = {
   message: string;
 };
 
@@ -37,7 +37,7 @@ export type PurchaseResponse = {
  */
 export const makePurchase = () =>
   api
-    .post<PurchaseActionResponse>(URLS.myCart, null, { withCredentials: true })
+    .post<PurchaseApiResponse>(URLS.myCart, null, { withCredentials: true })
     .then((res) => res.data);
 
 /**

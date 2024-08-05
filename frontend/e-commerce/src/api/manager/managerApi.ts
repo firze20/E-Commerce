@@ -1,5 +1,5 @@
 import api from "../api";
-import { Item, Category } from "../types";
+import { Item, Category, Quantity } from "../types";
 
 const URLS = {
   items: {
@@ -61,7 +61,7 @@ export type CategoryApiResponse = {
 // Stock
 export type StockParams = {
   id: number;
-  quantity: number;
+  quantity: Quantity;
 };
 
 type ItemStockResponse = Item & {
@@ -102,7 +102,7 @@ export const createCategory = (params: CategoryCreationParams) =>
 
 export const updateCategory = (params: UpdateCategoryParams) =>
     api
-        .put<CategoryApiResponse>(URLS.category.modifyOrDeleteCategory(params.id), params, { withCredentials: true })
+        .put<CategoryApiResponse>(URLS.category.modifyOrDeleteCategory(params.id), params.body, { withCredentials: true })
         .then((res) => res.data);
 
 export const deleteCategory = (id: number) =>
@@ -114,11 +114,11 @@ export const deleteCategory = (id: number) =>
 
 export const addStock = (params: StockParams) =>
     api
-        .post<StockApiResponse>(URLS.stocks.addStock(params.id), params, { withCredentials: true })
+        .post<StockApiResponse>(URLS.stocks.addStock(params.id), params.quantity, { withCredentials: true })
         .then((res) => res.data);
 
 export const removeStock = (params: StockParams) =>
     api
-        .post<StockApiResponse>(URLS.stocks.removeStock(params.id), params, { withCredentials: true })
+        .post<StockApiResponse>(URLS.stocks.removeStock(params.id), params.quantity, { withCredentials: true })
         .then((res) => res.data);
 

@@ -20,9 +20,6 @@ export type CartActions = {
   message: string;
 };
 
-export type Quantity = {
-  quantity: number;
-};
 
 export type AddToCartParams = {
   id: number;
