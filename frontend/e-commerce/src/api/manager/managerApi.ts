@@ -7,7 +7,7 @@ const URLS = {
     modifyOrDeleteItem: (id: number) => `/manager/item/${id}`,
   },
   stocks: {
-    addStock: (id: Number) => `/manager/stock/${id}/add`,
+    addStock: (id: number) => `/manager/stock/${id}/add`,
     removeStock: (id: number) => `/manager/stock/${id}/remove`,
   },
   category: {
