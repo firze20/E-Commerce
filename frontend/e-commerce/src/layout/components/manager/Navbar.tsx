@@ -42,7 +42,7 @@ const Navbar = () => {
         </a>
       </li>
       <li>
-        <a>
+        <Link to={"/manager/new-item"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -58,7 +58,7 @@ const Navbar = () => {
             />
           </svg>
           New item
-        </a>
+        </Link>
       </li>
       <li>
         <a>
