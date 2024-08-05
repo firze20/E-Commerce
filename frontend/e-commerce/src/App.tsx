@@ -23,6 +23,8 @@ import MyPurchases from "./views/purchases/MyPurchases";
 
 import Manager from "./views/manager/Manager";
 
+import NewItem from "./views/manager/views/NewItem";
+
 
 function App() {
   return (
@@ -62,6 +64,7 @@ function App() {
                     {/* Manager Layout */}
                     <Route element={<ManagerLayout />}>
                       <Route path="/manager" element={<Manager />} />
+                      <Route path="/manager/new-item" element={<NewItem />} />
                     </Route>
                   </Routes>
                 </FilterProvider>

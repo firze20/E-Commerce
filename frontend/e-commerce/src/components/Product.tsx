@@ -19,12 +19,12 @@ const Product = (props: ProductProps) => {
 
   return (
     <div className="card bg-base-200 w-96 shadow-xl text-center m-auto">
-      <figure className="h-48">
+      <figure className="h-48 w-48 mx-auto">
         <img src={image} alt={name} className="object-contain w-full h-full" />
       </figure>
       <div className="card-body mt-auto">
         <h2 className="card-title m-auto">{name}</h2>
-        <p>{description}</p>
+        <p className="h-20 overflow-y-auto overflow-ellipsis">{description}</p>
         <p>Price: {price}$</p>
         <div className="card-actions justify-center">
           <button className="btn btn-accent" onClick={onItemClick}>View more details</button>

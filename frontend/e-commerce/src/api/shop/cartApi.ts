@@ -1,9 +1,9 @@
-import type { Item } from "./storeApi";
+import { Item } from "../types";
 import api from "../api";
 
 const URLS = {
   myCart: "/store/my-cart",
-  modifyMyCart: "/store/my-cart/:id",
+  modifyMyCart: (id: number) => `/store/my-cart/${id}`,
 };
 
 export type CartItem = Item & {
@@ -20,9 +20,6 @@ export type CartActions = {
   message: string;
 };
 
-export type Quantity = {
-  quantity: number;
-};
 
 export type AddToCartParams = {
   id: number;
@@ -55,7 +52,7 @@ export const getMyCart = () =>
 export const addToCart = ({ id, quantity }: AddToCartParams) =>
   api
     .post<CartActions>(
-      URLS.modifyMyCart.replace(":id", id.toString()),
+      URLS.modifyMyCart(id),
       { quantity: quantity },
       { withCredentials: true }
     )
@@ -69,7 +66,7 @@ export const addToCart = ({ id, quantity }: AddToCartParams) =>
  */
 export const removeFromCart = ({ id }: RemoveFromCartParams) =>
   api
-    .delete<CartActions>(URLS.modifyMyCart.replace(":id", id.toString()), {
+    .delete<CartActions>(URLS.modifyMyCart(id), {
       withCredentials: true,
     })
     .then((res) => res.data);
@@ -87,7 +84,7 @@ export const updateCartQuantity = ({
 }: UpdateCartQuantityParams) =>
   api
     .put<CartActions>(
-      URLS.modifyMyCart.replace(":id", id.toString()),
+      URLS.modifyMyCart(id),
       { quantity: quantity },
       { withCredentials: true }
     )

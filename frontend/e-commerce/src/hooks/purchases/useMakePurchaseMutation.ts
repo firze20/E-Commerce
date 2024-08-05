@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { makePurchase, PurchaseActionResponse } from "@/api/shop/purchaseApi";
+import { makePurchase, PurchaseApiResponse } from "@/api/shop/purchaseApi";
 import { toast } from "react-toastify";
 import type { ApiError } from "@/api/api.types";
 
@@ -11,7 +11,7 @@ import type { ApiError } from "@/api/api.types";
 export const useMakePurchaseMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<PurchaseActionResponse, ApiError>({
+  return useMutation<PurchaseApiResponse, ApiError>({
     mutationFn: makePurchase,
     onSuccess: () => {
       // Show a success toast

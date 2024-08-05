@@ -1,12 +1,13 @@
 const Manager = () => {
   return (
     <div>
-        <ul>
-            <li>Create Items</li>
-            <li>Create Categories</li>
-        </ul>
+      <article style={{ textAlign: 'center' }}>
+        <p>
+          Hello Manager, this is your dashboard.
+        </p>
+      </article>
     </div>
-  )
-}
+  );
+};
 
-export default Manager
+export default Manager;
