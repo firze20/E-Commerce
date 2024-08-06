@@ -46,6 +46,13 @@ const ManagerItems = () => {
         ),
       },
       {
+        key: "id",
+        header: "Stock",
+        render: (value, row) => (
+          <button className="btn btn-accent btn-xs">Stock 📈📉</button>
+        )
+      },
+      {
         key: "name",
         header: "Name",
         render: (value) => <span>{value}</span>,
