@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 interface Props {
   show: boolean;
   delay?: number;
+  message?: string;
 }
 
 /**
@@ -15,7 +16,7 @@ interface Props {
  * @returns {JSX.Element | null} The rendered spinner element or `null` if `showSpinner` is `false`.
  */
 const LazySpinner = (props: Props): JSX.Element | null => {
-    const { show = false, delay = 0 } = props;
+    const { show = false, delay = 0, message } = props;
 
     const [showSpinner, setShowSpinner] = useState(false);
 
@@ -38,7 +39,7 @@ const LazySpinner = (props: Props): JSX.Element | null => {
     }, [show, delay]);
 
     return showSpinner ? (
-        <span className="loading loading-spinner text-primary loading-lg">Loading</span>
+        <span className="loading loading-spinner text-primary loading-lg">{message || "Loading"}</span>
     ) : null
 };
 

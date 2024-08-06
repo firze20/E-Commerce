@@ -24,7 +24,7 @@ const Item = () => {
       mutate({
         id: Number(id),
       });
-    } else toast.error("You need to be logged in to add items to the cart");
+    } else toast.info("You need to be logged in to add items to the cart");
   };
 
   const navigateToShop = () => {

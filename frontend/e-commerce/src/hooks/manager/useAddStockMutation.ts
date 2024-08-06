@@ -10,7 +10,7 @@ export const useAddStockMutation = () => {
         mutationFn: addStock,
         onSuccess: (data) => {
             toast.success(data.message, { toastId: "add-stock" });
-            const queryKeysToInvalidate = ["stock"];
+            const queryKeysToInvalidate = ["stock", "item"];
             queryKeysToInvalidate.forEach((key) =>
                 queryClient.invalidateQueries({ queryKey: [key] })
             );
