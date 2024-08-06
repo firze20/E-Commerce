@@ -63,7 +63,7 @@ export type CategoryApiResponse = {
 // Stock
 export type StockParams = {
   id: number;
-  quantity: Quantity;
+  quantity?: Quantity;
 };
 
 type ItemStockResponse = Item & {
