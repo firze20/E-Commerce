@@ -21,7 +21,9 @@ export type ItemCreationParams = Omit<Item, "id"> & {
 };
 
 // Partial makes all properties optional
-export type ItemModificationParams = Partial<ItemCreationParams>;
+export type ItemModificationParams = Partial<ItemCreationParams & {
+  stock: number;
+}>;
 
 export type UpdateItemParams = {
   id: number;
@@ -78,16 +80,33 @@ export type StockApiResponse = {
 
 // Item API calls
 
+/**
+ * Creates a new item.
+ *
+ * @param body - The parameters for creating the item.
+ * @returns A promise that resolves to the response data of the created item.
+ */
 export const createItem = (body: ItemCreationParams) =>
   api
     .post<ItemApiResponse>(URLS.items.newItem, body, { withCredentials: true })
     .then((res) => res.data);
 
+/**
+ * Updates an item.
+ *
+ * @param params - The parameters for updating the item.
+ * @returns A promise that resolves to the updated item.
+ */
 export const updateItem = (params: UpdateItemParams) =>
   api
     .put<ItemApiResponse>(URLS.items.modifyOrDeleteItem(params.id), params.body, { withCredentials: true })
     .then((res) => res.data);
 
+/**
+ * Deletes an item with the specified ID.
+ * @param id - The ID of the item to delete.
+ * @returns A promise that resolves to the deleted response data.
+ */
 export const deleteItem = (id: number) =>
     api
         .delete<DeletedResponse>(URLS.items.modifyOrDeleteItem(id), { withCredentials: true })
@@ -95,16 +114,34 @@ export const deleteItem = (id: number) =>
 
 // Category API calls
 
+/**
+ * Creates a new category.
+ *
+ * @param params - The parameters for creating the category.
+ * @returns A promise that resolves to the response data of the created category.
+ */
 export const createCategory = (params: CategoryCreationParams) =>
     api
         .post<CategoryApiResponse>(URLS.category.newCategory, params, { withCredentials: true })
         .then((res) => res.data);
 
+/**
+ * Updates a category.
+ *
+ * @param params - The parameters for updating the category.
+ * @returns A promise that resolves to the updated category response.
+ */
 export const updateCategory = (params: UpdateCategoryParams) =>
     api
         .put<CategoryApiResponse>(URLS.category.modifyOrDeleteCategory(params.id), params.body, { withCredentials: true })
         .then((res) => res.data);
 
+/**
+ * Deletes a category by its ID.
+ *
+ * @param id - The ID of the category to delete.
+ * @returns A promise that resolves to the deleted response data.
+ */
 export const deleteCategory = (id: number) =>
     api
         .delete<DeletedResponse>(URLS.category.modifyOrDeleteCategory(id), { withCredentials: true })
@@ -112,11 +149,23 @@ export const deleteCategory = (id: number) =>
 
 // Stock API calls
 
+/**
+ * Adds a stock to ta respctive item.
+ *
+ * @param params - The stock parameters, id of the item and quantity.
+ * @returns A promise that resolves to the stock API response.
+ */
 export const addStock = (params: StockParams) =>
     api
         .post<StockApiResponse>(URLS.stocks.addStock(params.id), params.quantity, { withCredentials: true })
         .then((res) => res.data);
 
+/**
+ * Removes stock from the Item.
+ *
+ * @param params - The stock parameters, id and quantity to remove.
+ * @returns A promise that resolves to the stock API response.
+ */
 export const removeStock = (params: StockParams) =>
     api
         .post<StockApiResponse>(URLS.stocks.removeStock(params.id), params.quantity, { withCredentials: true })

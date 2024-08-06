@@ -24,6 +24,8 @@ import MyPurchases from "./views/purchases/MyPurchases";
 import Manager from "./views/manager/Manager";
 import NewItem from "./views/manager/views/NewItem";
 import NewCategory from "./views/manager/views/NewCategory";
+import ManagerItems from "./views/manager/views/ManagerItems";
+import EditItem from "./views/manager/views/EditItem";
 
 
 function App() {
@@ -64,8 +66,10 @@ function App() {
                     {/* Manager Layout */}
                     <Route element={<ManagerLayout />}>
                       <Route path="/manager" element={<Manager />} />
+                      <Route path="/manager/items" element={<ManagerItems />} />
                       <Route path="/manager/new-item" element={<NewItem />} />
                       <Route path="/manager/new-category" element={<NewCategory />} />
+                      <Route path="/manager/edit-item/:id" element={<EditItem />} />
                     </Route>
                   </Routes>
                 </FilterProvider>

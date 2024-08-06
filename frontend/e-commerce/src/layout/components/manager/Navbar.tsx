@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <ul className="menu bg-base-200 lg:menu-horizontal rounded-box">
       <li>
-        <a>
+        <Link to={"/manager/items"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -20,7 +20,7 @@ const Navbar = () => {
             />
           </svg>
           Items
-        </a>
+        </Link>
       </li>
       <li>
         <a>
