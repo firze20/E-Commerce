@@ -11,15 +11,13 @@ import LazySpinner from "@/components/common/loading/LazySpinner";
 import StockModal from "../components/StockModal";
 import Error from "@/components/common/error/Error";
 import { ApiError } from "@/api/api.types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Select from "react-select";
 
 const EditItem = () => {
   const { id } = useParams();
   const { data, isLoading, isError, error } = useQueryItem(Number(id));
   const { data: categoriesData } = useQueryCategories();
-
-  const [isStockOpen, setIsStockOpen] = useState(false);
 
   const updateItemMutation = useUpdateItemMutation();
 
@@ -77,29 +75,12 @@ const EditItem = () => {
       label: category.name,
     })) || [];
 
-  const handleStockModalClose = () => {
-    setIsStockOpen(false);
-  };
-
-  const addStock = useAddStockMutation();
-  const removeStock = useRemoveStockMutation();
-
-  const handleAddStock = () => addStock.mutate({ id: Number(id) });
-  const handleRemoveStock = () => removeStock.mutate({ id: Number(id) });
 
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {isLoading ? <LazySpinner show={isLoading} /> : null}
       {isError ? <Error error={error as ApiError} /> : null}
-      <StockModal
-        itemName={data?.item.name!}
-        isOpen={isStockOpen}
-        onClose={handleStockModalClose}
-        stock={data?.item.stock!}
-        addStock={handleAddStock}
-        removeStock={handleRemoveStock}
-      />
       <div className="form-control">
         <button
           type="button"
@@ -111,13 +92,6 @@ const EditItem = () => {
           ) : (
             "Delete item"
           )}
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => setIsStockOpen(true)}
-        >
-          Manage Stock 📈📉
         </button>
         {data ? (
           <>

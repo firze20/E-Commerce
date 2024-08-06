@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react"; // Better performance with lazy loading, Suspense for loading state
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";
 import { PaginationProvider } from "./context/shop/PaginationProvider";
@@ -10,23 +11,23 @@ import "./App.css";
 import AuthLayout from "@/layout/AuthLayout";
 import AppLayout from "@/layout/AppLayout";
 import ManagerLayout from "@/layout/ManagerLayout";
-// Client 
-import Home from "./views/home/Home";
-import Auth from "./views/auth/Auth";
-import Shop from "./views/shop/Shop";
-import Item from "./views/shop/Items/Item";
-import About from "./views/about/About";
-import NotFound from "./views/notfound/NotFound";
-import LogOut from "./views/auth/LogOut";
-import MyCart from "./views/cart/MyCart";
-import MyPurchases from "./views/purchases/MyPurchases";
-// Manager
-import Manager from "./views/manager/Manager";
-import NewItem from "./views/manager/views/NewItem";
-import NewCategory from "./views/manager/views/NewCategory";
-import ManagerItems from "./views/manager/views/ManagerItems";
-import EditItem from "./views/manager/views/EditItem";
 
+// Lazy loading views for better performance
+const Home = lazy(() => import("./views/home/Home"));
+const Auth = lazy(() => import("./views/auth/Auth"));
+const Shop = lazy(() => import("./views/shop/Shop"));
+const Item = lazy(() => import("./views/shop/Items/Item"));
+const About = lazy(() => import("./views/about/About"));
+const NotFound = lazy(() => import("./views/notfound/NotFound"));
+const LogOut = lazy(() => import("./views/auth/LogOut"));
+const MyCart = lazy(() => import("./views/cart/MyCart"));
+const MyPurchases = lazy(() => import("./views/purchases/MyPurchases"));
+// Manager
+const Manager = lazy(() => import("./views/manager/Manager"));
+const NewItem = lazy(() => import("./views/manager/views/NewItem"));
+const NewCategory = lazy(() => import("./views/manager/views/NewCategory"));
+const ManagerItems = lazy(() => import("./views/manager/views/ManagerItems"));
+const EditItem = lazy(() => import("./views/manager/views/EditItem"));
 
 function App() {
   return (
@@ -48,28 +49,126 @@ function App() {
                     <Route element={<AppLayout />}>
                       {" "}
                       {/* App Layout */}
-                      <Route path="/" element={<Home />} />{" "}
-                      <Route path="/shop" element={<Shop />} />
-                      <Route path="/shop/item/:id" element={<Item />} />
-                      <Route path="/cart" element={<MyCart />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/logout" element={<LogOut />} />
-                      <Route path="/purchases" element={<MyPurchases />} />
+                      <Route
+                        path="/"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <Home />
+                          </Suspense>
+                        }
+                      />{" "}
+                      <Route
+                        path="/shop"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <Shop />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/shop/item/:id"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <Item />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/cart"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <MyCart />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/about"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <About />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/logout"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <LogOut />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/purchases"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <MyPurchases />
+                          </Suspense>
+                        }
+                      />
                       {/* Catch-all route for unknown paths */}
-                      <Route path="*" element={<NotFound />} />
+                      <Route
+                        path="*"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <NotFound />
+                          </Suspense>
+                        }
+                      />
                     </Route>
                     <Route element={<AuthLayout />}>
                       {" "}
                       {/* Auth Layout */}
-                      <Route path="/authentication" element={<Auth />} />{" "}
+                      <Route
+                        path="/authentication"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <Auth />
+                          </Suspense>
+                        }
+                      />{" "}
                     </Route>{" "}
                     {/* Manager Layout */}
                     <Route element={<ManagerLayout />}>
-                      <Route path="/manager" element={<Manager />} />
-                      <Route path="/manager/items" element={<ManagerItems />} />
-                      <Route path="/manager/new-item" element={<NewItem />} />
-                      <Route path="/manager/new-category" element={<NewCategory />} />
-                      <Route path="/manager/edit-item/:id" element={<EditItem />} />
+                      <Route
+                        path="/manager"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <Manager />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/manager/items"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <ManagerItems />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/manager/new-item"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <NewItem />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/manager/new-category"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <NewCategory />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/manager/edit-item/:id"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <EditItem />
+                          </Suspense>
+                        }
+                      />
                     </Route>
                   </Routes>
                 </FilterProvider>
