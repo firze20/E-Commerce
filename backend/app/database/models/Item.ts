@@ -383,6 +383,42 @@ class Item extends Model {
   }
 
   /**
+ * @async
+ * @param {string|string[]} categories - The name(s) of the categories to set.
+ * @throws {Error} If one or more categories do not exist.
+ */
+async setCategory(categories: string | string[]): Promise<void> {
+  if (!Array.isArray(categories)) {
+    categories = [categories];
+  }
+
+  const transaction = await sequelize.transaction();
+
+  try {
+    const categorySearch = await Category.findAll({
+      where: { name: categories },
+      transaction,
+    });
+
+    if (categorySearch.length !== categories.length) {
+      throw new Error("One or more categories do not exist");
+    }
+
+    // Remove all existing categories
+    await this.$set("categories", [], { transaction });
+
+    // Add the new categories
+    await this.$add("categories", categorySearch, { transaction });
+
+    await transaction.commit();
+  } catch (error) {
+    await transaction.rollback();
+    logger.error("Error setting category: ", error);
+    throw new Error("Error setting category");
+  }
+}
+
+  /**
    * Removes categories from this item.
    * @async
    * @param {string|string[]} categories - The name(s) of the categories to remove.
