@@ -55,8 +55,8 @@ const removeCategory = async (req: Request, res: Response) => {
     if (!category) {
       return res.status(404).json({ message: "Category not found" });
     }
-
     // Clear the cache
+    await delAsync(categoryKeys.allCategories);
     const cacheKey = categoryKeys.singleCategory(id);
     await delAsync(cacheKey);
 
