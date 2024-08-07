@@ -1,5 +1,5 @@
 import SearchBar from "../components/SearchBar";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryStore } from "@/hooks/shop/useQueryStore";
 import { useQueryCategories } from "@/hooks/shop/useQueryCategories";
@@ -14,9 +14,19 @@ const ManagerItems = () => {
 
   const navigate = useNavigate();
 
-  const onEditClick = (id: number) => {
-    navigate(`/manager/edit-item/${id}`);
-  };
+  const onEditClick = useCallback(
+    (id: number) => {
+      navigate(`/manager/edit-item/${id}`);
+    },
+    [navigate]
+  );
+
+  const onStockClick = useCallback(
+    (id: number) => {
+      navigate(`/manager/stock/${id}`);
+    },
+    [navigate]
+  );
 
   const { data: categories } = useQueryCategories();
 
@@ -31,12 +41,18 @@ const ManagerItems = () => {
     setPage(1);
   }, [search, selectedCategory]);
 
+  const paginationProps = useMemo(() => ({
+    totalPages: data?.totalPages || 1,
+    currentPage: page,
+    onPageChange: setPage, 
+  }), [data?.totalPages, page]);
+
   const columns: TableColumn<Item>[] = useMemo(
     () => [
       {
         key: "id",
         header: "Edit",
-        render: (value, row) => (
+        render: (_, row) => (
           <button
             className="btn btn-xs btn-outline btn-secondary"
             onClick={() => onEditClick(row.id)}
@@ -48,9 +64,14 @@ const ManagerItems = () => {
       {
         key: "id",
         header: "Stock",
-        render: (value, row) => (
-          <button className="btn btn-accent btn-xs">Stock 📈📉</button>
-        )
+        render: (_, row) => (
+          <button
+            className="btn btn-accent btn-xs"
+            onClick={() => onStockClick(row.id)}
+          >
+            Stock 📈📉
+          </button>
+        ),
       },
       {
         key: "name",
@@ -77,7 +98,7 @@ const ManagerItems = () => {
       <select
         className="select select-bordered select-sm w-full my-2"
         onChange={(e) => setSelectedCategory(e.target.value)}
-        value={selectedCategory! || ""}
+        value={selectedCategory || ""}
       >
         <option value="">Select a Category</option>
         {categories?.map((category) => (
@@ -90,9 +111,7 @@ const ManagerItems = () => {
       {isSuccess && data ? (
         <>
           <Pagination
-            totalPages={data.totalPages}
-            currentPage={page}
-            onPageChange={setPage}
+            {...paginationProps}
           />
           <Table
             columns={columns}

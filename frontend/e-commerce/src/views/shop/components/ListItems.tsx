@@ -2,6 +2,7 @@ import { useQueryStore } from "@/hooks/shop/useQueryStore";
 import LazySpinner from "@/components/common/loading/LazySpinner";
 import Product from "@/components/Product";
 import Pagination from "../../../components/common/pagination/Pagination";
+import { useMemo } from "react";
 
 type ListItemsProps = {
   currentPage: number;
@@ -19,6 +20,12 @@ const ListItems = ({
     filters
   );
 
+  const paginationProps = useMemo(() => ({
+    totalPages: data?.totalPages || 1,
+    currentPage: currentPage,
+    onPageChange: handlePageChange, 
+  }), [data?.totalPages, currentPage]);
+
   return (
     <div>
       {isError ? <p className="text-red-900">There was a problem</p> : null}
@@ -27,11 +34,7 @@ const ListItems = ({
         <div>
           <h3 className="text-xl font-semibold mb-4">Products</h3>
           {/* <Drawer categories={categories!} /> */}
-          <Pagination
-            totalPages={data?.totalPages || 1}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
+          <Pagination {...paginationProps} />
           {data?.items.length === 0 ? (
             <p>No results</p>
           ) : (

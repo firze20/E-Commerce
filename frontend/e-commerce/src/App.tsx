@@ -27,7 +27,11 @@ const Manager = lazy(() => import("./views/manager/Manager"));
 const NewItem = lazy(() => import("./views/manager/views/NewItem"));
 const NewCategory = lazy(() => import("./views/manager/views/NewCategory"));
 const ManagerItems = lazy(() => import("./views/manager/views/ManagerItems"));
+const ManagerCategories = lazy(() => import("./views/manager/views/ManagerCategories"));
 const EditItem = lazy(() => import("./views/manager/views/EditItem"));
+const EditCategory = lazy(() => import("./views/manager/views/EditCategory"));
+const Stock = lazy(() => import("./views/manager/views/Stock"));
+
 
 function App() {
   return (
@@ -146,6 +150,14 @@ function App() {
                         }
                       />
                       <Route
+                        path="/manager/categories"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <ManagerCategories />
+                          </Suspense>
+                        }
+                      />
+                      <Route
                         path="/manager/new-item"
                         element={
                           <Suspense fallback={<div>Loading...</div>}>
@@ -166,6 +178,22 @@ function App() {
                         element={
                           <Suspense fallback={<div>Loading...</div>}>
                             <EditItem />
+                          </Suspense>
+                        }
+                      />
+                      <Route 
+                        path="/manager/edit-category/:id"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <EditCategory />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/manager/stock/:id"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <Stock />
                           </Suspense>
                         }
                       />
