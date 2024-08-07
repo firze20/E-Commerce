@@ -7,7 +7,6 @@ import { useDeleteItemMutation } from "@/hooks/manager/useDeleteItemMutation";
 import { UpdateItemParams } from "@/api/manager/managerApi";
 import LazySpinner from "@/components/common/loading/LazySpinner";
 import Error from "@/components/common/error/Error";
-import { ApiError } from "@/api/api.types";
 import { useEffect } from "react";
 import Select from "react-select";
 
@@ -77,7 +76,7 @@ const EditItem = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {isLoading ? <LazySpinner show={isLoading} /> : null}
-      {isError ? <Error error={error as ApiError} /> : null}
+      {isError && error ? <Error error={error} /> : null}
       <div className="form-control">
         <button
           type="button"

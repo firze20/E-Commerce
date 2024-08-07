@@ -28,6 +28,7 @@ const NewItem = lazy(() => import("./views/manager/views/NewItem"));
 const NewCategory = lazy(() => import("./views/manager/views/NewCategory"));
 const ManagerItems = lazy(() => import("./views/manager/views/ManagerItems"));
 const EditItem = lazy(() => import("./views/manager/views/EditItem"));
+const Stock = lazy(() => import("./views/manager/views/Stock"));
 
 function App() {
   return (
@@ -166,6 +167,14 @@ function App() {
                         element={
                           <Suspense fallback={<div>Loading...</div>}>
                             <EditItem />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="/manager/stock/:id"
+                        element={
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <Stock />
                           </Suspense>
                         }
                       />

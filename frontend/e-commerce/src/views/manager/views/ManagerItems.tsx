@@ -18,6 +18,10 @@ const ManagerItems = () => {
     navigate(`/manager/edit-item/${id}`);
   };
 
+  const onStockClick = (id: number) => {
+    navigate(`/manager/stock/${id}`);
+  };
+
   const { data: categories } = useQueryCategories();
 
   const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -49,8 +53,13 @@ const ManagerItems = () => {
         key: "id",
         header: "Stock",
         render: (value, row) => (
-          <button className="btn btn-accent btn-xs">Stock 📈📉</button>
-        )
+          <button
+            className="btn btn-accent btn-xs"
+            onClick={() => onStockClick(row.id)}
+          >
+            Stock 📈📉
+          </button>
+        ),
       },
       {
         key: "name",
