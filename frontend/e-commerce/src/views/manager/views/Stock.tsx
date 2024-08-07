@@ -48,17 +48,19 @@ const Stock = () => {
   };
 
   return (
-    <div className="stats stats-horizontal lg:stats-horizontal shadow">
+    <div className=" stats-vertical shadow">
       {isLoading && <LazySpinner show={isLoading} />}
       {isError || (error && <Error error={error} />)}
       {data && (
-        <div className="stat">
-          <div className="stat-title">{data.item.name}</div>
-          <div className="stat-value">Stock: {data.item.stock}</div>
-          <div className="stat-actions">
-            <div className="flex-col gap-3 mt-4 items-center">
+        <>
+          <div className="stat">
+            <div className="stat-title">{data.item.name}</div>
+            <div className="stat-value">Stock: {data.item.stock}</div>
+          </div>
+          <div className="stat">
+            <div className="items-center">
               <button
-                className="btn btn-success"
+                className="btn btn-success btn-circle"
                 onClick={() => addStock()}
                 disabled={
                   addStockMutation.isPending || removeStockMutation.isPending
@@ -69,22 +71,28 @@ const Stock = () => {
                     Loading
                   </span>
                 ) : (
-                  "Add Stock ➕"
+                  "➕"
                 )}
               </button>
-              <button
-                className="btn btn-error"
-                onClick={() => removeStock()}
-                disabled={
-                  addStockMutation.isPending || removeStockMutation.isPending
-                }
-              >
-                {removeStockMutation.isPending ? (
-                  <span className="loading loading-spinner text-error"></span>
-                ) : (
-                  "Remove Stock ➖"
-                )}
-              </button>
+            </div>
+            <div className="stat">
+              <div className="items-center">
+                <button
+                  className="btn btn-error btn-circle"
+                  onClick={() => removeStock()}
+                  disabled={
+                    addStockMutation.isPending || removeStockMutation.isPending || data.item.stock === 0
+                  }
+                >
+                  {removeStockMutation.isPending ? (
+                    <span className="loading loading-spinner text-error"></span>
+                  ) : (
+                    "➖"
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="stat">
               <input
                 type="number"
                 className="input input-bordered"
@@ -93,7 +101,7 @@ const Stock = () => {
               />
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
