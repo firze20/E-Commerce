@@ -1,43 +1,54 @@
-# Backend Project - E-Commerce
+<p><a target="_blank" href="https://app.eraser.io/workspace/dOsCCvaLFGBpTvl6W9p9" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
 
+# Backend Project - E-Commerce
 This is the backend project for the E-Commerce application. It utilizes Sequelize as the ORM (Object-Relational Mapping) tool for database management.
 
 ## Configuration
+1. Create a `.env`  file in the project root directory.
+2. Set the following environment variables in the `.env`  file:
+    - `NODE_ENV` : the enviroment (development, testing, production)
+    - `PORT` : the port you want the server to run e.g (3000)
+    - `DB_HOST` : The host address of your database server.
+    - `DB_NAME` : The name of the database.
+    - `DB_TEST` : The database name for test.
+    - `DB_PASSWORD` : The database password.
+    - `DB_USER` : The username for accessing the database.
+    - `DB_DRIVER` : The database driver.
+    - `JWT_SECRET` : The jwt secret.
+    - `REFRESH_SECRET` : The refresh token secret.
+    - `JWT_EXPIRATION` : The JWT Expiration in ms.
+    - `JWT_REFRESH_EXPIRATION` : The refresh token expiration in ms/
+    - `SUPER_USER_USERNAME` : The super user name, is an admin.
+    - `SUPER_USER_PASSWORD` : The password of the super user
+    - `SUPER_USER_EMAIL` : The super user email.
+    - `SUPER_USER_FIRST_NAME` : The super user first name.
+    - `SUPER_USER_LAST_NAME` : The super user last name.
+    - `SUPER_USER_AGE` : The super user's age.
+    - `DB_PORT` : The port number of your database server.
+## Relations
+User Management and E-commerce System
 
-1. Create a `.env` file in the project root directory.
-2. Set the following environment variables in the `.env` file:
-    - `NODE_ENV`: the enviroment (development, testing, production)
-    - `PORT`: the port you want the server to run e.g (3000)
-    - `DB_HOST`: The host address of your database server.
-    - `DB_NAME`: The name of the database.
-    - `DB_TEST`: The database name for test.
-    - `DB_PASSWORD`: The database password.
-    - `DB_USER`: The username for accessing the database.
-    - `DB_DRIVER`: The database driver.
-    - `JWT_SECRET`: The jwt secret.
-    - `REFRESH_SECRET`: The refresh token secret.
-    - `JWT_EXPIRATION`: The JWT Expiration in ms.
-    - `JWT_REFRESH_EXPIRATION`: The refresh token expiration in ms/
-    - `SUPER_USER_USERNAME`: The super user name, is an admin.
-    - `SUPER_USER_PASSWORD`: The password of the super user
-    - `SUPER_USER_EMAIL`: The super user email.
-    - `SUPER_USER_FIRST_NAME`: The super user first name.
-    - `SUPER_USER_LAST_NAME`: The super user last name.
-    - `SUPER_USER_AGE`: The super user's age.
-    - `DB_PORT`: The port number of your database server.
- 
+![image.png](/.eraser/dOsCCvaLFGBpTvl6W9p9___LyST7E2z5nO6B2aolD8AuoXp2gt2___jjVe8iz_c4XOR_AoTAJ2g.png "image.png")
+
+
+
+Item Management and E-Commerce System
+
+
+
+![image.png](/.eraser/dOsCCvaLFGBpTvl6W9p9___LyST7E2z5nO6B2aolD8AuoXp2gt2___iW70mMu9nCiwHheSiT7NY.png "image.png")
+
+
+
 ## Usage
-
 To start the backend server, run the command `npm run dev` or `yarn dev` . This will launch the server and establish a connection to the database.
 
 # Unit tests
-
 To start unit tests, run the command `npm run test` or `yarn tests`, the tests should all pass.
 
-![image](https://github.com/user-attachments/assets/d9d7263e-5bb1-4627-b41d-843dbc3d7399)
+![image](https://github.com/user-attachments/assets/d9d7263e-5bb1-4627-b41d-843dbc3d7399 "")
 
 # Project Structure
-
 ```
 ├── app                             (main folder)
 │   ├── __tests__                   (unit tests folder)
@@ -105,12 +116,18 @@ To start unit tests, run the command `npm run test` or `yarn tests`, the tests s
 ├── package.json                   (the packages used by the project)
 └── tsconfig.json                  (typescript configuration)
 ```
-
 # Swagger UI
+**Swagger UI** `http://localhost:3000/api-docs` 
 
-__Swagger UI__ `http://localhost:3000/api-docs`
-
-![image](https://github.com/user-attachments/assets/5c974c21-6594-41d0-823c-30a4edfa8177)
-
+![image](https://github.com/user-attachments/assets/5c974c21-6594-41d0-823c-30a4edfa8177 "")
 
 
+
+
+<!-- eraser-additional-content -->
+## Diagrams
+<!-- eraser-additional-files -->
+<a href="/backend/README-Item Management and E-commerce System-1.eraserdiagram" data-element-id="rpDaJT5EdTzLTiI1XQfKz"><img src="/.eraser/dOsCCvaLFGBpTvl6W9p9___LyST7E2z5nO6B2aolD8AuoXp2gt2___---diagram----c294c79ba308031a742127a11f1b4abe-Item-Management-and-E-commerce-System.png" alt="" data-element-id="rpDaJT5EdTzLTiI1XQfKz" /></a>
+<!-- end-eraser-additional-files -->
+<!-- end-eraser-additional-content -->
+<!--- Eraser file: https://app.eraser.io/workspace/dOsCCvaLFGBpTvl6W9p9 --->

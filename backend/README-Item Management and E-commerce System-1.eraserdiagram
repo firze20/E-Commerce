@@ -1,0 +1,68 @@
+entity-relationship-diagram
+
+title Item Management and E-commerce System
+
+items [icon: box, color: yellow]{
+  id integer pk
+  name string unique
+  description string
+  price decimal
+  image string
+  stockId integer fk
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+stocks [icon: layers, color: green]{
+  id integer pk
+  quantity integer
+  location string
+}
+
+categories [icon: tag, color: blue]{
+  id integer pk
+  name string unique
+}
+
+carts [icon: shopping-cart, color: orange]{
+  id integer pk
+  userId integer fk
+  items string
+}
+
+purchases [icon: credit-card, color: purple]{
+  id integer pk
+  userId integer fk
+  productId integer
+  quantity integer
+  purchaseDate timestamp
+}
+
+category_items [icon: tags, color: red]{
+  id integer pk
+  itemId integer fk
+  categoryId integer fk
+}
+
+cart_items [icon: shopping-bag, color: brown]{
+  id integer pk
+  cartId integer fk
+  itemId integer fk
+}
+
+purchase_items [icon: shopping-bag, color: pink]{
+  id integer pk
+  purchaseId integer fk
+  itemId integer fk
+}
+// End of tables
+
+// define relationships
+items.stockId - stocks.id
+items.id <> category_items.itemId
+categories.id <> category_items.categoryId
+items.id <> cart_items.itemId
+carts.id <> cart_items.cartId
+items.id <> purchase_items.itemId
+purchases.id <> purchase_items.purchaseId
+
