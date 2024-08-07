@@ -25,7 +25,9 @@ const EditItem = () => {
     setValue,
     formState: { errors, isValid },
     reset,
+    trigger,
   } = useForm<UpdateItemParams["body"]>({
+    mode: "onChange",
     defaultValues: {
       name: "",
       description: "",
@@ -71,14 +73,19 @@ const EditItem = () => {
       label: category.name,
     })) || [];
 
-
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {isLoading ? <LazySpinner show={isLoading} /> : null}
       {isError && error ? <Error error={error} /> : null}
       <div className="form-control">
         <button
+          disabled={
+            deleteItemMutation.isPending ||
+            !data ||
+            isLoading ||
+            isError ||
+            updateItemMutation.isPending
+          }
           type="button"
           className="btn btn-error"
           onClick={onDeleteHandler}
@@ -143,6 +150,7 @@ const EditItem = () => {
               <span className="label-text">Categories:</span>
             </label>
             <Select
+              {...register("categories", { required: true })}
               isMulti
               name="categories"
               defaultValue={initialCategories}
@@ -154,8 +162,12 @@ const EditItem = () => {
                   "categories",
                   selectedOptions.map((option) => option.value)
                 );
+                trigger("categories");
               }}
             />
+            {errors.categories && (
+              <p className="text-red-600">Categories are required</p>
+            )}
           </>
         ) : null}
       </div>
