@@ -8,7 +8,7 @@ import type { ApiError } from "@/api/api.types";
  * @returns An object containing the query data, loading state, success state, and error state.
  */
 export const useQueryCategories = () => {
-  const { data, isLoading, isSuccess, isError } = useQuery<CategoryResponse, ApiError>({
+  const { data, isLoading, isSuccess, isError, error } = useQuery<CategoryResponse, ApiError>({
     queryKey: ["categories"],
     queryFn: fetchCategories,
     refetchOnWindowFocus: false, // Prevents refetching when the window regains focus
@@ -34,5 +34,6 @@ export const useQueryCategories = () => {
     isLoading,
     isSuccess,
     isError,
+    error
   };
 }

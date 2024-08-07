@@ -12,7 +12,7 @@ const URLS = {
   },
   category: {
     newCategory: "/manager/category",
-    modifyOrDeleteCategory: (id: number) => `/manager/categories/${id}`,
+    modifyOrDeleteCategory: (id: number) => `/manager/category/${id}`,
   },
 };
 

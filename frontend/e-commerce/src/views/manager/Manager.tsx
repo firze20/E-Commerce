@@ -1,8 +1,8 @@
 const Manager = () => {
   return (
     <div>
-      <article style={{ textAlign: 'center' }}>
-        <p>
+      <article className="text-center">
+        <p className="text-success text-lg">
           Hello Manager, this is your dashboard.
         </p>
       </article>

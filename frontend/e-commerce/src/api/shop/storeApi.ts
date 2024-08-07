@@ -7,6 +7,7 @@ const URLS = {
   fetchProducts: "/store",
   fetchCategories: "/store/categories",
   fetchSingleProduct: (id: number) => `/store/item/${id}`,
+  fetchSingleCategory: (id: number) => `/store/categories/${id}`,
 };
 
 export type StoreDataResponse = {
@@ -15,6 +16,8 @@ export type StoreDataResponse = {
   currentPage: number;
   perPage: number;
 };
+
+
 
 export type CategoryResponse = Category[];
 
@@ -26,6 +29,7 @@ type ItemDetails = Item & {
 export type ItemResponse = {
   item: ItemDetails;
 };
+
 
 /**
  * Fetches store data from the API.
@@ -66,6 +70,21 @@ export const fetchSingleProduct = (id: number, config: ApiRequestConfig = {}) =>
   api
     .get<ItemResponse>(
       URLS.fetchSingleProduct(id),
+      config
+    )
+    .then((res) => res.data);
+
+/**
+ * Fetches a single category from the store API.
+ * 
+ * @param id - The ID of the category to fetch.
+ * @param config - Optional configuration for the API request.
+ * @returns A promise that resolves to the category response data.
+ */
+export const fetchSingleCategory = (id: number, config: ApiRequestConfig = {}) =>
+  api
+    .get<Category>(
+      URLS.fetchSingleCategory(id),
       config
     )
     .then((res) => res.data);
