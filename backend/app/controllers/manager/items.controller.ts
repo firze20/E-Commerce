@@ -121,7 +121,7 @@ const updateItem = async (req: Request, res: Response) => {
     });
 
     if (categories) {
-      await item.addCategory(categories);
+      await item.setCategory(categories);
     }
 
     // Clear the shop list cache
