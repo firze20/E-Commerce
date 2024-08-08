@@ -17,10 +17,13 @@ RUN yarn install
 # Install TypeScript globally
 RUN yarn global add typescript
 
+# Debug: Check TypeScript version
+RUN tsc --version
+
 # Copy local code to the container image.
 COPY frontend/e-commerce/ ./
 
-# Build the React app
-RUN yarn run build
+# Build the React app with verbose output
+RUN yarn build --verbose
 
 # This stage only builds the frontend and does not run a server
