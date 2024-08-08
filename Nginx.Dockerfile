@@ -1,6 +1,6 @@
 # Dockerfile for Nginx
 
-FROM nginx:latest
+FROM nginx:1.27.0
 
 # Copy custom Nginx global configuration
 COPY nginx/nginx.conf /etc/nginx/nginx.conf

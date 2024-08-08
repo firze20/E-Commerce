@@ -48,6 +48,6 @@ services:
       - react-frontend-docker
     
   redis:
-    image: redis:alpine
+    image: redis:7.4-alpine
     expose:
       - "6379:6379"
