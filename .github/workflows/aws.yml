@@ -45,8 +45,42 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_TEST: ${{ secrets.DB_TEST }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_DRIVER: ${{ secrets.DB_DRIVER }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        REFRESH_SECRET: ${{ secrets.REFRESH_SECRET }}
+        JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+        JWT_REFRESH_EXPIRATION: ${{ secrets.JWT_REFRESH_EXPIRATION }}
+        JWT_VALIDATION_EXPIRATION: ${{ secrets.JWT_VALIDATION_EXPIRATION }}
+        SUPER_USER_USERNAME: ${{ secrets.SUPER_USER_USERNAME }}
+        SUPER_USER_PASSWORD: ${{ secrets.SUPER_USER_PASSWORD }}
+        SUPER_USER_EMAIL: ${{ secrets.SUPER_USER_EMAIL }}
+        SUPER_USER_FIRST_NAME: ${{ secrets.SUPER_USER_FIRST_NAME }}
+        SUPER_USER_LAST_NAME: ${{ secrets.SUPER_USER_LAST_NAME }}
+        SUPER_USER_AGE: ${{ secrets.SUPER_USER_AGE }}
       run: |
-        docker build -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY_BACKEND }}:${{ github.sha }} -f BackendProd.Dockerfile .
+        echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+        echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+        echo "DB_TEST=${{ secrets.DB_TEST }}" >> .env
+        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+        echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+        echo "DB_DRIVER=${{ secrets.DB_DRIVER }}" >> .env
+        echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+        echo "REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}" >> .env
+        echo "JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}" >> .env
+        echo "JWT_REFRESH_EXPIRATION=${{ secrets.JWT_REFRESH_EXPIRATION }}" >> .env
+        echo "JWT_VALIDATION_EXPIRATION=${{ secrets.JWT_VALIDATION_EXPIRATION }}" >> .env
+        echo "SUPER_USER_USERNAME=${{ secrets.SUPER_USER_USERNAME }}" >> .env
+        echo "SUPER_USER_PASSWORD=${{ secrets.SUPER_USER_PASSWORD }}" >> .env
+        echo "SUPER_USER_EMAIL=${{ secrets.SUPER_USER_EMAIL }}" >> .env
+        echo "SUPER_USER_FIRST_NAME=${{ secrets.SUPER_USER_FIRST_NAME }}" >> .env
+        echo "SUPER_USER_LAST_NAME=${{ secrets.SUPER_USER_LAST_NAME }}" >> .env
+        echo "SUPER_USER_AGE=${{ secrets.SUPER_USER_AGE }}" >> .env
+        docker build -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY_BACKEND }}:${{ github.sha }} --build-arg DB_HOST=$DB_HOST --build-arg DB_NAME=$DB_NAME --build-arg DB_TEST=$DB_TEST --build-arg DB_PASSWORD=$DB_PASSWORD --build-arg DB_USER=$DB_USER --build-arg DB_DRIVER=$DB_DRIVER --build-arg JWT_SECRET=$JWT_SECRET --build-arg REFRESH_SECRET=$REFRESH_SECRET --build-arg JWT_EXPIRATION=$JWT_EXPIRATION --build-arg JWT_REFRESH_EXPIRATION=$JWT_REFRESH_EXPIRATION --build-arg JWT_VALIDATION_EXPIRATION=$JWT_VALIDATION_EXPIRATION --build-arg SUPER_USER_USERNAME=$SUPER_USER_USERNAME --build-arg SUPER_USER_PASSWORD=$SUPER_USER_PASSWORD --build-arg SUPER_USER_EMAIL=$SUPER_USER_EMAIL --build-arg SUPER_USER_FIRST_NAME=$SUPER_USER_FIRST_NAME --build-arg SUPER_USER_LAST_NAME=$SUPER_USER_LAST_NAME --build-arg SUPER_USER_AGE=$SUPER_USER_AGE -f BackendProd.Dockerfile .
         docker push $ECR_REGISTRY/${{ env.ECR_REPOSITORY_BACKEND }}:${{ github.sha }}
         echo "backend_image=$ECR_REGISTRY/${{ env.ECR_REPOSITORY_BACKEND }}:${{ github.sha }}" >> $GITHUB_ENV
 
