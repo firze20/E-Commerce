@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Roles } from "@/context/types/Auth.types";
 
 const Header = () => {
-  const [theme, toggleTheme] = useTheme();
+  const [_, toggleTheme] = useTheme();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useContext(AuthContext).authState;
   const { data: cartData } = useQueryCart();

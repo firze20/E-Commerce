@@ -5,7 +5,7 @@ type ButtonProps = {
     isLoading?: boolean;
 }
 
-const Button = ({buttonText, onClick, className, isLoading}: ButtonProps) => {
+const Button = ({buttonText}: ButtonProps) => {
   return (
     <button>
       {buttonText}
