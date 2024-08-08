@@ -21,6 +21,6 @@ RUN yarn global add typescript
 COPY frontend/e-commerce/ ./
 
 # Build the React app
-RUN yarn build
+RUN yarn run build
 
 # This stage only builds the frontend and does not run a server
