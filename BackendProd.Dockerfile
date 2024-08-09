@@ -2,8 +2,8 @@
 FROM node:20.10.0-alpine
 
 # Install yarn
-RUN apk add --no-cache bash curl && curl -o- -L https://yarnpkg.com/install.sh | bash
-ENV PATH="/root/.yarn/bin:/root/.config/yarn/global/node_modules/.bin:$PATH"
+# RUN apk add --no-cache bash curl && curl -o- -L https://yarnpkg.com/install.sh | bash
+# ENV PATH="/root/.yarn/bin:/root/.config/yarn/global/node_modules/.bin:$PATH"
 
 # Set environment to production
 ENV NODE_ENV=production
@@ -15,7 +15,7 @@ WORKDIR /usr/app
 COPY backend/package*.json ./
 
 # Install dependencies
-RUN yarn install --production
+RUN npm install --production
 
 # Copy local code to the container image
 COPY backend/ ./
@@ -24,4 +24,4 @@ COPY backend/ ./
 EXPOSE 3000
 
 # Run the web service on container startup
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
